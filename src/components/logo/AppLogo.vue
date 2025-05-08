@@ -28,7 +28,7 @@ if (props.place === 'footer') {
 }
 
 @media (max-width: 768px) {
-  logoHeader {
+  .logoHeader {
     width: 68px;
   }
 }

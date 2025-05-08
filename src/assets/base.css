@@ -10,6 +10,9 @@
 
   --color-link-header: var(--white-primary);
   --color-link-header-hover: var(--blue-primary);
+  --color-link-breadcrumbs: var(--gray-primary);
+  --color-link-breadcrumbs-hover: var(--blue-primary);
+  --color-link-breadcrumbs-active: var(--black-primary);
 
   --color-sum-header: var(--gray-primary);
 }

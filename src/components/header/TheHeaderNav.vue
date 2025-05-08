@@ -17,7 +17,7 @@ import { headerNavLinks } from '@/mock/header-nav-links'
   align-items: center;
   gap: 12px;
   width: 100%;
-  max-width: 800px;
+  max-width: 797px;
 }
 
 .link {

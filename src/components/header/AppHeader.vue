@@ -28,8 +28,8 @@ import TheHeaderProfilePanel from '../header/TheHeaderProfilePanel.vue'
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 20px;
   width: 100%;
   max-width: 1460px;
-  border: 1px solid red;
 }
 </style>
