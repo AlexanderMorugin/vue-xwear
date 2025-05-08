@@ -1,0 +1,1 @@
+<template>ShoesView.vue</template>

@@ -1,0 +1,1 @@
+<template>AccessoriesView.vue</template>

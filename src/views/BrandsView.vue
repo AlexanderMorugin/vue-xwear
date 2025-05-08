@@ -1,0 +1,1 @@
+<template>BrandsView.vue</template>

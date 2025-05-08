@@ -1,0 +1,13 @@
+@import './base.css';
+
+@font-face {
+  font-family: 'Inter';
+  src:
+    local('Inter'),
+    url('@/assets/fonts/Inter-Variable.woff2') format('woff2');
+}
+
+#app {
+  margin: 0 auto;
+  font-weight: normal;
+}
