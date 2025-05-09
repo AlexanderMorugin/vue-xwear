@@ -25,7 +25,7 @@ import { headerNavLinks } from '@/mock/header-nav-links'
   font-weight: 500;
   letter-spacing: 0.8px;
   color: var(--color-link-header);
-  transition: 0.3s;
+  transition: 0.3s ease all;
 }
 
 .link:hover {

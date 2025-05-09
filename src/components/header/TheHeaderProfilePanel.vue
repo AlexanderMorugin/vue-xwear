@@ -7,13 +7,16 @@
         </router-link>
       </li>
     </ul>
-    <span class="sum">11 899 P</span>
+    <div v-if="!isScreenMedium" class="sum">111 899 P</div>
     <TheHeaderCartCount />
   </div>
 </template>
 
 <script setup>
 import TheHeaderCartCount from './TheHeaderCartCount.vue'
+import { useResizeMedium } from '../../use/useResizeMedium'
+
+const { isScreenMedium } = useResizeMedium()
 
 const icons = [
   {
@@ -42,13 +45,19 @@ const icons = [
 <style scoped>
 .profilePanel {
   display: flex;
+  justify-content: flex-end;
   align-items: center;
+  width: 100%;
+  max-width: 260px;
 }
 
 .list {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 32px;
+  gap: 12px;
+  width: 100%;
+  max-width: 168px;
 }
 
 .list-item {

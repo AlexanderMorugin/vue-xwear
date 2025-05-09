@@ -1,23 +1,25 @@
 <template>
   <header class="header">
     <div class="container">
-      <AppLogo place="header" />
-      <TheHeaderNav />
+      <TheHeaderLogo />
+      <TheHeaderNav v-if="!isScreenLarge" />
       <TheHeaderProfilePanel />
     </div>
   </header>
 </template>
 
 <script setup>
-import AppLogo from '../logo/AppLogo.vue'
+import TheHeaderLogo from '../header/TheHeaderLogo.vue'
 import TheHeaderNav from '../header/TheHeaderNav.vue'
 import TheHeaderProfilePanel from '../header/TheHeaderProfilePanel.vue'
+import { useResizeLarge } from '../../use/useResizeLarge'
+
+const { isScreenLarge } = useResizeLarge()
 </script>
 
 <style scoped>
 .header {
   display: flex;
-  justify-content: center;
   align-items: center;
   min-height: 100px;
   background: var(--color-background-header);
@@ -27,9 +29,9 @@ import TheHeaderProfilePanel from '../header/TheHeaderProfilePanel.vue'
 .container {
   display: flex;
   justify-content: space-between;
-  align-items: center;
   gap: 20px;
   width: 100%;
-  max-width: 1460px;
+  max-width: 1360px;
+  margin: 0 auto;
 }
 </style>

@@ -5,4 +5,4 @@ export const headerNavLinks = [
   { path: '/brands', name: 'Бренды' },
   { path: '/calculation', name: 'Расчёт стоимости' },
   { path: '/information', name: 'Информация' },
-];
+]

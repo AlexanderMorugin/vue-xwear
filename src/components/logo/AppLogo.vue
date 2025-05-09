@@ -27,7 +27,7 @@ if (props.place === 'footer') {
   cursor: pointer;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .logoHeader {
     width: 68px;
   }

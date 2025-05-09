@@ -27,7 +27,7 @@ const props = defineProps(['breadcrumbs'])
 }
 .link {
   color: var(--color-link-breadcrumbs);
-  transition: 0.3s;
+  transition: 0.3s ease all;
 }
 .link:hover {
   color: var(--color-link-breadcrumbs-hover);
