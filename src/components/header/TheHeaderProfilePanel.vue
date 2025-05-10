@@ -58,6 +58,10 @@ const icons = () => {
   height: 20px;
 }
 
+.list-item.active {
+  border-bottom: 2px solid var(--color-link-header-hover);
+}
+
 .sum {
   font-size: 13px;
   line-height: 13px;

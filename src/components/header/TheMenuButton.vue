@@ -8,7 +8,7 @@
       v-if="isScreenLarge"
       @click="toggleButton"
     />
-    <router-link to="/search">
+    <router-link :to="`${PATH_SEARCH}`">
       <img src="/icons/icon-search.svg" alt="Кнопка поиска" v-if="isScreenMedium" />
     </router-link>
   </div>
@@ -18,6 +18,7 @@
 import { ref } from 'vue'
 import { useResizeLarge } from '../../use/useResizeLarge'
 import { useResizeMedium } from '../../use/useResizeMedium'
+import { PATH_SEARCH } from '../../mock/routes'
 
 const isToggle = ref(false)
 const { isScreenLarge } = useResizeLarge()

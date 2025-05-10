@@ -50,6 +50,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-a.active {
+/* a.active {
   border-bottom: 2px solid var(--color-link-header-hover);
-}
+} */
