@@ -1,6 +1,6 @@
 <template>
   <div class="cartCount">
-    <span class="amount">7</span>
+    <span class="amount">70</span>
   </div>
 </template>
 
@@ -15,6 +15,15 @@
   background: var(--blue-primary);
   padding: 5px;
 }
+
+@media (max-width: 767px) {
+  .cartCount {
+    position: absolute;
+    top: -7px;
+    right: -7px;
+  }
+}
+
 .amount {
   font-size: 12px;
   line-height: 12px;

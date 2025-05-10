@@ -1,5 +1,5 @@
 <template>
-  <router-link to="/" v-slot="{ navigate }" custom>
+  <router-link to="/" v-slot="{ navigate }" custom class="logo">
     <img :src="logoUrl" alt="Логотип" :class="logoClass" @click="navigate" />
   </router-link>
 </template>
@@ -22,6 +22,15 @@ if (props.place === 'footer') {
 </script>
 
 <style scoped>
+.logo {
+  grid-area: logo;
+}
+@media (max-width: 767px) {
+  .logo {
+    margin-left: 60px;
+  }
+}
+
 .logoHeader {
   width: 84px;
   cursor: pointer;

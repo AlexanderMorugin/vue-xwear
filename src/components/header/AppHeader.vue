@@ -26,6 +26,20 @@ const { isScreenLarge } = useResizeLarge()
   padding-left: 10px;
   padding-right: 10px;
 }
+
+@media (max-width: 1023px) {
+  .header {
+    padding-left: 50px;
+    padding-right: 50px;
+  }
+}
+
+@media (max-width: 767px) {
+  .header {
+    padding-left: 10px;
+    padding-right: 13px;
+  }
+}
 .container {
   display: flex;
   justify-content: space-between;
