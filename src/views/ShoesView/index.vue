@@ -8,8 +8,8 @@
 <script setup>
 import { ref } from 'vue'
 import AppPage from '@/layouts/AppPage.vue'
-import AppBreadcrumbs from '../components/breadcrumbs/AppBreadcrumbs.vue'
-import { PATH_SHOES } from '../mock/routes'
+import AppBreadcrumbs from '@/components/breadcrumbs/AppBreadcrumbs.vue'
+import { PATH_SHOES } from '@/mock/routes'
 
 const breadcrumbs = ref([
   { name: 'Главная', path: '/', content: '1' },

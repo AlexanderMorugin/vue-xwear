@@ -18,7 +18,20 @@ const props = defineProps(['breadcrumbs'])
 .breadcrumbs-list {
   display: flex;
   width: fit-content;
-  margin-top: 14px;
+  width: 100%;
+  max-width: 1380px;
+  margin: 0 auto;
+  padding: 14px 10px 0 10px;
+}
+@media (max-width: 1023px) {
+  .breadcrumbs-list {
+    padding: 13px 50px 0 50px;
+  }
+}
+@media (max-width: 767px) {
+  .breadcrumbs-list {
+    padding: 15px 10px 0 10px;
+  }
 }
 .breadcrumb {
   line-height: 20px;

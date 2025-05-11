@@ -16,7 +16,19 @@ const routes = [
   {
     path: '/shoes',
     name: 'ShoesView',
-    component: () => import('../views/ShoesView.vue'),
+    component: () => import('../views/ShoesView/index.vue'),
+    meta: { layout: 'main' },
+  },
+  {
+    path: '/shoes/kedy',
+    name: 'KedyView',
+    component: () => import('../views/ShoesView/KedyView/index.vue'),
+    meta: { layout: 'main' },
+  },
+  {
+    path: '/shoes/crossovky',
+    name: 'CrossovkyView',
+    component: () => import('../views/ShoesView/CrossovkyView/index.vue'),
     meta: { layout: 'main' },
   },
   {
