@@ -5,7 +5,8 @@
     <app-container>
       <app-left></app-left>
       <app-right>
-        <app-heading title="Кроссовки" quantity="1746"></app-heading>
+        <app-heading title="Кроссовки" quantity="1746" sortBox="true"></app-heading>
+        <app-product-list></app-product-list>
       </app-right>
     </app-container>
   </app-page>
@@ -19,6 +20,7 @@ import AppLeft from '@/layouts/AppLeft.vue'
 import AppRight from '@/layouts/AppRight.vue'
 import AppHeading from '@/components/AppHeading.vue'
 import AppBreadcrumbs from '@/components/breadcrumbs/AppBreadcrumbs.vue'
+import AppProductList from '@/components/product/AppProductList.vue'
 import { PATH_SHOES, PATH_CROSSOVKY } from '@/mock/routes'
 
 const breadcrumbs = ref([

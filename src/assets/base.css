@@ -5,6 +5,7 @@
 
   --gray-primary: #8c8f96;
   --gray-secondary: #6d6d6d;
+  --gray-thirdary: #3c3c3c;
 
   --blue-primary: #49d0ff;
 
@@ -25,12 +26,17 @@
   --color-text-quantity: var(--gray-primary);
   --color-text-sort-box: var(--gray-secondary);
   --color-text-sort-button: var(--black-secondary);
+  --color-text-sort-button-active: var(--gray-secondary);
+  --color-text-card-name: var(--black-secondary);
+  --color-text-card-price: var(--gray-thirdary);
 }
 
 *,
 *::before,
 *::after,
-button {
+button,
+ul,
+li {
   box-sizing: border-box;
   margin: 0;
   padding: 0;

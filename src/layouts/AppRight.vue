@@ -7,7 +7,9 @@
 <style scoped>
 .rigth {
   display: flex;
+  flex-direction: column;
   width: 100%;
+  max-width: 1014px;
   border: 1px solid green;
 }
 </style>

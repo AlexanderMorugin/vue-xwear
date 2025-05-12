@@ -9,7 +9,7 @@ export const iconsDesktop = [
   {
     name: 'Избранные',
     path: PATH_FAVORITE,
-    icon: '/icons/icon-star.svg',
+    icon: '/icons/icon-star-white.svg',
   },
   {
     name: 'Профиль',
@@ -27,7 +27,7 @@ export const iconsMobile = [
   {
     name: 'Избранные',
     path: PATH_FAVORITE,
-    icon: '/icons/icon-star.svg',
+    icon: '/icons/icon-star-white.svg',
   },
   {
     name: 'Профиль',

@@ -18,3 +18,5 @@ export const PATH_SEARCH = '/search'
 export const PATH_FAVORITE = '/favorite'
 export const PATH_PROFILE = '/profile'
 export const PATH_CART = '/cart'
+
+export const PATH_ADMIN = '/admin'
