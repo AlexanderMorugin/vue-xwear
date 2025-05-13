@@ -6,11 +6,13 @@
     </div>
     <div class="details">
       <h1 class="title">{{ categoryName() }} {{ props.product.name }}</h1>
+      <AppProductSizes />
     </div>
   </div>
 </template>
 <script setup>
 import AppFavoriteButton from '@/components/product/AppFavoriteButton.vue'
+import AppProductSizes from '@/components/product/AppProductSizes.vue'
 const props = defineProps(['product', 'currentId'])
 
 const categoryName = () => {

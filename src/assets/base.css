@@ -11,6 +11,7 @@
 
   --black-primary: #121214;
   --black-secondary: #000000;
+  --black-thirdary: #303030;
 }
 
 :root {
@@ -24,12 +25,16 @@
 
   --color-main-heading: var(--black-primary);
   --color-text-quantity: var(--gray-primary);
+
   --color-text-sort-box: var(--gray-secondary);
   --color-text-sort-button: var(--black-secondary);
   --color-text-sort-button-active: var(--gray-secondary);
+
   --color-text-card-name: var(--black-secondary);
   --color-text-card-price: var(--gray-thirdary);
+
   --color-text-product-title: var(--black-secondary);
+  --color-text-product-size-title: var(--black-thirdary);
 }
 
 *,
