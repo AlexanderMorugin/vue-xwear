@@ -2,10 +2,12 @@
 
 :root {
   --white-primary: #fff;
+  --white-secondary: #efefef;
 
   --gray-primary: #8c8f96;
   --gray-secondary: #6d6d6d;
   --gray-thirdary: #3c3c3c;
+  --gray-fourdary: #7b7b7b;
 
   --blue-primary: #49d0ff;
 
@@ -35,6 +37,11 @@
 
   --color-text-product-title: var(--black-secondary);
   --color-text-product-size-title: var(--black-thirdary);
+  --color-border-product-size: var(--white-secondary);
+  --color-border-product-size-hover: var(--blue-primary);
+  --color-text-product-size: var(--black-secondary);
+  --color-text-product-size-active: var(--white-primary);
+  --color-text-product-price: var(--gray-fourdary);
 }
 
 *,

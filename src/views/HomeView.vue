@@ -1,9 +1,17 @@
 <template>
   <app-page>
     <h1>Home View</h1>
-    <router-link :to="PATH_SHOES">Обувь</router-link>
-    <router-link :to="PATH_CROSSOVKY">Кроссовки</router-link>
-    <router-link :to="PATH_KEDY">Кеды</router-link>
+    <ul>
+      <li>
+        <router-link :to="PATH_SHOES"><h2>Обувь</h2></router-link>
+      </li>
+      <li>
+        <router-link :to="PATH_CROSSOVKY"><h2>Кроссовки</h2></router-link>
+      </li>
+      <li>
+        <router-link :to="PATH_KEDY"><h2>Кеды</h2></router-link>
+      </li>
+    </ul>
   </app-page>
 </template>
 

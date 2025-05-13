@@ -64,4 +64,16 @@ const categoryName = () => {
   font-weight: 900;
   color: var(--color-text-product-title);
 }
+@media (max-width: 1023px) {
+  .title {
+    line-height: 29px;
+    font-size: 25px;
+  }
+}
+@media (max-width: 767px) {
+  .title {
+    line-height: 30px;
+    font-size: 19px;
+  }
+}
 </style>

@@ -7,8 +7,15 @@
       <app-left></app-left>
       <app-right> -->
     <AppHeading title="Обувь" />
-    <router-link :to="PATH_CROSSOVKY">Кроссовки</router-link>
-    <router-link :to="PATH_KEDY">Кеды</router-link>
+    <ul>
+      <li>
+        <router-link :to="PATH_CROSSOVKY"><h2>Кроссовки</h2></router-link>
+      </li>
+      <li>
+        <router-link :to="PATH_KEDY"><h2>Кеды</h2></router-link>
+      </li>
+    </ul>
+
     <!-- </app-right>
     </app-container> -->
   </app-page>
