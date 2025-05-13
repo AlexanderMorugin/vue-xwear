@@ -4,6 +4,7 @@ import {
   PATH_SHOES,
   PATH_KEDY,
   PATH_CROSSOVKY,
+  PATH_CURRENT_CROSSOVKA,
   PATH_ACCESSORIES,
   PATH_BRANDS,
   PATH_CALCULATION,
@@ -44,6 +45,12 @@ const routes = [
     path: PATH_CROSSOVKY,
     name: 'CrossovkyView',
     component: () => import('../views/ShoesView/CrossovkyView/index.vue'),
+    meta: { layout: 'main' },
+  },
+  {
+    path: PATH_CURRENT_CROSSOVKA,
+    name: 'CurrentCrossovkaView',
+    component: () => import('../views/ShoesView/CurrentShoesView.vue'),
     meta: { layout: 'main' },
   },
   {

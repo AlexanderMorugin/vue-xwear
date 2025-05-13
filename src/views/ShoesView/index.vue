@@ -1,15 +1,28 @@
+<!-- eslint-disable vue/multi-word-component-names -->
+<!-- ShoesView -->
 <template>
+  <AppBreadcrumbs :breadcrumbs="breadcrumbs" />
   <app-page>
-    <AppBreadcrumbs :breadcrumbs="breadcrumbs" />
-    <h1 class="title">Shoes View</h1>
+    <!-- <app-container>
+      <app-left></app-left>
+      <app-right> -->
+    <AppHeading title="Обувь" />
+    <router-link :to="PATH_CROSSOVKY">Кроссовки</router-link>
+    <router-link :to="PATH_KEDY">Кеды</router-link>
+    <!-- </app-right>
+    </app-container> -->
   </app-page>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 import AppPage from '@/layouts/AppPage.vue'
+// import AppContainer from '@/layouts/AppContainer.vue'
+// import AppLeft from '@/layouts/AppLeft.vue'
+// import AppRight from '@/layouts/AppRight.vue'
+import AppHeading from '@/components/AppHeading.vue'
 import AppBreadcrumbs from '@/components/breadcrumbs/AppBreadcrumbs.vue'
-import { PATH_SHOES } from '@/mock/routes'
+import { PATH_SHOES, PATH_CROSSOVKY, PATH_KEDY } from '@/mock/routes'
 
 const breadcrumbs = ref([
   { name: 'Главная', path: '/', content: '1' },

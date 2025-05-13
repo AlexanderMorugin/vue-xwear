@@ -1,34 +1,14 @@
 <template>
   <ul class="product-list">
-    <AppProductCard v-for="item in shoes" :key="item.name" :item="item" />
+    <li v-for="item in props.shoes" :key="item.name">
+      <AppProductCard :item="item" />
+    </li>
   </ul>
 </template>
 
 <script setup>
 import AppProductCard from '@/components/product/AppProductCard.vue'
-import axios from 'axios'
-import { onMounted, ref } from 'vue'
-
-const shoes = ref([])
-
-onMounted(async () => {
-  try {
-    const { data } = await axios.get('https://vue-xwear-default-rtdb.firebaseio.com/shoes.json')
-
-    if (data) {
-      shoes.value = Object.keys(data).map((key) => {
-        return {
-          id: key,
-          ...data[key],
-        }
-      })
-    }
-
-    shoes.value.map((item) => item.brand)
-  } catch (error) {
-    console.log(error)
-  }
-})
+const props = defineProps(['shoes'])
 </script>
 
 <style scoped>

@@ -2,6 +2,7 @@ export const PATH_CLOTHES = '/clothes'
 export const PATH_ACCESSORIES = '/accessories'
 export const PATH_SHOES = '/shoes'
 export const PATH_CROSSOVKY = '/shoes/crossovky'
+export const PATH_CURRENT_CROSSOVKA = '/shoes/crossovky/:id'
 export const PATH_KEDY = '/shoes/kedy'
 
 export const PATH_BRANDS = '/brands'

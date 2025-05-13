@@ -1,35 +1,18 @@
 <template>
-  <li class="product-card">
-    <button class="btn-favorite" @click="toggleFavorite">
-      <img :src="getIconUrl()" alt="Избранное" class="btn-icon" />
-    </button>
-    <!-- <img src="/shoes/adidas/crossovky/ADIZERO_ARUKU_1_small.webp" alt="product" class="image" /> -->
-    <img :src="props.item.imageSmall" alt="product" class="image" />
-    <!-- <p class="name">Nike Court Zoom Cage 2</p> -->
+  <div class="product-card">
+    <AppFavoriteButton :isFavorite="props.item.isFavorite" :id="props.item.id" />
+    <img :src="props.item.imageOneSmall" alt="product" class="image" />
     <p class="name">{{ props.item.name }}</p>
-    <span>{{ props.item.description }}</span>
-    <span class="price">от 4699 Р</span>
-  </li>
+    <span class="price">от {{ currencyFormater(props.item.price36) }}</span>
+    <router-link :to="`${PATH_CROSSOVKY}/${props.item.id}`" class="product-link"></router-link>
+  </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { PATH_CROSSOVKY } from '@/mock/routes'
+import AppFavoriteButton from '@/components/product/AppFavoriteButton.vue'
+import { currencyFormater } from '@/utils/currency-formater'
 const props = defineProps(['item'])
-
-let iconUrl = ref('')
-const isFavorite = ref(false)
-
-const getIconUrl = () => {
-  if (!isFavorite.value) {
-    return (iconUrl.value = '/icons/icon-star-black.svg')
-  } else {
-    return (iconUrl.value = '/icons/icon-star-red.svg')
-  }
-}
-
-const toggleFavorite = () => {
-  isFavorite.value = !isFavorite.value
-}
 </script>
 
 <style scoped>
@@ -39,26 +22,6 @@ const toggleFavorite = () => {
   flex-direction: column;
   width: 100%;
   max-width: 318px;
-}
-.btn-favorite {
-  position: absolute;
-  top: 33px;
-  right: 25px;
-  cursor: pointer;
-}
-@media (max-width: 767px) {
-  .btn-favorite {
-    top: 15px;
-    right: 15px;
-  }
-}
-.btn-icon {
-  width: 19px;
-}
-@media (max-width: 767px) {
-  .btn-icon {
-    width: 15px;
-  }
 }
 .image {
   width: 100%;
@@ -85,6 +48,19 @@ const toggleFavorite = () => {
 @media (max-width: 767px) {
   .price {
     font-size: 12px;
+  }
+}
+.product-link {
+  position: absolute;
+  top: 55px;
+  left: 0;
+  width: 100%;
+  height: 85%;
+  z-index: 10;
+}
+@media (max-width: 590px) {
+  .product-link {
+    top: 35px;
   }
 }
 </style>

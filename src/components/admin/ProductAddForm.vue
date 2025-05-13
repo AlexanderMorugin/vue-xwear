@@ -2,21 +2,37 @@
   <div class="shoes-form">
     <h2>Форма добавления товаров на сервер FireBase</h2>
     <form class="form" @submit.prevent="submit">
-      <div class="form-control">
-        <label for="category">Категория</label>
-        <select id="category" v-model="category">
-          <option value="crossovky">Кроссовки</option>
-          <option value="kedy">Кеды</option>
-        </select>
+      <div class="form-grid">
+        <div class="form-control">
+          <label for="category">Категория</label>
+          <select id="category" v-model="category">
+            <option value="crossovky">Кроссовки</option>
+            <option value="kedy">Кеды</option>
+          </select>
+        </div>
+        <div class="form-control">
+          <label for="brand">Бренд</label>
+          <select id="brand" v-model="brand">
+            <option value="adidas">Adidas</option>
+            <option value="nike">Nike</option>
+            <option value="reebok">Reebok</option>
+          </select>
+        </div>
+        <!-- <div class="form-control">
+          <label for="number">Артикул</label>
+          <input type="text" id="number" v-model="number" />
+        </div> -->
+        <div class="form-control">
+          <label for="color">Цвет</label>
+          <select id="color" v-model="color">
+            <option value="black">Чёрные</option>
+            <option value="white">Белые</option>
+            <option value="blue">Синие</option>
+            <option value="pink">Розовые</option>
+          </select>
+        </div>
       </div>
-      <div class="form-control">
-        <label for="brand">Бренд</label>
-        <select id="brand" v-model="brand">
-          <option value="adidas">Adidas</option>
-          <option value="nike">Nike</option>
-          <option value="reebok">Reebok</option>
-        </select>
-      </div>
+
       <div class="form-control">
         <label for="name">Наименование товара</label>
         <input type="text" id="name" v-model="name" />
@@ -26,90 +42,94 @@
         <textarea type="text" id="description" v-model="description" />
       </div>
 
-      <div class="form-control">
-        <label for="imageOneSmall">Ссылка на маленькую картинку № 1</label>
-        <input type="text" id="imageOneSmall" v-model="imageOneSmall" />
-      </div>
-      <div class="form-control">
-        <label for="imageOneBig">Ссылка на большую картинку № 1</label>
-        <input type="text" id="imageOneBig" v-model="imageOneBig" />
-      </div>
-
-      <div class="form-control">
-        <label for="imageTwoSmall">Ссылка на маленькую картинку № 2</label>
-        <input type="text" id="imageTwoSmall" v-model="imageTwoSmall" />
-      </div>
-      <div class="form-control">
-        <label for="imageTwoBig">Ссылка на большую картинку № 2</label>
-        <input type="text" id="imageTwoBig" v-model="imageTwoBig" />
+      <div class="form-box">
+        <div class="form-control">
+          <label for="imageOneSmall">Ссылка на маленькую картинку № 1</label>
+          <input type="text" id="imageOneSmall" v-model="imageOneSmall" />
+        </div>
+        <div class="form-control">
+          <label for="imageOneBig">Ссылка на большую картинку № 1</label>
+          <input type="text" id="imageOneBig" v-model="imageOneBig" />
+        </div>
       </div>
 
-      <div class="form-control">
-        <label for="imageThreeSmall">Ссылка на маленькую картинку № 3</label>
-        <input type="text" id="imageThreeSmall" v-model="imageThreeSmall" />
-      </div>
-      <div class="form-control">
-        <label for="imageThreeBig">Ссылка на большую картинку № 3</label>
-        <input type="text" id="imageThreeBig" v-model="imageThreeBig" />
-      </div>
-
-      <div class="form-control">
-        <label for="imageFourSmall">Ссылка на маленькую картинку № 4</label>
-        <input type="text" id="imageFourSmall" v-model="imageFourSmall" />
-      </div>
-      <div class="form-control">
-        <label for="imageFourBig">Ссылка на большую картинку № 4</label>
-        <input type="text" id="imageFourBig" v-model="imageFourBig" />
+      <div class="form-box">
+        <div class="form-control">
+          <label for="imageTwoSmall">Ссылка на маленькую картинку № 2</label>
+          <input type="text" id="imageTwoSmall" v-model="imageTwoSmall" />
+        </div>
+        <div class="form-control">
+          <label for="imageTwoBig">Ссылка на большую картинку № 2</label>
+          <input type="text" id="imageTwoBig" v-model="imageTwoBig" />
+        </div>
       </div>
 
-      <div class="form-control">
-        <label for="color">Цвет</label>
-        <select id="color" v-model="color">
-          <option value="black">Чёрные</option>
-          <option value="white">Белые</option>
-          <option value="blue">Синие</option>
-          <option value="pink">Розовые</option>
-        </select>
+      <div class="form-box">
+        <div class="form-control">
+          <label for="imageThreeSmall">Ссылка на маленькую картинку № 3</label>
+          <input type="text" id="imageThreeSmall" v-model="imageThreeSmall" />
+        </div>
+        <div class="form-control">
+          <label for="imageThreeBig">Ссылка на большую картинку № 3</label>
+          <input type="text" id="imageThreeBig" v-model="imageThreeBig" />
+        </div>
       </div>
 
-      <div class="form-control">
-        <label for="price36">Цена размера 36</label>
-        <input type="text" id="price36" v-model="price36" />
-      </div>
-      <div class="form-control">
-        <label for="price37">Цена размера 37</label>
-        <input type="text" id="price37" v-model="price37" />
-      </div>
-      <div class="form-control">
-        <label for="price38">Цена размера 38</label>
-        <input type="text" id="price38" v-model="price38" />
-      </div>
-      <div class="form-control">
-        <label for="price39">Цена размера 39</label>
-        <input type="text" id="price39" v-model="price39" />
-      </div>
-      <div class="form-control">
-        <label for="price40">Цена размера 40</label>
-        <input type="text" id="price40" v-model="price40" />
-      </div>
-      <div class="form-control">
-        <label for="price41">Цена размера 41</label>
-        <input type="text" id="price41" v-model="price41" />
-      </div>
-      <div class="form-control">
-        <label for="price42">Цена размера 42</label>
-        <input type="text" id="price42" v-model="price42" />
-      </div>
-      <div class="form-control">
-        <label for="price43">Цена размера 43</label>
-        <input type="text" id="price43" v-model="price43" />
-      </div>
-      <div class="form-control">
-        <label for="price44">Цена размера 44</label>
-        <input type="text" id="price44" v-model="price44" />
+      <div class="form-box">
+        <div class="form-control">
+          <label for="imageFourSmall">Ссылка на маленькую картинку № 4</label>
+          <input type="text" id="imageFourSmall" v-model="imageFourSmall" />
+        </div>
+        <div class="form-control">
+          <label for="imageFourBig">Ссылка на большую картинку № 4</label>
+          <input type="text" id="imageFourBig" v-model="imageFourBig" />
+        </div>
       </div>
 
-      <button class="btn primary">Создать</button>
+      <div class="form-grid">
+        <div class="form-control">
+          <label for="price36">Цена размера 36</label>
+          <input type="text" id="price36" v-model="price36" />
+        </div>
+        <div class="form-control">
+          <label for="price37">Цена размера 37</label>
+          <input type="text" id="price37" v-model="price37" />
+        </div>
+        <div class="form-control">
+          <label for="price38">Цена размера 38</label>
+          <input type="text" id="price38" v-model="price38" />
+        </div>
+        <div class="form-control">
+          <label for="price39">Цена размера 39</label>
+          <input type="text" id="price39" v-model="price39" />
+        </div>
+        <div class="form-control">
+          <label for="price40">Цена размера 40</label>
+          <input type="text" id="price40" v-model="price40" />
+        </div>
+        <div class="form-control">
+          <label for="price41">Цена размера 41</label>
+          <input type="text" id="price41" v-model="price41" />
+        </div>
+        <div class="form-control">
+          <label for="price42">Цена размера 42</label>
+          <input type="text" id="price42" v-model="price42" />
+        </div>
+        <div class="form-control">
+          <label for="price43">Цена размера 43</label>
+          <input type="text" id="price43" v-model="price43" />
+        </div>
+        <div class="form-control">
+          <label for="price44">Цена размера 44</label>
+          <input type="text" id="price44" v-model="price44" />
+        </div>
+        <div class="form-control">
+          <label for="price45">Цена размера 45</label>
+          <input type="text" id="price45" v-model="price45" />
+        </div>
+      </div>
+
+      <button class="btn primary">Загрузить на сервер</button>
     </form>
   </div>
 </template>
@@ -120,6 +140,7 @@ import axios from 'axios'
 
 const category = ref('')
 const brand = ref('')
+// const number = ref('')
 const name = ref('')
 const description = ref('')
 const color = ref('')
@@ -140,12 +161,15 @@ const price41 = ref('')
 const price42 = ref('')
 const price43 = ref('')
 const price44 = ref('')
+const price45 = ref('')
+const isFavorite = ref(false)
 
 const submit = async () => {
   try {
     await axios.post('https://vue-xwear-default-rtdb.firebaseio.com/shoes.json', {
       category: category.value,
       brand: brand.value,
+      // number: number.value,
       name: name.value,
       description: description.value,
       color: color.value,
@@ -166,12 +190,15 @@ const submit = async () => {
       price42: price42.value,
       price43: price43.value,
       price44: price44.value,
+      price45: price45.value,
+      isFavorite: isFavorite.value,
     })
 
+    category.value = ''
     brand.value = ''
+    // number.value = ''
     name.value = ''
     description.value = ''
-    category.value = ''
     color.value = ''
     imageOneSmall.value = ''
     imageOneBig.value = ''
@@ -190,6 +217,7 @@ const submit = async () => {
     price42.value = ''
     price43.value = ''
     price44.value = ''
+    price45.value = ''
   } catch (error) {
     console.log(error)
   }
@@ -208,10 +236,20 @@ const submit = async () => {
   width: 100%;
   max-width: 700px;
 }
+.form-box {
+  display: flex;
+  gap: 20px;
+}
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  column-gap: 20px;
+}
 .form-control {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  width: 100%;
   padding-top: 20px;
 }
 .form-control input,
@@ -242,24 +280,26 @@ const submit = async () => {
   border: 2px solid #42b983;
 }
 .btn {
-  color: #42b983;
-  position: relative;
-  place-content: center;
-  place-items: center;
+  display: flex;
+  align-self: flex-end;
+  /* color: #42b983; */
+  /* position: relative; */
+  /* place-content: center; */
+  /* place-items: center; */
   width: fit-content;
   border-radius: 99px;
   letter-spacing: 0.05em;
   border: 1px solid #42b983;
-  text-decoration: none;
+  /* text-decoration: none; */
   text-transform: uppercase;
   margin-top: 20px;
-  margin-right: 10px;
+  /* margin-right: 10px; */
   padding: 0.5rem 1.5rem;
   white-space: nowrap;
   font-weight: 700;
-  outline: none;
-  background: #fff;
-  transition: all 0.22s;
+  /* outline: none; */
+  /* background: #fff; */
+  transition: 0.3s ease all;
 }
 
 .btn:hover {
