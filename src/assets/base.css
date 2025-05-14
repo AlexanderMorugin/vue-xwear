@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 
 :root {
   --white-primary: #fff;
@@ -8,6 +8,7 @@
   --gray-secondary: #6d6d6d;
   --gray-thirdary: #3c3c3c;
   --gray-fourdary: #7b7b7b;
+  --gray-fivedary: #626262;
 
   --blue-primary: #49d0ff;
 
@@ -42,6 +43,11 @@
   --color-text-product-size: var(--black-secondary);
   --color-text-product-size-active: var(--white-primary);
   --color-text-product-price: var(--gray-fourdary);
+  --color-text-product-choose-price: var(--gray-fivedary);
+  --color-text-product-choose-size: var(--black-secondary);
+  --color-background-product-choose-button: var(--black-primary);
+  --color-background-product-choose-button-hover: var(--blue-primary);
+  --color-text-product-choose-button: var(--white-primary);
 }
 
 *,

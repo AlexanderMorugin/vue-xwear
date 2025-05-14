@@ -18,10 +18,6 @@
             <option value="reebok">Reebok</option>
           </select>
         </div>
-        <!-- <div class="form-control">
-          <label for="number">Артикул</label>
-          <input type="text" id="number" v-model="number" />
-        </div> -->
         <div class="form-control">
           <label for="color">Цвет</label>
           <select id="color" v-model="color">
@@ -48,6 +44,10 @@
           <input type="text" id="imageOneSmall" v-model="imageOneSmall" />
         </div>
         <div class="form-control">
+          <label for="imageOneNormal">Ссылка на среднюю картинку № 1</label>
+          <input type="text" id="imageOneNormal" v-model="imageOneNormal" />
+        </div>
+        <div class="form-control">
           <label for="imageOneBig">Ссылка на большую картинку № 1</label>
           <input type="text" id="imageOneBig" v-model="imageOneBig" />
         </div>
@@ -57,6 +57,10 @@
         <div class="form-control">
           <label for="imageTwoSmall">Ссылка на маленькую картинку № 2</label>
           <input type="text" id="imageTwoSmall" v-model="imageTwoSmall" />
+        </div>
+        <div class="form-control">
+          <label for="imageTwoNormal">Ссылка на среднюю картинку № 2</label>
+          <input type="text" id="imageTwoNormal" v-model="imageTwoNormal" />
         </div>
         <div class="form-control">
           <label for="imageTwoBig">Ссылка на большую картинку № 2</label>
@@ -70,6 +74,10 @@
           <input type="text" id="imageThreeSmall" v-model="imageThreeSmall" />
         </div>
         <div class="form-control">
+          <label for="imageThreeNormal">Ссылка на среднюю картинку № 3</label>
+          <input type="text" id="imageThreeNormal" v-model="imageThreeNormal" />
+        </div>
+        <div class="form-control">
           <label for="imageThreeBig">Ссылка на большую картинку № 3</label>
           <input type="text" id="imageThreeBig" v-model="imageThreeBig" />
         </div>
@@ -79,6 +87,10 @@
         <div class="form-control">
           <label for="imageFourSmall">Ссылка на маленькую картинку № 4</label>
           <input type="text" id="imageFourSmall" v-model="imageFourSmall" />
+        </div>
+        <div class="form-control">
+          <label for="imageFourNormal">Ссылка на среднюю картинку № 4</label>
+          <input type="text" id="imageFourNormal" v-model="imageFourNormal" />
         </div>
         <div class="form-control">
           <label for="imageFourBig">Ссылка на большую картинку № 4</label>
@@ -140,17 +152,20 @@ import axios from 'axios'
 
 const category = ref('')
 const brand = ref('')
-// const number = ref('')
 const name = ref('')
 const description = ref('')
 const color = ref('')
 const imageOneSmall = ref('')
+const imageOneNormal = ref('')
 const imageOneBig = ref('')
 const imageTwoSmall = ref('')
+const imageTwoNormal = ref('')
 const imageTwoBig = ref('')
 const imageThreeSmall = ref('')
+const imageThreeNormal = ref('')
 const imageThreeBig = ref('')
 const imageFourSmall = ref('')
+const imageFourNormal = ref('')
 const imageFourBig = ref('')
 const price36 = ref('')
 const price37 = ref('')
@@ -169,17 +184,20 @@ const submit = async () => {
     await axios.post('https://vue-xwear-default-rtdb.firebaseio.com/shoes.json', {
       category: category.value,
       brand: brand.value,
-      // number: number.value,
       name: name.value,
       description: description.value,
       color: color.value,
       imageOneSmall: imageOneSmall.value,
+      imageOneNormal: imageOneNormal.value,
       imageOneBig: imageOneBig.value,
       imageTwoSmall: imageTwoSmall.value,
+      imageTwoNormal: imageTwoNormal.value,
       imageTwoBig: imageTwoBig.value,
       imageThreeSmall: imageThreeSmall.value,
+      imageThreeNormal: imageThreeNormal.value,
       imageThreeBig: imageThreeBig.value,
       imageFourSmall: imageFourSmall.value,
+      imageFourNormal: imageFourNormal.value,
       imageFourBig: imageFourBig.value,
       price36: price36.value,
       price37: price37.value,
@@ -196,17 +214,20 @@ const submit = async () => {
 
     category.value = ''
     brand.value = ''
-    // number.value = ''
     name.value = ''
     description.value = ''
     color.value = ''
     imageOneSmall.value = ''
+    imageOneNormal.value = ''
     imageOneBig.value = ''
     imageTwoSmall.value = ''
+    imageTwoNormal.value = ''
     imageTwoBig.value = ''
     imageThreeSmall.value = ''
+    imageThreeNormal.value = ''
     imageThreeBig.value = ''
     imageFourSmall.value = ''
+    imageFourNormal.value = ''
     imageFourBig.value = ''
     price36.value = ''
     price37.value = ''
@@ -282,23 +303,15 @@ const submit = async () => {
 .btn {
   display: flex;
   align-self: flex-end;
-  /* color: #42b983; */
-  /* position: relative; */
-  /* place-content: center; */
-  /* place-items: center; */
   width: fit-content;
   border-radius: 99px;
   letter-spacing: 0.05em;
   border: 1px solid #42b983;
-  /* text-decoration: none; */
   text-transform: uppercase;
   margin-top: 20px;
-  /* margin-right: 10px; */
   padding: 0.5rem 1.5rem;
   white-space: nowrap;
   font-weight: 700;
-  /* outline: none; */
-  /* background: #fff; */
   transition: 0.3s ease all;
 }
 

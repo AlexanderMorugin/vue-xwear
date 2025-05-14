@@ -6,7 +6,7 @@
     </div>
     <div class="details">
       <h1 class="title">{{ categoryName() }} {{ props.product.name }}</h1>
-      <AppProductSizes />
+      <AppProductSizes :product="props.product" />
     </div>
   </div>
 </template>
@@ -32,6 +32,7 @@ const categoryName = () => {
 }
 @media (max-width: 1023px) {
   .container {
+    column-gap: 20px;
     padding-top: 9px;
   }
 }
@@ -45,18 +46,29 @@ const categoryName = () => {
   position: relative;
   display: flex;
   justify-content: center;
-  align-items: center;
-  width: 100%;
+  /* align-items: center; */
+  /* width: 100%; */
   max-width: 664px;
   height: 489px;
   overflow: hidden;
 }
+@media (max-width: 1023px) {
+  .image-box {
+    height: 227px;
+  }
+}
+@media (max-width: 767px) {
+  .image-box {
+    height: 283px;
+  }
+}
 .image {
   width: 100%;
+  object-fit: cover;
 }
 .details {
   width: 100%;
-  border: 1px solid blue;
+  /* border: 1px solid blue; */
 }
 .title {
   line-height: 42px;
