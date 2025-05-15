@@ -3,6 +3,7 @@
 :root {
   --white-primary: #fff;
   --white-secondary: #efefef;
+  --white-thirdary: #f4f5f9;
 
   --gray-primary: #8c8f96;
   --gray-secondary: #6d6d6d;
@@ -10,11 +11,14 @@
   --gray-fourdary: #7b7b7b;
   --gray-fivedary: #626262;
 
+  --gray-dark-primary: #5b6268;
+
   --blue-primary: #49d0ff;
 
   --black-primary: #121214;
   --black-secondary: #000000;
   --black-thirdary: #303030;
+  --black-fourdary: #20282f;
 }
 
 :root {
@@ -48,6 +52,11 @@
   --color-background-product-choose-button: var(--black-primary);
   --color-background-product-choose-button-hover: var(--blue-primary);
   --color-text-product-choose-button: var(--white-primary);
+
+  --color-border-product-details-head: var(--white-thirdary);
+  --color-border-product-details-head-button: var(--blue-primary);
+  --color-text-product-details-head: var(--black-fourdary);
+  --color-text-product-details-description: var(--black-thirdary);
 }
 
 *,

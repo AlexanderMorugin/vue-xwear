@@ -1,18 +1,21 @@
 <template>
-  <div class="container">
+  <div class="product-container">
     <div class="image-box">
-      <img :src="props.product.imageOneBig" :alt="props.product.name" class="image" />
+      <img :src="props.product.imageOneNormal" :alt="props.product.name" class="image" />
       <AppFavoriteButton :isFavorite="props.product.isFavorite" :id="props.currentId" />
     </div>
     <div class="details">
       <h1 class="title">{{ categoryName() }} {{ props.product.name }}</h1>
-      <AppProductSizes :product="props.product" />
+      <AppProductSizes :product="props.product" :id="props.currentId" />
     </div>
   </div>
+
+  <AppCurrentProductDetails :product="props.product" :id="props.currentId" />
 </template>
 <script setup>
 import AppFavoriteButton from '@/components/product/AppFavoriteButton.vue'
 import AppProductSizes from '@/components/product/AppProductSizes.vue'
+import AppCurrentProductDetails from '@/components/product/AppCurrentProductDetails.vue'
 const props = defineProps(['product', 'currentId'])
 
 const categoryName = () => {
@@ -23,12 +26,11 @@ const categoryName = () => {
 </script>
 
 <style scoped>
-.container {
+.product-container {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   column-gap: 30px;
   padding-top: 17px;
-  border: 1px solid blue;
 }
 @media (max-width: 1023px) {
   .container {

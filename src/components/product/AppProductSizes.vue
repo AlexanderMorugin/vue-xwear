@@ -109,7 +109,7 @@
 <script setup>
 import { currencyFormater } from '@/utils/currency-formater'
 import { ref } from 'vue'
-const props = defineProps(['product'])
+const props = defineProps(['product', 'id'])
 
 const chooseSize = ref(null)
 const submitPrice = ref(null)
@@ -140,6 +140,7 @@ const setPrice = () => {
 
 const submit = () => {
   const data = {
+    id: props.id,
     category: props.product.category,
     brand: props.product.brand,
     name: props.product.name,
