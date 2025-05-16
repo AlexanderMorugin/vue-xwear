@@ -84,10 +84,17 @@ const setActive = (args) => {
   gap: 50px;
   border-top: 1px solid var(--color-border-product-details-head);
   border-bottom: 1px solid var(--color-border-product-details-head);
+  margin-top: 94px;
+}
+@media (max-width: 1023px) {
+  .details-head {
+    margin-top: 48px;
+  }
 }
 @media (max-width: 767px) {
   .details-head {
     gap: 31px;
+    margin-top: 52px;
   }
 }
 .details-btn {

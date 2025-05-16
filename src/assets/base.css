@@ -6,6 +6,8 @@
   --white-thirdary: #f4f5f9;
 
   --gray-light-primary: #edeef1;
+  --gray-light-secondary: #eeeeee;
+  --gray-light-thirdary: #dddddd;
 
   --gray-primary: #8c8f96;
   --gray-secondary: #6d6d6d;
@@ -21,6 +23,7 @@
   --black-secondary: #000000;
   --black-thirdary: #303030;
   --black-fourdary: #20282f;
+  --black-fivedary: #2f2f2f;
 }
 
 :root {

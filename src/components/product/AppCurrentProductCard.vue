@@ -32,13 +32,13 @@ const props = defineProps(['product', 'currentId'])
   padding-top: 17px;
 }
 @media (max-width: 1023px) {
-  .container {
+  .product-container {
     column-gap: 20px;
     padding-top: 9px;
   }
 }
 @media (max-width: 767px) {
-  .container {
+  .product-container {
     grid-template-columns: 1fr;
     row-gap: 31px;
   }
