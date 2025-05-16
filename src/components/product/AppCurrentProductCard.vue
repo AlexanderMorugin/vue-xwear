@@ -5,7 +5,9 @@
       <AppFavoriteButton :isFavorite="props.product.isFavorite" :id="props.currentId" />
     </div>
     <div class="details">
-      <h1 class="title">{{ categoryName() }} {{ props.product.name }}</h1>
+      <h1 class="title">
+        {{ categoryNameFormater(props.product.category) }} {{ props.product.name }}
+      </h1>
       <AppProductSizes :product="props.product" :id="props.currentId" />
     </div>
   </div>
@@ -16,13 +18,10 @@
 import AppFavoriteButton from '@/components/product/AppFavoriteButton.vue'
 import AppProductSizes from '@/components/product/AppProductSizes.vue'
 import AppCurrentProductDetails from '@/components/product/AppCurrentProductDetails.vue'
-const props = defineProps(['product', 'currentId'])
 
-const categoryName = () => {
-  if (props.product.category === 'kedy') {
-    return 'Кеды'
-  }
-}
+import { categoryNameFormater } from '@/utils/category-name-formater'
+
+const props = defineProps(['product', 'currentId'])
 </script>
 
 <style scoped>
@@ -48,8 +47,6 @@ const categoryName = () => {
   position: relative;
   display: flex;
   justify-content: center;
-  /* align-items: center; */
-  /* width: 100%; */
   max-width: 664px;
   height: 489px;
   overflow: hidden;
@@ -70,7 +67,6 @@ const categoryName = () => {
 }
 .details {
   width: 100%;
-  /* border: 1px solid blue; */
 }
 .title {
   line-height: 42px;

@@ -1,5 +1,5 @@
 <template>
-  <div class="details-container">
+  <section class="details-container">
     <p class="details-description">{{ props.product.description }}</p>
     <div class="details-box">
       <p class="details-text key">
@@ -11,12 +11,13 @@
       <p class="details-text value">{{ props.id }}</p>
 
       <p class="details-text key">
-        Категория<span class="details-line" v-if="!isScreenMedium">
+        Категория
+        <span class="details-line" v-if="!isScreenMedium">
           ------------------------------------</span
         >
       </p>
       <router-link :to="`/shoes/${props.product.category}`" class="details-text value link"
-        >{{ props.product.category }}
+        >{{ categoryNameFormater(props.product.category) }}
         <img src="/icons/icon-arrow-details.svg" alt="Стрелка" />
       </router-link>
 
@@ -39,13 +40,16 @@
           ------------------------------------</span
         >
       </p>
-      <p class="details-text value">{{ props.product.color }}</p>
+      <p class="details-text value">{{ colorNameFormater(props.product.color) }}</p>
     </div>
-  </div>
+  </section>
 </template>
 
 <script setup>
 import { useResizeMedium } from '@/use/useResizeMedium'
+import { categoryNameFormater } from '@/utils/category-name-formater'
+import { colorNameFormater } from '@/utils/color-name-formater'
+
 const { isScreenMedium } = useResizeMedium()
 
 const props = defineProps(['product', 'id'])
@@ -93,6 +97,7 @@ const props = defineProps(['product', 'id'])
   font-size: 14px;
   font-weight: 600;
   letter-spacing: 0.7px;
+  text-transform: capitalize;
 }
 .key {
   color: var(--black-fourdary);

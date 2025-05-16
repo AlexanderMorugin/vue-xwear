@@ -29,15 +29,22 @@
       FAQ
     </button>
   </div>
-  <AppCurrentProductDetailsDescription :product="props.product" :id="props.id" />
+  <AppCurrentProductDetailsDescription
+    :product="props.product"
+    :id="props.id"
+    v-if="isDetailsActive"
+  />
+  <AppCurrentProductDelivery v-if="isDeliveryActive" />
+  <AppCurrentProductPay v-if="isPayActive" />
+  <AppCurrentProductFaq v-if="isFaqActive" />
 </template>
 
 <script setup>
 import { ref } from 'vue'
-// import { useResizeMedium } from '@/use/useResizeMedium'
 import AppCurrentProductDetailsDescription from './AppCurrentProductDetailsDescription.vue'
-
-// const { isScreenMedium } = useResizeMedium()
+import AppCurrentProductDelivery from './AppCurrentProductDelivery.vue'
+import AppCurrentProductPay from './AppCurrentProductPay.vue'
+import AppCurrentProductFaq from './AppCurrentProductFaq.vue'
 
 const props = defineProps(['product', 'id'])
 
