@@ -62,9 +62,9 @@ const toggleFavorite = async (id) => {
 .btn-icon {
   width: 19px;
 }
-@media (max-width: 767px) {
+/* @media (max-width: 767px) {
   .btn-icon {
     width: 15px;
   }
-}
+} */
 </style>

@@ -83,21 +83,6 @@
         </div>
       </div>
 
-      <div class="form-box">
-        <div class="form-control">
-          <label for="imageFourSmall">Ссылка на маленькую картинку № 4</label>
-          <input type="text" id="imageFourSmall" v-model="imageFourSmall" />
-        </div>
-        <div class="form-control">
-          <label for="imageFourNormal">Ссылка на среднюю картинку № 4</label>
-          <input type="text" id="imageFourNormal" v-model="imageFourNormal" />
-        </div>
-        <div class="form-control">
-          <label for="imageFourBig">Ссылка на большую картинку № 4</label>
-          <input type="text" id="imageFourBig" v-model="imageFourBig" />
-        </div>
-      </div>
-
       <div class="form-grid">
         <div class="form-control">
           <label for="price36">Цена размера 36</label>
@@ -164,9 +149,6 @@ const imageTwoBig = ref('')
 const imageThreeSmall = ref('')
 const imageThreeNormal = ref('')
 const imageThreeBig = ref('')
-const imageFourSmall = ref('')
-const imageFourNormal = ref('')
-const imageFourBig = ref('')
 const price36 = ref('')
 const price37 = ref('')
 const price38 = ref('')
@@ -196,9 +178,6 @@ const submit = async () => {
       imageThreeSmall: imageThreeSmall.value,
       imageThreeNormal: imageThreeNormal.value,
       imageThreeBig: imageThreeBig.value,
-      imageFourSmall: imageFourSmall.value,
-      imageFourNormal: imageFourNormal.value,
-      imageFourBig: imageFourBig.value,
       price36: price36.value,
       price37: price37.value,
       price38: price38.value,
@@ -226,9 +205,6 @@ const submit = async () => {
     imageThreeSmall.value = ''
     imageThreeNormal.value = ''
     imageThreeBig.value = ''
-    imageFourSmall.value = ''
-    imageFourNormal.value = ''
-    imageFourBig.value = ''
     price36.value = ''
     price37.value = ''
     price38.value = ''

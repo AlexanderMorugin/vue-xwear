@@ -144,12 +144,14 @@ const isOpenDelivery = (index) => {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 10px;
   width: 100%;
   min-height: 70px;
   line-height: 28px;
   font-size: 14px;
   font-weight: 600;
   color: var(--black-primary);
+  text-align: start;
   text-transform: uppercase;
   padding: 21px 0 21px 10px;
   cursor: pointer;
