@@ -17,11 +17,14 @@ const props = defineProps(['breadcrumbs'])
 <style scoped>
 .breadcrumbs-list {
   display: flex;
-  width: fit-content;
+  /* flex-wrap: nowrap; */
+  /* width: fit-content; */
   width: 100%;
   max-width: 1380px;
+  /* height: 20px; */
   margin: 0 auto;
   padding: 14px 10px 0 10px;
+  /* overflow: hidden; */
 }
 @media (max-width: 1023px) {
   .breadcrumbs-list {
@@ -51,6 +54,8 @@ const props = defineProps(['breadcrumbs'])
   padding-right: 15px;
 }
 .active {
+  /* display: flex;
+  flex-wrap: nowrap; */
   color: var(--color-link-breadcrumbs-active);
 }
 </style>

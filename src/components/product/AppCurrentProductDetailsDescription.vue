@@ -4,17 +4,13 @@
     <div class="details-box">
       <p class="details-text key">
         Артикул
-        <span class="details-line" v-if="!isScreenMedium">
-          ------------------------------------</span
-        >
+        <span class="details-line" v-if="!isScreenMedium"> ---------------------------------</span>
       </p>
       <p class="details-text value">{{ props.id }}</p>
 
       <p class="details-text key">
         Категория
-        <span class="details-line" v-if="!isScreenMedium">
-          ------------------------------------</span
-        >
+        <span class="details-line" v-if="!isScreenMedium"> -------------------------------</span>
       </p>
       <router-link :to="`/shoes/${props.product.category}`" class="details-text value link"
         >{{ categoryNameFormater(props.product.category) }}
@@ -22,22 +18,23 @@
       </router-link>
 
       <p class="details-text key">
-        Бренд<span class="details-line" v-if="!isScreenMedium">
+        Бренд
+        <span class="details-line" v-if="!isScreenMedium">
           ------------------------------------</span
         >
       </p>
       <p class="details-text value">{{ props.product.brand }}</p>
 
       <p class="details-text key">
-        Модель<span class="details-line" v-if="!isScreenMedium">
-          ------------------------------------</span
-        >
+        Модель
+        <span class="details-line" v-if="!isScreenMedium"> ----------------------------------</span>
       </p>
       <p class="details-text value">{{ props.product.name }}</p>
 
       <p class="details-text key">
-        Цвет<span class="details-line" v-if="!isScreenMedium">
-          ------------------------------------</span
+        Цвет
+        <span class="details-line" v-if="!isScreenMedium">
+          -------------------------------------</span
         >
       </p>
       <p class="details-text value">{{ colorNameFormater(props.product.color) }}</p>
@@ -85,7 +82,7 @@ const props = defineProps(['product', 'id'])
   display: grid;
   grid-template-columns: 60% 40%;
   width: 100%;
-  max-width: 475px;
+  max-width: 515px;
 }
 @media (max-width: 767px) {
   .details-box {

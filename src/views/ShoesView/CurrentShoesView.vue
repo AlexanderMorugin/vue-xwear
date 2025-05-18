@@ -1,5 +1,6 @@
 <template>
-  <AppBreadcrumbs :breadcrumbs="breadcrumbs" />
+  <AppBreadcrumbs :breadcrumbs="product && breadcrumbs" />
+
   <app-page>
     <AppCurrentProductCard v-if="product" :product="product" :currentId="currentId" />
   </app-page>
@@ -16,6 +17,7 @@ import { PATH_SHOES, PATH_CROSSOVKY } from '@/mock/routes'
 
 const route = useRoute()
 const product = ref(null)
+const productName = ref(null)
 const currentId = route.params.id
 
 onMounted(async () => {
@@ -25,6 +27,7 @@ onMounted(async () => {
     )
 
     product.value = data
+    productName.value = data.name
   } catch (error) {
     console.log(error)
   }
@@ -40,6 +43,10 @@ const breadcrumbs = ref([
   {
     name: 'Кроссовки',
     path: PATH_CROSSOVKY,
+    content: '3',
+  },
+  {
+    name: productName,
     content: 'last',
   },
 ])
