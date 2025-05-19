@@ -2,22 +2,15 @@
 <!-- ShoesView -->
 <template>
   <AppBreadcrumbs :breadcrumbs="breadcrumbs" />
-  <app-page>
-    <!-- <app-container>
-      <app-left></app-left>
-      <app-right> -->
+  <app-page class="container">
+    <!-- <app-left></app-left> -->
+    <!-- <app-right> -->
     <AppHeading title="Обувь" />
-    <ul>
-      <li>
-        <router-link :to="PATH_CROSSOVKY"><h2>Кроссовки</h2></router-link>
-      </li>
-      <li>
-        <router-link :to="PATH_KEDY"><h2>Кеды</h2></router-link>
-      </li>
-    </ul>
-
-    <!-- </app-right>
-    </app-container> -->
+    <router-link :to="PATH_CROSSOVKY">Кроссовки</router-link>
+    <router-link :to="PATH_KEDY">Кеды</router-link>
+    <!-- <AppProductList v-if="shoes.length !== 0" :shoes="shoes" />
+      <p v-else>Кроссовок не обнаружено</p> -->
+    <!-- </app-right> -->
   </app-page>
 </template>
 
@@ -42,7 +35,8 @@ const breadcrumbs = ref([
 </script>
 
 <style scoped>
-.title {
-  padding-top: 48px;
+.container {
+  display: flex;
+  gap: 28px;
 }
 </style>

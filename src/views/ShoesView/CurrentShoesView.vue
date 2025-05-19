@@ -1,5 +1,5 @@
 <template>
-  <AppBreadcrumbs :breadcrumbs="product && breadcrumbs" />
+  <AppBreadcrumbs :breadcrumbs="breadcrumbs" />
 
   <app-page>
     <AppCurrentProductCard v-if="product" :product="product" :currentId="currentId" />
@@ -13,11 +13,14 @@ import axios from 'axios'
 import AppPage from '@/layouts/AppPage.vue'
 import AppBreadcrumbs from '@/components/breadcrumbs/AppBreadcrumbs.vue'
 import AppCurrentProductCard from '@/components/product/AppCurrentProductCard.vue'
-import { PATH_SHOES, PATH_CROSSOVKY } from '@/mock/routes'
+import { PATH_SHOES, PATH_CROSSOVKY, PATH_KEDY } from '@/mock/routes'
 
 const route = useRoute()
 const product = ref(null)
 const productName = ref(null)
+const productCategory = ref(null)
+const categoryName = ref(null)
+const categoryPath = ref(null)
 const currentId = route.params.id
 
 onMounted(async () => {
@@ -28,6 +31,16 @@ onMounted(async () => {
 
     product.value = data
     productName.value = data.name
+    productCategory.value = data.category
+
+    if (productCategory.value === 'crossovky') {
+      categoryName.value = 'Кроссовки'
+      categoryPath.value = PATH_CROSSOVKY
+    }
+    if (productCategory.value === 'kedy') {
+      categoryName.value = 'Кеды'
+      categoryPath.value = PATH_KEDY
+    }
   } catch (error) {
     console.log(error)
   }
@@ -41,8 +54,8 @@ const breadcrumbs = ref([
     content: '2',
   },
   {
-    name: 'Кроссовки',
-    path: PATH_CROSSOVKY,
+    name: categoryName,
+    path: categoryPath,
     content: '3',
   },
   {

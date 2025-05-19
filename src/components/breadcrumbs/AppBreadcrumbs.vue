@@ -63,6 +63,6 @@ const props = defineProps(['breadcrumbs'])
   display: flex;
   flex-wrap: nowrap;
   color: var(--color-link-breadcrumbs-active);
-  text-transform: lowercase;
+  /* text-transform: lowercase; */
 }
 </style>

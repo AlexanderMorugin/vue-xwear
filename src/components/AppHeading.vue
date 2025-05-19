@@ -4,14 +4,16 @@
       <h1 class="title">{{ props.title }}</h1>
       <span class="quantity" v-if="props.quantity">{{ props.quantity }} товаров</span>
     </div>
-    <SortBox v-if="props.sortBox" />
+    <SortBox v-if="props.sortBox" @toggleSorting="$emit('toggleSorting')" :isDesc="props.isDesc" />
   </div>
 </template>
 
 <script setup>
 import SortBox from '@/components/filters/SortBox.vue'
 
-const props = defineProps(['title', 'quantity', 'sortBox'])
+const props = defineProps(['title', 'quantity', 'sortBox', 'isDesc'])
+// eslint-disable-next-line no-unused-vars
+const emit = defineEmits(['toggleSorting'])
 </script>
 
 <style scoped>

@@ -5,8 +5,14 @@
   <app-page class="container">
     <app-left></app-left>
     <app-right>
-      <AppHeading title="Кроссовки" quantity="1746" sortBox="true" />
-      <AppProductList v-if="shoes.length !== 0" :shoes="shoes" />
+      <AppHeading
+        title="Кроссовки"
+        :quantity="crossovky.length"
+        sortBox="true"
+        @toggleSorting="toggleSorting"
+        :isDesc="isDesc"
+      />
+      <AppProductList v-if="crossovky.length !== 0" :shoes="sortProductByPrice(crossovky)" />
       <p v-else>Кроссовок не обнаружено</p>
     </app-right>
   </app-page>
@@ -37,26 +43,39 @@ const breadcrumbs = ref([
   },
 ])
 
-const shoes = ref([])
+const crossovky = ref([])
+const isDesc = ref(false)
+
+const sortProductByPrice = (args) => {
+  if (!isDesc.value) {
+    return args.sort((a, b) => b.price36 - a.price36) // DESC (по убыванию)
+  } else {
+    return args.sort((a, b) => a.price36 - b.price36) // ASC (по возрастанию)
+  }
+}
 
 onMounted(async () => {
   try {
     const { data } = await axios.get('https://vue-xwear-default-rtdb.firebaseio.com/shoes.json')
 
     if (data) {
-      shoes.value = Object.keys(data).map((key) => {
-        return {
-          id: key,
-          ...data[key],
-        }
-      })
+      crossovky.value = Object.keys(data)
+        .map((key) => {
+          return {
+            id: key,
+            ...data[key],
+          }
+        })
+        .filter((item) => item.category === 'crossovky')
     }
-
-    shoes.value.map((item) => item.brand)
   } catch (error) {
     console.log(error)
   }
 })
+
+const toggleSorting = () => {
+  isDesc.value = !isDesc.value
+}
 </script>
 
 <style scoped>

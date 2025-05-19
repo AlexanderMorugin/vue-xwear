@@ -1,26 +1,22 @@
 <template>
   <div class="sort-box">
     <span class="text sort-text">Сортировать по </span>
-    <button class="btn text btn-text" @click="handleToggle">
+    <button class="btn text btn-text" @click="$emit('toggleSorting')">
       {{ isDesc ? 'От дешевых к дорогим' : 'От дорогих к дешевым' }}
       <img
         src="/icons/icon-arrow-gray.svg"
         alt="Стрелка"
         class="arrow"
-        :class="{ 'arrow-desc': isDesc }"
+        :class="{ 'arrow-desc': props.isDesc }"
       />
     </button>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
-
-const isDesc = ref(false)
-
-const handleToggle = () => {
-  isDesc.value = !isDesc.value
-}
+// eslint-disable-next-line no-unused-vars
+const emit = defineEmits(['toggleSorting'])
+const props = defineProps(['isDesc'])
 </script>
 
 <style scoped>
