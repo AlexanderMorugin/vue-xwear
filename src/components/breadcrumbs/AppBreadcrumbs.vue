@@ -1,13 +1,15 @@
 <template>
-  <ul class="breadcrumbs-list">
-    <li v-for="item in props.breadcrumbs" :key="item.name">
-      <div v-if="item.content !== 'last'">
-        <router-link :to="item.path" class="breadcrumb link">{{ item.name }} </router-link>
-        <span class="breadcrumb slash">/</span>
-      </div>
-      <div v-else class="breadcrumb active">{{ item.name }}</div>
-    </li>
-  </ul>
+  <div class="breadcrumbs">
+    <ul class="breadcrumbs-list">
+      <li v-for="item in props.breadcrumbs" :key="item.name">
+        <div v-if="item.content !== 'last'">
+          <router-link :to="item.path" class="breadcrumb link">{{ item.name }} </router-link>
+          <span class="breadcrumb slash">/</span>
+        </div>
+        <span v-else class="breadcrumb active">{{ item.name }}</span>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script setup>
@@ -15,27 +17,31 @@ const props = defineProps(['breadcrumbs'])
 </script>
 
 <style scoped>
-.breadcrumbs-list {
-  display: flex;
-  /* flex-wrap: nowrap; */
-  /* width: fit-content; */
-  width: 100%;
-  max-width: 1380px;
-  /* height: 20px; */
-  margin: 0 auto;
-  padding: 14px 10px 0 10px;
-  /* overflow: hidden; */
+.breadcrumbs {
+  height: 20px;
+  margin-top: 12px;
+  overflow: hidden;
+  padding: 0 10px;
 }
 @media (max-width: 1023px) {
-  .breadcrumbs-list {
-    padding: 13px 50px 0 50px;
+  .breadcrumbs {
+    margin-top: 11px;
+    padding: 0 50px;
   }
 }
 @media (max-width: 767px) {
-  .breadcrumbs-list {
-    padding: 15px 10px 0 10px;
+  .breadcrumbs {
+    margin-top: 13px;
+    padding: 0 10px;
   }
 }
+.breadcrumbs-list {
+  display: flex;
+  width: 100%;
+  max-width: 1380px;
+  margin: 0 auto;
+}
+
 .breadcrumb {
   line-height: 20px;
   font-size: 13px;
@@ -54,8 +60,9 @@ const props = defineProps(['breadcrumbs'])
   padding-right: 15px;
 }
 .active {
-  /* display: flex;
-  flex-wrap: nowrap; */
+  display: flex;
+  flex-wrap: nowrap;
   color: var(--color-link-breadcrumbs-active);
+  text-transform: lowercase;
 }
 </style>
