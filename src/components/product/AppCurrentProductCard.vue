@@ -2,7 +2,12 @@
   <div class="product-container">
     <div class="image-container">
       <div class="image-box">
-        <img :src="currentImage" :alt="props.product.name" class="image" />
+        <img
+          :src="currentImage"
+          :alt="props.product.name"
+          class="image"
+          @click="$emit('openModal')"
+        />
         <AppFavoriteButton :isFavorite="props.product.isFavorite" :id="props.currentId" />
       </div>
       <ul class="image-thumbs">
@@ -46,6 +51,8 @@ import { categoryNameFormater } from '@/utils/category-name-formater'
 import { ref } from 'vue'
 
 const props = defineProps(['product', 'currentId'])
+// eslint-disable-next-line no-unused-vars
+const emit = defineEmits(['openModal'])
 
 const currentImage = ref(props.product.imageOneNormal)
 const isOneActive = ref(true)
