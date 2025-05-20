@@ -2,12 +2,7 @@
   <div class="product-container">
     <div class="image-container">
       <div class="image-box">
-        <img
-          :src="currentImage"
-          :alt="props.product.name"
-          class="image"
-          @click="$emit('openModal')"
-        />
+        <img :src="currentImage" :alt="props.product.name" class="image" @click="openModal" />
         <AppFavoriteButton :isFavorite="props.product.isFavorite" :id="props.currentId" />
       </div>
       <ul class="image-thumbs">
@@ -42,38 +37,58 @@
   </div>
 
   <AppCurrentProductDetails :product="props.product" :id="props.currentId" />
+
+  <Teleport to="body">
+    <AppModal
+      v-if="isModalOpen"
+      @closeModal="closeModal"
+      :image="currentModalImage"
+      :title="`${categoryNameFormater(props.product.category)} ${props.product.name}`"
+    />
+  </Teleport>
 </template>
 <script setup>
+import { ref } from 'vue'
 import AppFavoriteButton from '@/components/product/AppFavoriteButton.vue'
 import AppProductSizes from '@/components/product/AppProductSizes.vue'
 import AppCurrentProductDetails from '@/components/product/AppCurrentProductDetails.vue'
 import { categoryNameFormater } from '@/utils/category-name-formater'
-import { ref } from 'vue'
+import AppModal from '@/components/modal/AppModal.vue'
 
 const props = defineProps(['product', 'currentId'])
-// eslint-disable-next-line no-unused-vars
-const emit = defineEmits(['openModal'])
+
+// const emit = defineEmits(['openModal'])
 
 const currentImage = ref(props.product.imageOneNormal)
+const currentModalImage = ref(props.product.imageOneBig)
 const isOneActive = ref(true)
 const isTwoActive = ref(false)
 const isThreeActive = ref(false)
 
+const isModalOpen = ref(false)
+
+const openModal = () => (isModalOpen.value = true)
+
+const closeModal = () => (isModalOpen.value = false)
+
 const setShowImage = (args) => {
   if (args === 'one') {
     currentImage.value = props.product.imageOneNormal
+    currentModalImage.value = props.product.imageOneBig
     isOneActive.value = true
     isTwoActive.value = false
     isThreeActive.value = false
   }
   if (args === 'two') {
     currentImage.value = props.product.imageTwoNormal
+    currentModalImage.value = props.product.imageTwoBig
     isOneActive.value = false
     isTwoActive.value = true
     isThreeActive.value = false
   }
   if (args === 'three') {
     currentImage.value = props.product.imageThreeNormal
+    currentModalImage.value = props.product.imageThreeBig
     isOneActive.value = false
     isTwoActive.value = false
     isThreeActive.value = true

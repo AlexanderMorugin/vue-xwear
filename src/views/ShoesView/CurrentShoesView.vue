@@ -1,15 +1,8 @@
 <template>
   <AppBreadcrumbs :breadcrumbs="breadcrumbs" />
   <app-page>
-    <AppCurrentProductCard
-      v-if="product"
-      :product="product"
-      :currentId="currentId"
-      @openModal="openModal"
-    />
+    <AppCurrentProductCard v-if="product" :product="product" :currentId="currentId" />
   </app-page>
-
-  <AppModal v-if="isModalOpen" />
 </template>
 
 <script setup>
@@ -19,7 +12,6 @@ import axios from 'axios'
 import AppPage from '@/layouts/AppPage.vue'
 import AppBreadcrumbs from '@/components/breadcrumbs/AppBreadcrumbs.vue'
 import AppCurrentProductCard from '@/components/product/AppCurrentProductCard.vue'
-import AppModal from '@/components/modal/AppModal.vue'
 import { PATH_SHOES, PATH_CROSSOVKY, PATH_KEDY } from '@/mock/routes'
 
 const route = useRoute()
@@ -29,12 +21,6 @@ const productCategory = ref(null)
 const categoryName = ref(null)
 const categoryPath = ref(null)
 const currentId = route.params.id
-
-const isModalOpen = ref(false)
-
-const openModal = () => {
-  isModalOpen.value = true
-}
 
 onMounted(async () => {
   try {
