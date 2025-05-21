@@ -175,12 +175,6 @@ const filterData = computed(() => {
   return data
 })
 
-// const isReset = ref(false)
-
-// const filteredCrossovky = computed(() => filterData)
-
-// (!isReset.value ? filterData : crossovky.value)
-
 const resetFilters = () => {
   selectedBrands.value = []
   selectedColor.value = []

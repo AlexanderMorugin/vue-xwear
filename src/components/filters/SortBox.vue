@@ -1,6 +1,6 @@
 <template>
   <div class="sort-box">
-    <span class="text sort-text">Сортировать по </span>
+    <span class="text sort-text">Сортировать: </span>
     <button class="btn text btn-text" @click="$emit('toggleSorting')">
       {{ isDesc ? 'От дешевых к дорогим' : 'От дорогих к дешевым' }}
       <img
