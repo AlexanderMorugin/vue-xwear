@@ -3,23 +3,54 @@
 <template>
   <AppBreadcrumbs :breadcrumbs="breadcrumbs" />
   <app-page class="container">
-    <app-left></app-left>
+    <app-left>
+      <!-- <AppFilterBox
+        title="Бренды"
+        :brandList="brandList.value"
+        v-model:modelValue="selectedBrands"
+      /> -->
+
+      <!-- Фильтр по брендам -->
+      <div class="filter-box">
+        <p class="filter-title">Бренды</p>
+        <ul class="filter-checkbox-list">
+          <li class="filter-checkbox-item" v-for="(item, index) in brandList.value" :key="index">
+            <input type="checkbox" :id="item" :value="item" v-model="selectedBrands" />
+            <label for="item">{{ item }}</label>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Фильтр по цвету -->
+      <div class="filter-box">
+        <p class="filter-title">Цвет</p>
+        <ul class="filter-checkbox-list">
+          <li class="filter-checkbox-item" v-for="(item, index) in colorList.value" :key="index">
+            <input type="checkbox" :id="item" :value="item" v-model="selectedColor" />
+            <label for="item">{{ item }}</label>
+          </li>
+        </ul>
+      </div>
+    </app-left>
     <app-right>
       <AppHeading
         title="Кроссовки"
-        :quantity="crossovky.length"
+        :quantity="filterData.length"
         sortBox="true"
         @toggleSorting="toggleSorting"
         :isDesc="isDesc"
       />
-      <AppProductList v-if="crossovky.length !== 0" :shoes="sortProductByPrice(crossovky)" />
-      <p v-else>Кроссовок не обнаружено</p>
+      <!-- <AppProductList :shoes="sortProductByPrice(filterData)" /> -->
+      <!-- <AppProductList :shoes="filterBrandData" /> -->
+      <AppProductList :shoes="sortProductByPrice(filterData)" />
+
+      <!-- <p v-else>Кроссовок не обнаружено</p> -->
     </app-right>
   </app-page>
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import axios from 'axios'
 import AppPage from '@/layouts/AppPage.vue'
 import AppLeft from '@/layouts/AppLeft.vue'
@@ -28,6 +59,7 @@ import AppHeading from '@/components/AppHeading.vue'
 import AppBreadcrumbs from '@/components/breadcrumbs/AppBreadcrumbs.vue'
 import AppProductList from '@/components/product/AppProductList.vue'
 import { PATH_SHOES, PATH_CROSSOVKY } from '@/mock/routes'
+import AppFilterBox from '@/components/filters/AppFilterBox.vue'
 
 const breadcrumbs = ref([
   { name: 'Главная', path: '/', content: '1' },
@@ -45,6 +77,14 @@ const breadcrumbs = ref([
 
 const crossovky = ref([])
 const isDesc = ref(false)
+
+const brandList = ref([])
+brandList.value = computed(() => [...new Set(crossovky.value.map((a) => a.brand))])
+const selectedBrands = ref([])
+
+const colorList = ref([])
+colorList.value = computed(() => [...new Set(crossovky.value.map((a) => a.color))])
+const selectedColor = ref([])
 
 const sortProductByPrice = (args) => {
   if (!isDesc.value) {
@@ -76,11 +116,67 @@ onMounted(async () => {
 const toggleSorting = () => {
   isDesc.value = !isDesc.value
 }
+
+const filterData = computed(() => {
+  let dataBrands = []
+  let dataColor = []
+  let data = []
+
+  // если есть выбранные чекбоксы
+  if (selectedBrands.value.length) {
+    // фильтруем данные
+    dataBrands = crossovky.value.filter((x) => selectedBrands.value.indexOf(x.brand) != -1)
+  }
+  if (dataBrands && selectedColor.value.length) {
+    // фильтруем данные
+    dataColor = dataBrands.filter((x) => selectedColor.value.indexOf(x.color) != -1)
+  }
+  if (!dataBrands.length && selectedColor.value.length) {
+    // фильтруем данные
+    dataColor = crossovky.value.filter((x) => selectedColor.value.indexOf(x.color) != -1)
+  } else {
+    // иначе отдаем все данные из массива
+    data = crossovky.value
+  }
+
+  if (dataBrands.length) {
+    data = dataBrands
+  }
+
+  if (dataColor.length) {
+    data = dataColor
+  }
+
+  // console.log('dataBrands - ', dataBrands.length)
+  // console.log('dataColor - ', dataColor.length)
+  return data
+})
 </script>
 
 <style scoped>
 .container {
   display: flex;
   gap: 28px;
+}
+.filter-box {
+  display: flex;
+  flex-direction: column;
+  gap: 21px;
+  width: 100%;
+  /* height: 300px; */
+  border: 1px solid var(--gray-light-fivedary);
+  border-radius: 5px;
+  padding: 25px;
+}
+.filter-title {
+  line-height: 20px;
+  font-size: 13px;
+  font-weight: 900;
+  color: var(--black-primary);
+  text-transform: uppercase;
+}
+.filter-checkbox-list {
+}
+.filter-checkbox-item {
 }
 </style>

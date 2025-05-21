@@ -1,5 +1,7 @@
 <template>
-  <sidebar class="left" v-if="!isScreenLarge"></sidebar>
+  <sidebar class="left" v-if="!isScreenLarge">
+    <slot />
+  </sidebar>
 </template>
 
 <script setup>
@@ -11,8 +13,8 @@ const { isScreenLarge } = useResizeLarge()
 <style scoped>
 .left {
   display: flex;
+  flex-direction: column;
+  gap: 30px;
   width: 318px;
-  /* height: 318px; */
-  border: 1px solid blue;
 }
 </style>
