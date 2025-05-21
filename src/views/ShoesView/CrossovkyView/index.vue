@@ -45,6 +45,12 @@
             </li>
           </ul>
         </div>
+
+        <!-- Сброс фильтров -->
+        <button class="filter-reset" @click="resetFilters">
+          <img src="/icons/icon-close-filters.svg" alt="Сбросить фильтры" />
+          <p class="filter-reset-title">Сбросить все фильтры</p>
+        </button>
       </app-left>
       <app-right>
         <AppHeading
@@ -168,6 +174,17 @@ const filterData = computed(() => {
 
   return data
 })
+
+// const isReset = ref(false)
+
+// const filteredCrossovky = computed(() => filterData)
+
+// (!isReset.value ? filterData : crossovky.value)
+
+const resetFilters = () => {
+  selectedBrands.value = []
+  selectedColor.value = []
+}
 </script>
 
 <style scoped>
@@ -201,7 +218,6 @@ const filterData = computed(() => {
   align-items: center;
   gap: 10px;
 }
-
 .checkbox-input {
   appearance: none;
   position: relative;
@@ -213,29 +229,48 @@ const filterData = computed(() => {
   transition: 500ms;
   cursor: pointer;
 }
-
 .checkbox-input::after {
   content: '';
   position: absolute;
   width: 0px;
   height: 0px;
   background: var(--blue-primary);
-  background-image: url('../../../../public/icons/icon-checkbox.svg');
+  background-image: url('/icons/icon-checkbox.svg');
   background-repeat: no-repeat;
   background-position: center;
   border-radius: 3px;
 }
-
 .checkbox-input:checked::after {
   width: 23px;
   height: 23px;
 }
-
 .checkbox-label {
   line-height: 20px;
   font-size: 13px;
   font-weight: 400;
   color: var(--black-fourdary);
   text-transform: capitalize;
+}
+.filter-reset {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  border: 1px solid var(--gray-light-fivedary);
+  border-radius: 5px;
+  padding: 13px;
+  cursor: pointer;
+  transition: 0.3s ease all;
+}
+.filter-reset:hover {
+  border: 1px solid var(--blue-primary);
+}
+.filter-reset-title {
+  line-height: 20px;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--black-primary);
+  text-transform: uppercase;
 }
 </style>
