@@ -61,7 +61,8 @@
           :isDesc="isDesc"
         />
 
-        <AppProductList :shoes="sortProductByPrice(filterData)" />
+        <!-- <AppProductList :shoes="sortProductByPrice(filterData)" /> -->
+        <AppProductList :shoes="filterData" />
       </app-right>
     </app-page>
   </div>
@@ -107,13 +108,13 @@ const colorList = ref([])
 colorList.value = computed(() => [...new Set(crossovky.value.map((a) => a.color))])
 const selectedColor = ref([])
 
-const sortProductByPrice = (args) => {
-  if (!isDesc.value) {
-    return args.sort((a, b) => b.price36 - a.price36) // DESC (по убыванию)
-  } else {
-    return args.sort((a, b) => a.price36 - b.price36) // ASC (по возрастанию)
-  }
-}
+// const sortProductByPrice = (args) => {
+//   if (!isDesc.value) {
+//     return args.sort((a, b) => b.price36 - a.price36) // DESC (по убыванию)
+//   } else {
+//     return args.sort((a, b) => a.price36 - b.price36) // ASC (по возрастанию)
+//   }
+// }
 
 onMounted(async () => {
   try {
@@ -149,27 +150,35 @@ const filterData = computed(() => {
 
   // если есть выбранные чекбоксы
   if (selectedBrands.value.length) {
-    // фильтруем данные
     dataBrands = crossovky.value.filter((x) => selectedBrands.value.indexOf(x.brand) != -1)
   }
   if (dataBrands && selectedColor.value.length) {
-    // фильтруем данные
     dataColor = dataBrands.filter((x) => selectedColor.value.indexOf(x.color) != -1)
   }
   if (!dataBrands.length && selectedColor.value.length) {
-    // фильтруем данные
     dataColor = crossovky.value.filter((x) => selectedColor.value.indexOf(x.color) != -1)
   } else {
     // иначе отдаем все данные из массива
     data = crossovky.value
   }
 
-  if (dataBrands.length) {
-    data = dataBrands
+  if (dataBrands.length && !isDesc.value) {
+    data = dataBrands.sort((a, b) => b.price36 - a.price36) // DESC (по убыванию)
   }
-
-  if (dataColor.length) {
-    data = dataColor
+  if (dataBrands.length && isDesc.value) {
+    data = dataBrands.sort((a, b) => a.price36 - b.price36) // ASC (по возрастанию)
+  }
+  if (dataColor.length && !isDesc.value) {
+    data = dataColor.sort((a, b) => b.price36 - a.price36) // DESC (по убыванию)
+  }
+  if (dataColor.length && isDesc.value) {
+    data = dataColor.sort((a, b) => a.price36 - b.price36) // ASC (по возрастанию)
+  }
+  if (data.length && !isDesc.value) {
+    data = data.sort((a, b) => b.price36 - a.price36) // DESC (по убыванию)
+  }
+  if (data.length && isDesc.value) {
+    data = data.sort((a, b) => a.price36 - b.price36) // ASC (по возрастанию)
   }
 
   return data
