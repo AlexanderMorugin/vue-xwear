@@ -1,6 +1,6 @@
 <template>
   <ul class="product-list">
-    <li v-for="item in props.shoes" :key="item.name">
+    <li v-for="item in props.products" :key="item.name">
       <AppProductCard :item="item" />
     </li>
   </ul>
@@ -8,7 +8,7 @@
 
 <script setup>
 import AppProductCard from '@/components/product/AppProductCard.vue'
-const props = defineProps(['shoes'])
+const props = defineProps(['products'])
 </script>
 
 <style scoped>

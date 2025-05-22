@@ -57,8 +57,6 @@ import AppModal from '@/components/modal/AppModal.vue'
 
 const props = defineProps(['product', 'currentId'])
 
-// const emit = defineEmits(['openModal'])
-
 const currentImage = ref(props.product.imageOneNormal)
 const currentModalImage = ref(props.product.imageOneBig)
 const isOneActive = ref(true)

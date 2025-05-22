@@ -5,29 +5,44 @@
       <span class="quantity" v-if="props.quantity">{{ props.quantity }} товаров</span>
     </div>
     <SortBox v-if="props.sortBox" @toggleSorting="$emit('toggleSorting')" :isDesc="props.isDesc" />
+    <div v-if="isScreenLarge" class="heading-filter-buttons">
+      <AppFilterButton @openFiltersForMobile="$emit('openFiltersForMobile')" />
+    </div>
   </div>
 </template>
 
 <script setup>
 import SortBox from '@/components/filters/SortBox.vue'
+import AppFilterButton from '@/components/filters/AppFilterButton.vue'
+import { useResizeLarge } from '@/use/useResizeLarge'
+const { isScreenLarge } = useResizeLarge()
 
 const props = defineProps(['title', 'quantity', 'sortBox', 'isDesc'])
 // eslint-disable-next-line no-unused-vars
-const emit = defineEmits(['toggleSorting'])
+const emit = defineEmits(['toggleSorting', 'openFiltersForMobile'])
 </script>
 
 <style scoped>
 .heading {
-  display: flex;
+  display: grid;
+  grid-template-areas: 'title sorting';
+  grid-template-columns: 1fr 261px;
   justify-content: space-between;
   width: 100%;
 }
+@media (max-width: 1023px) {
+  .heading {
+    grid-template-areas: 'title sorting' 'filters filters';
+  }
+}
 @media (max-width: 767px) {
   .heading {
-    flex-direction: column;
+    grid-template-columns: 1fr;
+    grid-template-areas: 'title' 'filters' 'sorting';
   }
 }
 .title-box {
+  grid-area: title;
   display: flex;
   flex-direction: column;
 }
@@ -55,5 +70,17 @@ const emit = defineEmits(['toggleSorting'])
   font-size: 13px;
   font-weight: 600;
   color: var(--color-text-quantity);
+}
+.heading-filter-buttons {
+  grid-area: filters;
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 27px;
+}
+@media (max-width: 767px) {
+  .heading-filter-buttons {
+    padding-top: 25px;
+    padding-bottom: 15px;
+  }
 }
 </style>

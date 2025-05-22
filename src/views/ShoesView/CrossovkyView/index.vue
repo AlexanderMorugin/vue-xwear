@@ -3,66 +3,51 @@
 <template>
   <AppLoader v-if="isLoading" />
   <div v-else>
-    <AppBreadcrumbs :breadcrumbs="breadcrumbs" />
+    <AppBreadcrumbs :breadcrumbs="allCrossovkyBreadcrumbs" />
     <app-page class="container">
       <app-left>
-        <!-- <AppFilterBox
-        title="Бренды"
-        :brandList="brandList.value"
-        v-model:modelValue="selectedBrands"
-      /> -->
-
+        <AppFilterPrice title="Фильтр пока не работает" />
         <!-- Фильтр по брендам -->
-        <div class="filter-box">
-          <p class="filter-title">Бренды</p>
-          <ul class="filter-checkbox-list">
-            <li class="filter-checkbox-item" v-for="(item, index) in brandList.value" :key="index">
-              <input
-                type="checkbox"
-                :id="item"
-                :value="item"
-                v-model="selectedBrands"
-                class="checkbox-input"
-              />
-              <label for="item" class="checkbox-label">{{ item }}</label>
-            </li>
-          </ul>
-        </div>
-
+        <AppFilterBrands
+          title="Бренды"
+          :filterList="brandList.value"
+          v-model:modelValue="selectedBrands"
+        />
         <!-- Фильтр по цвету -->
-        <div class="filter-box">
-          <p class="filter-title">Цвет</p>
-          <ul class="filter-checkbox-list">
-            <li class="filter-checkbox-item" v-for="(item, index) in colorList.value" :key="index">
-              <input
-                type="checkbox"
-                :id="item"
-                :value="item"
-                v-model="selectedColor"
-                class="checkbox-input"
-              />
-              <label for="item" class="checkbox-label">{{ colorNameFormater(item) }}</label>
-            </li>
-          </ul>
-        </div>
-
+        <AppFilterColors
+          title="Цвет"
+          :filterList="colorList.value"
+          v-model:modelValue="selectedColor"
+        />
         <!-- Сброс фильтров -->
-        <button class="filter-reset" @click="resetFilters">
-          <img src="/icons/icon-close-filters.svg" alt="Сбросить фильтры" />
-          <p class="filter-reset-title">Сбросить все фильтры</p>
-        </button>
+        <AppFilterReset @resetFilters="resetFilters" />
       </app-left>
+
+      <Teleport to="body">
+        <app-filters-menu
+          v-if="isFiltersForMobileOpen"
+          @closeFiltersForMobile="closeFiltersForMobile"
+        >
+          <!-- Фильтр по брендам -->
+          <AppFilterBrands
+            title="Бренды"
+            :filterList="brandList.value"
+            v-model:modelValue="selectedBrands"
+          />
+        </app-filters-menu>
+      </Teleport>
+
       <app-right>
         <AppHeading
           title="Кроссовки"
           :quantity="filterData.length"
           sortBox="true"
           @toggleSorting="toggleSorting"
+          @openFiltersForMobile="openFiltersForMobile"
           :isDesc="isDesc"
         />
 
-        <!-- <AppProductList :shoes="sortProductByPrice(filterData)" /> -->
-        <AppProductList :shoes="filterData" />
+        <AppProductList :products="filterData" />
       </app-right>
     </app-page>
   </div>
@@ -77,28 +62,18 @@ import AppRight from '@/layouts/AppRight.vue'
 import AppHeading from '@/components/AppHeading.vue'
 import AppBreadcrumbs from '@/components/breadcrumbs/AppBreadcrumbs.vue'
 import AppProductList from '@/components/product/AppProductList.vue'
-import { PATH_SHOES, PATH_CROSSOVKY } from '@/mock/routes'
 import AppLoader from '@/components/AppLoader.vue'
-import { colorNameFormater } from '@/utils/color-name-formater'
-// import AppFilterBox from '@/components/filters/AppFilterBox.vue'
-
-const breadcrumbs = ref([
-  { name: 'Главная', path: '/', content: '1' },
-  {
-    name: 'Обувь',
-    path: PATH_SHOES,
-    content: '2',
-  },
-  {
-    name: 'Кроссовки',
-    path: PATH_CROSSOVKY,
-    content: 'last',
-  },
-])
+import AppFilterBrands from '@/components/filters/AppFilterBrands.vue'
+import AppFilterColors from '@/components/filters/AppFilterColors.vue'
+import AppFilterReset from '@/components/filters/AppFilterReset.vue'
+import AppFilterPrice from '@/components/filters/AppFilterPrice.vue'
+import AppFiltersMenu from '@/components/filters/AppFiltersMenu.vue'
+import { allCrossovkyBreadcrumbs } from '@/components/breadcrumbs/breadcrumbs-pages/all-crossovky-breadcrumbs'
 
 const crossovky = ref([])
 const isDesc = ref(false)
 const isLoading = ref(false)
+const isFiltersForMobileOpen = ref(false)
 
 const brandList = ref([])
 brandList.value = computed(() => [...new Set(crossovky.value.map((a) => a.brand))])
@@ -107,14 +82,6 @@ const selectedBrands = ref([])
 const colorList = ref([])
 colorList.value = computed(() => [...new Set(crossovky.value.map((a) => a.color))])
 const selectedColor = ref([])
-
-// const sortProductByPrice = (args) => {
-//   if (!isDesc.value) {
-//     return args.sort((a, b) => b.price36 - a.price36) // DESC (по убыванию)
-//   } else {
-//     return args.sort((a, b) => a.price36 - b.price36) // ASC (по возрастанию)
-//   }
-// }
 
 onMounted(async () => {
   try {
@@ -141,6 +108,14 @@ onMounted(async () => {
 
 const toggleSorting = () => {
   isDesc.value = !isDesc.value
+}
+
+const openFiltersForMobile = () => {
+  isFiltersForMobileOpen.value = true
+}
+
+const closeFiltersForMobile = () => {
+  isFiltersForMobileOpen.value = false
 }
 
 const filterData = computed(() => {
@@ -194,86 +169,5 @@ const resetFilters = () => {
 .container {
   display: flex;
   gap: 28px;
-}
-.filter-box {
-  display: flex;
-  flex-direction: column;
-  gap: 21px;
-  width: 100%;
-  border: 1px solid var(--gray-light-fivedary);
-  border-radius: 5px;
-  padding: 25px;
-}
-.filter-title {
-  line-height: 20px;
-  font-size: 13px;
-  font-weight: 900;
-  color: var(--black-primary);
-  text-transform: uppercase;
-}
-.filter-checkbox-list {
-  display: flex;
-  flex-direction: column;
-  gap: 19px;
-}
-.filter-checkbox-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.checkbox-input {
-  appearance: none;
-  position: relative;
-  width: 23px;
-  height: 23px;
-  background: var(--white-fourdary);
-  border: 1px solid var(--gray-light-fourdary);
-  border-radius: 3px;
-  transition: 500ms;
-  cursor: pointer;
-}
-.checkbox-input::after {
-  content: '';
-  position: absolute;
-  width: 0px;
-  height: 0px;
-  background: var(--blue-primary);
-  background-image: url('/icons/icon-checkbox.svg');
-  background-repeat: no-repeat;
-  background-position: center;
-  border-radius: 3px;
-}
-.checkbox-input:checked::after {
-  width: 23px;
-  height: 23px;
-}
-.checkbox-label {
-  line-height: 20px;
-  font-size: 13px;
-  font-weight: 400;
-  color: var(--black-fourdary);
-  text-transform: capitalize;
-}
-.filter-reset {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  width: 100%;
-  border: 1px solid var(--gray-light-fivedary);
-  border-radius: 5px;
-  padding: 13px;
-  cursor: pointer;
-  transition: 0.3s ease all;
-}
-.filter-reset:hover {
-  border: 1px solid var(--blue-primary);
-}
-.filter-reset-title {
-  line-height: 20px;
-  font-size: 12px;
-  font-weight: 800;
-  color: var(--black-primary);
-  text-transform: uppercase;
 }
 </style>

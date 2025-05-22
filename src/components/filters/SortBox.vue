@@ -21,6 +21,7 @@ const props = defineProps(['isDesc'])
 
 <style scoped>
 .sort-box {
+  grid-area: sorting;
   display: flex;
   align-items: center;
   gap: 6px;
@@ -28,6 +29,7 @@ const props = defineProps(['isDesc'])
 }
 @media (max-width: 767px) {
   .sort-box {
+    justify-self: center;
     align-self: center;
   }
 }

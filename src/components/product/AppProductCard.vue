@@ -9,17 +9,11 @@
 </template>
 
 <script setup>
-// import { ref } from 'vue'
-import {
-  PATH_CROSSOVKY,
-  //  PATH_KEDY
-} from '@/mock/routes'
+import { PATH_CROSSOVKY } from '@/mock/routes'
 import AppFavoriteButton from '@/components/product/AppFavoriteButton.vue'
 import { currencyFormater } from '@/utils/currency-formater'
 
 const props = defineProps(['item'])
-
-// const shoesPath = ref(null)
 </script>
 
 <style scoped>
