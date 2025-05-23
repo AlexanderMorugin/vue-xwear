@@ -5,12 +5,14 @@
   --white-secondary: #efefef;
   --white-thirdary: #f4f5f9;
   --white-fourdary: #f8fafb;
+  --white-fivedary: #f4f5f9;
 
   --gray-light-primary: #edeef1;
   --gray-light-secondary: #eeeeee;
   --gray-light-thirdary: #dddddd;
   --gray-light-fourdary: #cbced6;
   --gray-light-fivedary: #e6e7eb;
+  --gray-light-sixdary: #dee3e9;
 
   --gray-primary: #8c8f96;
   --gray-secondary: #6d6d6d;
@@ -19,6 +21,7 @@
   --gray-fivedary: #626262;
 
   --gray-dark-primary: #5b6268;
+  --gray-dark-secondary: #67708a;
 
   --blue-primary: #49d0ff;
 

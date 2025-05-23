@@ -1,13 +1,13 @@
 <template>
-  <sidebar class="left" v-if="!isScreenLarge">
+  <sidebar class="left">
     <slot />
   </sidebar>
 </template>
 
 <script setup>
-import { useResizeLarge } from '@/use/useResizeLarge'
+// import { useResizeLarge } from '@/use/useResizeLarge'
 
-const { isScreenLarge } = useResizeLarge()
+// const { isScreenLarge } = useResizeLarge()
 </script>
 
 <style scoped>

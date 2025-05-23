@@ -5,8 +5,15 @@
   <div v-else>
     <AppBreadcrumbs :breadcrumbs="allCrossovkyBreadcrumbs" />
     <app-page class="container">
-      <app-left>
-        <AppFilterPrice title="Фильтр пока не работает" />
+      <!-- Если Десктоп то колонка слева AppLeft, если Мобайл то вызываемое меню AppFiltersMenu -->
+      <component
+        :is="isScreenLarge ? AppFiltersMenu : AppLeft"
+        :isFiltersForMobileOpen="isFiltersForMobileOpen"
+        @closeFiltersForMobile="closeFiltersForMobile"
+        @resetFilters="resetFilters"
+      >
+        <!-- Фильтр по цене -->
+        <AppFilterPrice title="Фильтр по цене" />
         <!-- Фильтр по брендам -->
         <AppFilterBrands
           title="Бренды"
@@ -20,22 +27,8 @@
           v-model:modelValue="selectedColor"
         />
         <!-- Сброс фильтров -->
-        <AppFilterReset @resetFilters="resetFilters" />
-      </app-left>
-
-      <Teleport to="body">
-        <app-filters-menu
-          v-if="isFiltersForMobileOpen"
-          @closeFiltersForMobile="closeFiltersForMobile"
-        >
-          <!-- Фильтр по брендам -->
-          <AppFilterBrands
-            title="Бренды"
-            :filterList="brandList.value"
-            v-model:modelValue="selectedBrands"
-          />
-        </app-filters-menu>
-      </Teleport>
+        <AppFilterReset @resetFilters="resetFilters" v-if="!isScreenMedium" />
+      </component>
 
       <app-right>
         <AppHeading
@@ -69,6 +62,11 @@ import AppFilterReset from '@/components/filters/AppFilterReset.vue'
 import AppFilterPrice from '@/components/filters/AppFilterPrice.vue'
 import AppFiltersMenu from '@/components/filters/AppFiltersMenu.vue'
 import { allCrossovkyBreadcrumbs } from '@/components/breadcrumbs/breadcrumbs-pages/all-crossovky-breadcrumbs'
+import { useResizeLarge } from '@/use/useResizeLarge'
+import { useResizeMedium } from '@/use/useResizeMedium'
+
+const { isScreenLarge } = useResizeLarge()
+const { isScreenMedium } = useResizeMedium()
 
 const crossovky = ref([])
 const isDesc = ref(false)
