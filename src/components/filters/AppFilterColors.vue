@@ -10,7 +10,7 @@
           v-model="selectedColor"
           class="checkbox-input"
         />
-        <label for="item" class="checkbox-label">{{ colorNameFormater(item) }}</label>
+        <label :for="item" class="checkbox-label">{{ colorNameFormater(item) }}</label>
       </li>
     </ul>
   </div>

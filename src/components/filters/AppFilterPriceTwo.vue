@@ -2,24 +2,26 @@
   <div class="filter-box">
     <p class="filter-title">{{ props.title }}</p>
     <div class="range-values">
-      <input v-model="minPrice" type="number" />
+      <input id="minPriceNumber" v-model="minPrice" type="number" />
       <span>-</span>
-      <input v-model="maxPrice" type="number" />
+      <input id="maxPriceNumber" v-model="maxPrice" type="number" />
     </div>
     <div class="range-slider">
       <input
+        id="minPrice"
         type="range"
         min="0"
-        max="18000"
-        step="50"
+        max="20000"
+        step="10"
         v-model.number="minPrice"
         @change="setRangeSliders"
       />
       <input
+        id="maxPrice"
         type="range"
         min="0"
-        max="18000"
-        step="50"
+        max="20000"
+        step="10"
         v-model.number="maxPrice"
         @change="setRangeSliders"
       />
@@ -28,11 +30,9 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-
 const props = defineProps(['title'])
-const minPrice = ref(0)
-const maxPrice = ref(18000)
+const minPrice = defineModel('minPrice', { required: true })
+const maxPrice = defineModel('maxPrice', { required: true })
 
 const setRangeSliders = () => {
   if (minPrice.value > maxPrice.value) {

@@ -10,7 +10,7 @@
           v-model="selectedBrands"
           class="checkbox-input"
         />
-        <label for="item" class="checkbox-label">{{ item }}</label>
+        <label :for="item" class="checkbox-label">{{ item }}</label>
       </li>
     </ul>
   </div>

@@ -13,7 +13,9 @@
         @resetFilters="resetFilters"
       >
         <!-- Фильтр по цене -->
-        <AppFilterPrice title="Фильтр по цене" />
+        <!-- <AppFilterPrice title="Фильтр по цене" /> -->
+        <AppFilterPriceTwo v-model:minPrice="minPrice" v-model:maxPrice="maxPrice" />
+
         <!-- Фильтр по брендам -->
         <AppFilterBrands
           title="Бренды"
@@ -59,12 +61,13 @@ import AppLoader from '@/components/AppLoader.vue'
 import AppFilterBrands from '@/components/filters/AppFilterBrands.vue'
 import AppFilterColors from '@/components/filters/AppFilterColors.vue'
 import AppFilterReset from '@/components/filters/AppFilterReset.vue'
-import AppFilterPrice from '@/components/filters/AppFilterPrice.vue'
+import AppFilterPriceTwo from '@/components/filters/AppFilterPriceTwo.vue'
 import AppFiltersMenu from '@/components/filters/AppFiltersMenu.vue'
 import { allCrossovkyBreadcrumbs } from '@/components/breadcrumbs/breadcrumbs-pages/all-crossovky-breadcrumbs'
 import { useResizeLarge } from '@/use/useResizeLarge'
 import { useResizeMedium } from '@/use/useResizeMedium'
 
+// Брейкпоинты ширины экрана
 const { isScreenLarge } = useResizeLarge()
 const { isScreenMedium } = useResizeMedium()
 
@@ -73,6 +76,7 @@ const isDesc = ref(false)
 const isLoading = ref(false)
 const isFiltersForMobileOpen = ref(false)
 
+// Фильтрация
 const brandList = ref([])
 brandList.value = computed(() => [...new Set(crossovky.value.map((a) => a.brand))])
 const selectedBrands = ref([])
@@ -80,6 +84,13 @@ const selectedBrands = ref([])
 const colorList = ref([])
 colorList.value = computed(() => [...new Set(crossovky.value.map((a) => a.color))])
 const selectedColor = ref([])
+
+// Находим в массиве минимальную и максимальную цену
+// const minPrice36 = computed(() => Math.min(...crossovky.value.map((item) => item.price36)))
+// const maxPrice36 = computed(() => Math.max(...crossovky.value.map((item) => item.price36)))
+
+const minPrice = ref(0)
+const maxPrice = ref(20000)
 
 onMounted(async () => {
   try {
@@ -119,22 +130,80 @@ const closeFiltersForMobile = () => {
 const filterData = computed(() => {
   let dataBrands = []
   let dataColor = []
+  let dataPrice = []
   let data = []
+  const priceValues = minPrice.value >= 0 || maxPrice.value <= 20000
 
-  // если есть выбранные чекбоксы
+  // Фильтр Бренда
+  // один
   if (selectedBrands.value.length) {
     dataBrands = crossovky.value.filter((x) => selectedBrands.value.indexOf(x.brand) != -1)
   }
+  // if (selectedBrands.value.length && !dataColor.length && !dataPrice.length) {
+  //   dataBrands = crossovky.value.filter((x) => selectedBrands.value.indexOf(x.brand) != -1)
+  // }
+
+  // Фильтр Цвета
+  // один
+  if (selectedColor.value.length) {
+    dataColor = crossovky.value.filter((x) => selectedColor.value.indexOf(x.color) != -1)
+  }
+
+  // Фильтр Цвета
+  // с фитром Бренда
   if (dataBrands && selectedColor.value.length) {
     dataColor = dataBrands.filter((x) => selectedColor.value.indexOf(x.color) != -1)
   }
-  if (!dataBrands.length && selectedColor.value.length) {
-    dataColor = crossovky.value.filter((x) => selectedColor.value.indexOf(x.color) != -1)
-  } else {
+
+  // Фильтр Цвета без Фильтра Бренда
+  // if (selectedColor.value.length && !dataBrands.length) {
+  //   dataColor = crossovky.value.filter((x) => selectedColor.value.indexOf(x.color) != -1)
+  // }
+
+  // Фильтр Цены
+  // один
+  if (priceValues && !dataBrands.length && !dataColor.length) {
+    dataPrice = crossovky.value.filter(
+      (item) => item.price36 >= minPrice.value && item.price36 <= maxPrice.value,
+    )
+  }
+
+  // Фильтр Цены c фильтром Бренда и фильтром Цвета
+  // if (
+  //   selectedBrands.value.length &&
+  //   selectedColor.value.length &&
+  //   (minPrice.value >= 0 || maxPrice.value <= 20000)
+  // ) {
+  //   dataPrice = dataBrands.filter(
+  //     (item) => item.price36 >= minPrice.value && item.price36 <= maxPrice.value,
+  //   )
+  // }
+  // Фильтр Цены c фильтром Бренда, но без фильтра Цвета
+  // if (
+  //   selectedBrands.value.length &&
+  //   !selectedColor.value.length &&
+  //   (minPrice.value >= 0 || maxPrice.value <= 20000)
+  // ) {
+  //   dataPrice = dataBrands.filter(
+  //     (item) => item.price36 >= minPrice.value && item.price36 <= maxPrice.value,
+  //   )
+  // }
+  // Фильтр Цены c фильтром Цвета, но без фильтра Бренда
+  // if (
+  //   selectedColor.value.length &&
+  //   !selectedBrands.value.length &&
+  //   (minPrice.value >= 0 || maxPrice.value <= 20000)
+  // ) {
+  //   dataPrice = dataColor.filter(
+  //     (item) => item.price36 >= minPrice.value && item.price36 <= maxPrice.value,
+  //   )
+  // }
+  else {
     // иначе отдаем все данные из массива
     data = crossovky.value
   }
 
+  // Условия сортировки
   if (dataBrands.length && !isDesc.value) {
     data = dataBrands.sort((a, b) => b.price36 - a.price36) // DESC (по убыванию)
   }
@@ -146,6 +215,12 @@ const filterData = computed(() => {
   }
   if (dataColor.length && isDesc.value) {
     data = dataColor.sort((a, b) => a.price36 - b.price36) // ASC (по возрастанию)
+  }
+  if (dataPrice.length && !isDesc.value) {
+    data = dataPrice.sort((a, b) => b.price36 - a.price36) // DESC (по убыванию)
+  }
+  if (dataPrice.length && isDesc.value) {
+    data = dataPrice.sort((a, b) => a.price36 - b.price36) // ASC (по возрастанию)
   }
   if (data.length && !isDesc.value) {
     data = data.sort((a, b) => b.price36 - a.price36) // DESC (по убыванию)
@@ -160,6 +235,8 @@ const filterData = computed(() => {
 const resetFilters = () => {
   selectedBrands.value = []
   selectedColor.value = []
+  minPrice.value = 0
+  maxPrice.value = 20000
 }
 </script>
 
