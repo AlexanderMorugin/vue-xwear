@@ -1,58 +1,101 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <!-- KedyView -->
 <template>
-  <AppBreadcrumbs :breadcrumbs="breadcrumbs" />
-  <app-page class="container">
-    <app-left></app-left>
-    <app-right>
-      <AppHeading
-        title="Кеды"
-        :quantity="kedy.length"
-        sortBox="true"
-        @toggleSorting="toggleSorting"
-        :isDesc="isDesc"
-      />
-      <AppProductList v-if="kedy.length !== 0" :shoes="sortProductByPrice(kedy)" />
-      <p v-else>Кед не обнаружено</p>
-    </app-right>
-  </app-page>
+  <AppLoader v-if="isLoading" />
+  <div v-else>
+    <AppBreadcrumbs :breadcrumbs="allCrossovkyBreadcrumbs" />
+    <app-page class="container">
+      <!-- Если Десктоп то колонка слева AppLeft, если Мобайл то вызываемое меню AppFiltersMenu -->
+      <component
+        :is="isScreenLarge ? AppFiltersMenu : AppLeft"
+        :isFiltersForMobileOpen="isFiltersForMobileOpen"
+        @closeFiltersForMobile="closeFiltersForMobile"
+        @resetFilters="resetFilters"
+      >
+        <!-- Фильтр по цене -->
+        <AppFilterPrice
+          title="Фильтр по цене"
+          v-model:minPrice="minPrice"
+          v-model:maxPrice="maxPrice"
+        />
+
+        <!-- Фильтр по брендам -->
+        <AppFilterBrands
+          title="Бренды"
+          :filterList="brandList.value"
+          v-model:modelValue="selectedBrands"
+        />
+        <!-- Фильтр по цвету -->
+        <AppFilterColors
+          title="Цвет"
+          :filterList="colorList.value"
+          v-model:modelValue="selectedColor"
+        />
+        <!-- Сброс фильтров -->
+        <AppFilterReset @resetFilters="resetFilters" v-if="!isScreenMedium" />
+      </component>
+
+      <app-right>
+        <AppHeading
+          title="Кроссовки"
+          :quantity="filterData.length"
+          sortBox="true"
+          @toggleSorting="toggleSorting"
+          @openFiltersForMobile="openFiltersForMobile"
+          :isDesc="isDesc"
+        />
+
+        <AppProductList v-if="filterData.length" :products="filterData" />
+        <AppProductNotFound v-else />
+      </app-right>
+    </app-page>
+  </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import axios from 'axios'
 import AppPage from '@/layouts/AppPage.vue'
 import AppLeft from '@/layouts/AppLeft.vue'
 import AppRight from '@/layouts/AppRight.vue'
-import AppBreadcrumbs from '@/components/breadcrumbs/AppBreadcrumbs.vue'
 import AppHeading from '@/components/AppHeading.vue'
+import AppBreadcrumbs from '@/components/breadcrumbs/AppBreadcrumbs.vue'
 import AppProductList from '@/components/product/AppProductList.vue'
-import { PATH_SHOES, PATH_KEDY } from '@/mock/routes'
+import AppProductNotFound from '@/components/product/AppProductNotFound.vue'
+import AppLoader from '@/components/AppLoader.vue'
+import AppFilterBrands from '@/components/filters/AppFilterBrands.vue'
+import AppFilterColors from '@/components/filters/AppFilterColors.vue'
+import AppFilterReset from '@/components/filters/AppFilterReset.vue'
+import AppFilterPrice from '@/components/filters/AppFilterPrice.vue'
+import AppFiltersMenu from '@/components/filters/AppFiltersMenu.vue'
+import { allCrossovkyBreadcrumbs } from '@/components/breadcrumbs/breadcrumbs-pages/all-crossovky-breadcrumbs'
+import { useResizeLarge } from '@/use/useResizeLarge'
+import { useResizeMedium } from '@/use/useResizeMedium'
 
-const breadcrumbs = ref([
-  { name: 'Главная', path: '/', content: '1' },
-  {
-    name: 'Обувь',
-    path: PATH_SHOES,
-    content: '2',
-  },
-  {
-    name: 'Кеды',
-    path: PATH_KEDY,
-    content: 'last',
-  },
-])
+// Брейкпоинты ширины экрана
+const { isScreenLarge } = useResizeLarge()
+const { isScreenMedium } = useResizeMedium()
 
 const kedy = ref([])
 const isDesc = ref(false)
+const isLoading = ref(false)
+const isFiltersForMobileOpen = ref(false)
 
-const sortProductByPrice = (args) => {
-  if (!isDesc.value) {
-    return args.sort((a, b) => b.price36 - a.price36) // DESC (по убыванию)
-  } else {
-    return args.sort((a, b) => a.price36 - b.price36) // ASC (по возрастанию)
-  }
-}
+// Фильтрация
+const brandList = ref([])
+brandList.value = computed(() => [...new Set(kedy.value.map((a) => a.brand))])
+const selectedBrands = ref([])
+
+const colorList = ref([])
+colorList.value = computed(() => [...new Set(kedy.value.map((a) => a.color))])
+const selectedColor = ref([])
+
+// Находим в массиве минимальную и максимальную цену
+// const minPrice36 = computed(() => Math.min(...crossovky.value.map((item) => item.price36)))
+// const maxPrice36 = computed(() => Math.max(...crossovky.value.map((item) => item.price36)))
+
+const minPrice = ref(0)
+const maxPrice = ref(20000)
 
 onMounted(async () => {
   try {
@@ -75,6 +118,105 @@ onMounted(async () => {
 
 const toggleSorting = () => {
   isDesc.value = !isDesc.value
+}
+
+const openFiltersForMobile = () => {
+  isFiltersForMobileOpen.value = true
+}
+
+const closeFiltersForMobile = () => {
+  isFiltersForMobileOpen.value = false
+}
+
+const filterData = computed(() => {
+  let dataBrands = []
+  let dataColor = []
+  let dataPrice = []
+  let data = []
+  const priceValues = minPrice.value > 0 || maxPrice.value < 20000
+
+  // Фильтр Бренда один
+  if (selectedBrands.value.length) {
+    dataBrands = kedy.value.filter((x) => selectedBrands.value.indexOf(x.brand) != -1)
+  }
+  // Фильтр Бренда + фильтр Цвета
+  if (dataBrands.length && selectedColor.value.length) {
+    dataColor = dataBrands.filter((x) => selectedColor.value.indexOf(x.color) != -1)
+  }
+
+  // Фильтр Бренда + фильтр Цены
+  if (dataBrands.length && priceValues) {
+    dataPrice = dataBrands
+      .filter((x) => selectedBrands.value.indexOf(x.brand) != -1)
+      .filter((item) => item.price36 >= minPrice.value && item.price36 <= maxPrice.value)
+    if (!dataPrice.length) {
+      return (dataPrice = [])
+    }
+  }
+
+  // Фильтр Бренда + фильтр Цвета + фильтр Цены
+  if (dataBrands.length && selectedColor.value.length && priceValues) {
+    dataPrice = dataBrands
+      .filter((x) => selectedColor.value.indexOf(x.color) != -1)
+      .filter((item) => item.price36 >= minPrice.value && item.price36 <= maxPrice.value)
+  }
+  // Фильтр Цвета один
+  if (!dataBrands.length && selectedColor.value.length) {
+    dataColor = kedy.value.filter((x) => selectedColor.value.indexOf(x.color) != -1)
+  }
+  // Фильтр Цвета + фильтр Цены
+  if (dataColor.length && priceValues) {
+    dataPrice = dataColor
+      .filter((x) => selectedColor.value.indexOf(x.color) != -1)
+      .filter((item) => item.price36 >= minPrice.value && item.price36 <= maxPrice.value)
+    if (!dataPrice.length) {
+      return (dataPrice = [])
+    }
+  }
+  // Фильтр Цены один
+  if (priceValues && !dataBrands.length && !dataColor.length) {
+    dataPrice = kedy.value.filter(
+      (item) => item.price36 >= minPrice.value && item.price36 <= maxPrice.value,
+    )
+  } else {
+    // иначе отдаем все данные из массива
+    data = kedy.value
+  }
+
+  // Условия сортировки
+  if (dataBrands.length && !isDesc.value) {
+    data = dataBrands.sort((a, b) => b.price36 - a.price36) // DESC (по убыванию)
+  }
+  if (dataBrands.length && isDesc.value) {
+    data = dataBrands.sort((a, b) => a.price36 - b.price36) // ASC (по возрастанию)
+  }
+  if (dataColor.length && !isDesc.value) {
+    data = dataColor.sort((a, b) => b.price36 - a.price36) // DESC (по убыванию)
+  }
+  if (dataColor.length && isDesc.value) {
+    data = dataColor.sort((a, b) => a.price36 - b.price36) // ASC (по возрастанию)
+  }
+  if (dataPrice.length && !isDesc.value) {
+    data = dataPrice.sort((a, b) => b.price36 - a.price36) // DESC (по убыванию)
+  }
+  if (dataPrice.length && isDesc.value) {
+    data = dataPrice.sort((a, b) => a.price36 - b.price36) // ASC (по возрастанию)
+  }
+  if (data.length && !isDesc.value) {
+    data = data.sort((a, b) => b.price36 - a.price36) // DESC (по убыванию)
+  }
+  if (data.length && isDesc.value) {
+    data = data.sort((a, b) => a.price36 - b.price36) // ASC (по возрастанию)
+  }
+
+  return data
+})
+
+const resetFilters = () => {
+  selectedBrands.value = []
+  selectedColor.value = []
+  minPrice.value = 0
+  maxPrice.value = 20000
 }
 </script>
 

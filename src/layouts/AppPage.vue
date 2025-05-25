@@ -10,7 +10,6 @@
   max-width: 1380px;
   margin: 0 auto;
   padding: 48px 10px 100px 10px;
-  border: 1px solid red;
 }
 
 @media (max-width: 1023px) {

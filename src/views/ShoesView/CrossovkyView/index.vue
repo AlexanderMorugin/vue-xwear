@@ -45,7 +45,8 @@
           :isDesc="isDesc"
         />
 
-        <AppProductList :products="filterData" />
+        <AppProductList v-if="filterData.length" :products="filterData" />
+        <AppProductNotFound v-else />
       </app-right>
     </app-page>
   </div>
@@ -60,6 +61,7 @@ import AppRight from '@/layouts/AppRight.vue'
 import AppHeading from '@/components/AppHeading.vue'
 import AppBreadcrumbs from '@/components/breadcrumbs/AppBreadcrumbs.vue'
 import AppProductList from '@/components/product/AppProductList.vue'
+import AppProductNotFound from '@/components/product/AppProductNotFound.vue'
 import AppLoader from '@/components/AppLoader.vue'
 import AppFilterBrands from '@/components/filters/AppFilterBrands.vue'
 import AppFilterColors from '@/components/filters/AppFilterColors.vue'
