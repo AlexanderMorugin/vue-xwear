@@ -40,6 +40,7 @@
           title="Кроссовки"
           :quantity="filterData.length"
           sortBox="true"
+          filters="true"
           @toggleSorting="toggleSorting"
           @openFiltersForMobile="openFiltersForMobile"
           :isDesc="isDesc"

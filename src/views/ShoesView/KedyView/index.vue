@@ -3,7 +3,7 @@
 <template>
   <AppLoader v-if="isLoading" />
   <div v-else>
-    <AppBreadcrumbs :breadcrumbs="allCrossovkyBreadcrumbs" />
+    <AppBreadcrumbs :breadcrumbs="allKedyBreadcrumbs" />
     <app-page class="container">
       <!-- Если Десктоп то колонка слева AppLeft, если Мобайл то вызываемое меню AppFiltersMenu -->
       <component
@@ -37,9 +37,10 @@
 
       <app-right>
         <AppHeading
-          title="Кроссовки"
+          title="Кеды"
           :quantity="filterData.length"
           sortBox="true"
+          filters="true"
           @toggleSorting="toggleSorting"
           @openFiltersForMobile="openFiltersForMobile"
           :isDesc="isDesc"
@@ -68,7 +69,7 @@ import AppFilterColors from '@/components/filters/AppFilterColors.vue'
 import AppFilterReset from '@/components/filters/AppFilterReset.vue'
 import AppFilterPrice from '@/components/filters/AppFilterPrice.vue'
 import AppFiltersMenu from '@/components/filters/AppFiltersMenu.vue'
-import { allCrossovkyBreadcrumbs } from '@/components/breadcrumbs/breadcrumbs-pages/all-crossovky-breadcrumbs'
+import { allKedyBreadcrumbs } from '@/components/breadcrumbs/breadcrumbs-pages/all-kedy-breadcrumbs'
 import { useResizeLarge } from '@/use/useResizeLarge'
 import { useResizeMedium } from '@/use/useResizeMedium'
 
@@ -99,6 +100,7 @@ const maxPrice = ref(20000)
 
 onMounted(async () => {
   try {
+    isLoading.value = true
     const { data } = await axios.get('https://vue-xwear-default-rtdb.firebaseio.com/shoes.json')
 
     if (data) {
@@ -111,6 +113,7 @@ onMounted(async () => {
         })
         .filter((item) => item.category === 'kedy')
     }
+    isLoading.value = false
   } catch (error) {
     console.log(error)
   }

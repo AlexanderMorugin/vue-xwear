@@ -5,8 +5,8 @@
       <span class="quantity" v-if="props.quantity">{{ props.quantity }} товаров</span>
     </div>
     <SortBox v-if="props.sortBox" @toggleSorting="$emit('toggleSorting')" :isDesc="props.isDesc" />
-    <div v-if="isScreenLarge" class="heading-filter-buttons">
-      <AppFilterButton @openFiltersForMobile="$emit('openFiltersForMobile')" />
+    <div v-if="props.filters" class="heading-filter-buttons">
+      <AppFilterButton v-if="isScreenLarge" @openFiltersForMobile="$emit('openFiltersForMobile')" />
     </div>
   </div>
 </template>
@@ -17,7 +17,7 @@ import AppFilterButton from '@/components/filters/AppFilterButton.vue'
 import { useResizeLarge } from '@/use/useResizeLarge'
 const { isScreenLarge } = useResizeLarge()
 
-const props = defineProps(['title', 'quantity', 'sortBox', 'isDesc'])
+const props = defineProps(['title', 'quantity', 'sortBox', 'filters', 'isDesc'])
 // eslint-disable-next-line no-unused-vars
 const emit = defineEmits(['toggleSorting', 'openFiltersForMobile'])
 </script>
