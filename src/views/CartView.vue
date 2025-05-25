@@ -1,4 +1,4 @@
-<!-- CrossovkyView -->
+<!-- CartView -->
 <template>
   <AppLoader v-if="isLoading" />
   <div v-else>

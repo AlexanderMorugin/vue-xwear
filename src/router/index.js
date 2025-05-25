@@ -14,6 +14,11 @@ import {
   PATH_PROFILE,
   PATH_CART,
   PATH_ADMIN,
+  PATH_BLOG,
+  PATH_CONTACTS,
+  PATH_DELIVERY,
+  PATH_PAYMENT,
+  PATH_FAQ,
 } from '@/mock/routes'
 
 const routes = [
@@ -75,6 +80,36 @@ const routes = [
     path: PATH_INFORMATION,
     name: 'InformationView',
     component: () => import('../views/InformationView.vue'),
+    meta: { layout: 'main' },
+  },
+  {
+    path: PATH_BLOG,
+    name: 'BlogView',
+    component: () => import('../views/BlogView.vue'),
+    meta: { layout: 'main' },
+  },
+  {
+    path: PATH_CONTACTS,
+    name: 'ContactView',
+    component: () => import('../views/ContactView.vue'),
+    meta: { layout: 'main' },
+  },
+  {
+    path: PATH_DELIVERY,
+    name: 'DeliveryView',
+    component: () => import('../views/DeliveryView.vue'),
+    meta: { layout: 'main' },
+  },
+  {
+    path: PATH_PAYMENT,
+    name: 'PaymentView',
+    component: () => import('../views/PaymentView.vue'),
+    meta: { layout: 'main' },
+  },
+  {
+    path: PATH_FAQ,
+    name: 'FaqView',
+    component: () => import('../views/FaqView.vue'),
     meta: { layout: 'main' },
   },
   {

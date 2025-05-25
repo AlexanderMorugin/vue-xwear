@@ -1,11 +1,11 @@
-<!-- FavoriteView -->
+<!-- BlogView -->
 <template>
   <AppLoader v-if="isLoading" />
   <div v-else>
     <AppBreadcrumbs :breadcrumbs="breadcrumbs" />
     <app-page>
-      <AppHeading title="Избранные товары" />
-      <AppFavoriteIsEmpty />
+      <AppHeading title="Блог" />
+      <AppCartIsEmpty />
     </app-page>
   </div>
 </template>
@@ -15,14 +15,14 @@ import { ref } from 'vue'
 import AppPage from '@/layouts/AppPage.vue'
 import AppBreadcrumbs from '@/components/breadcrumbs/AppBreadcrumbs.vue'
 import AppHeading from '@/components/AppHeading.vue'
-import AppFavoriteIsEmpty from '@/components/favorite/AppFavoriteIsEmpty.vue'
-import { PATH_FAVORITE } from '@/mock/routes'
+import AppCartIsEmpty from '@/components/cart/AppCartIsEmpty.vue'
+import { PATH_BLOG } from '@/mock/routes'
 
 const breadcrumbs = ref([
   { name: 'Главная', path: '/', content: '1' },
   {
-    name: 'Избранные',
-    path: PATH_FAVORITE,
+    name: 'Блог',
+    path: PATH_BLOG,
     content: 'last',
   },
 ])
