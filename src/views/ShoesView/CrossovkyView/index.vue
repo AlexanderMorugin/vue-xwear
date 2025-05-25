@@ -13,8 +13,11 @@
         @resetFilters="resetFilters"
       >
         <!-- Фильтр по цене -->
-        <!-- <AppFilterPrice title="Фильтр по цене" /> -->
-        <AppFilterPriceTwo v-model:minPrice="minPrice" v-model:maxPrice="maxPrice" />
+        <AppFilterPrice
+          title="Фильтр по цене"
+          v-model:minPrice="minPrice"
+          v-model:maxPrice="maxPrice"
+        />
 
         <!-- Фильтр по брендам -->
         <AppFilterBrands
@@ -61,7 +64,7 @@ import AppLoader from '@/components/AppLoader.vue'
 import AppFilterBrands from '@/components/filters/AppFilterBrands.vue'
 import AppFilterColors from '@/components/filters/AppFilterColors.vue'
 import AppFilterReset from '@/components/filters/AppFilterReset.vue'
-import AppFilterPriceTwo from '@/components/filters/AppFilterPriceTwo.vue'
+import AppFilterPrice from '@/components/filters/AppFilterPrice.vue'
 import AppFiltersMenu from '@/components/filters/AppFiltersMenu.vue'
 import { allCrossovkyBreadcrumbs } from '@/components/breadcrumbs/breadcrumbs-pages/all-crossovky-breadcrumbs'
 import { useResizeLarge } from '@/use/useResizeLarge'
@@ -132,73 +135,52 @@ const filterData = computed(() => {
   let dataColor = []
   let dataPrice = []
   let data = []
-  const priceValues = minPrice.value >= 0 || maxPrice.value <= 20000
+  const priceValues = minPrice.value > 0 || maxPrice.value < 20000
 
-  // Фильтр Бренда
-  // один
+  // Фильтр Бренда один
   if (selectedBrands.value.length) {
     dataBrands = crossovky.value.filter((x) => selectedBrands.value.indexOf(x.brand) != -1)
   }
-  // if (selectedBrands.value.length && !dataColor.length && !dataPrice.length) {
-  //   dataBrands = crossovky.value.filter((x) => selectedBrands.value.indexOf(x.brand) != -1)
-  // }
-
-  // Фильтр Цвета
-  // один
-  if (selectedColor.value.length) {
-    dataColor = crossovky.value.filter((x) => selectedColor.value.indexOf(x.color) != -1)
-  }
-
-  // Фильтр Цвета
-  // с фитром Бренда
-  if (dataBrands && selectedColor.value.length) {
+  // Фильтр Бренда + фильтр Цвета
+  if (dataBrands.length && selectedColor.value.length) {
     dataColor = dataBrands.filter((x) => selectedColor.value.indexOf(x.color) != -1)
   }
 
-  // Фильтр Цвета без Фильтра Бренда
-  // if (selectedColor.value.length && !dataBrands.length) {
-  //   dataColor = crossovky.value.filter((x) => selectedColor.value.indexOf(x.color) != -1)
-  // }
+  // Фильтр Бренда + фильтр Цены
+  if (dataBrands.length && priceValues) {
+    dataPrice = dataBrands
+      .filter((x) => selectedBrands.value.indexOf(x.brand) != -1)
+      .filter((item) => item.price36 >= minPrice.value && item.price36 <= maxPrice.value)
+    if (!dataPrice.length) {
+      return (dataPrice = [])
+    }
+  }
 
-  // Фильтр Цены
-  // один
+  // Фильтр Бренда + фильтр Цвета + фильтр Цены
+  if (dataBrands.length && selectedColor.value.length && priceValues) {
+    dataPrice = dataBrands
+      .filter((x) => selectedColor.value.indexOf(x.color) != -1)
+      .filter((item) => item.price36 >= minPrice.value && item.price36 <= maxPrice.value)
+  }
+  // Фильтр Цвета один
+  if (!dataBrands.length && selectedColor.value.length) {
+    dataColor = crossovky.value.filter((x) => selectedColor.value.indexOf(x.color) != -1)
+  }
+  // Фильтр Цвета + фильтр Цены
+  if (dataColor.length && priceValues) {
+    dataPrice = dataColor
+      .filter((x) => selectedColor.value.indexOf(x.color) != -1)
+      .filter((item) => item.price36 >= minPrice.value && item.price36 <= maxPrice.value)
+    if (!dataPrice.length) {
+      return (dataPrice = [])
+    }
+  }
+  // Фильтр Цены один
   if (priceValues && !dataBrands.length && !dataColor.length) {
     dataPrice = crossovky.value.filter(
       (item) => item.price36 >= minPrice.value && item.price36 <= maxPrice.value,
     )
-  }
-
-  // Фильтр Цены c фильтром Бренда и фильтром Цвета
-  // if (
-  //   selectedBrands.value.length &&
-  //   selectedColor.value.length &&
-  //   (minPrice.value >= 0 || maxPrice.value <= 20000)
-  // ) {
-  //   dataPrice = dataBrands.filter(
-  //     (item) => item.price36 >= minPrice.value && item.price36 <= maxPrice.value,
-  //   )
-  // }
-  // Фильтр Цены c фильтром Бренда, но без фильтра Цвета
-  // if (
-  //   selectedBrands.value.length &&
-  //   !selectedColor.value.length &&
-  //   (minPrice.value >= 0 || maxPrice.value <= 20000)
-  // ) {
-  //   dataPrice = dataBrands.filter(
-  //     (item) => item.price36 >= minPrice.value && item.price36 <= maxPrice.value,
-  //   )
-  // }
-  // Фильтр Цены c фильтром Цвета, но без фильтра Бренда
-  // if (
-  //   selectedColor.value.length &&
-  //   !selectedBrands.value.length &&
-  //   (minPrice.value >= 0 || maxPrice.value <= 20000)
-  // ) {
-  //   dataPrice = dataColor.filter(
-  //     (item) => item.price36 >= minPrice.value && item.price36 <= maxPrice.value,
-  //   )
-  // }
-  else {
+  } else {
     // иначе отдаем все данные из массива
     data = crossovky.value
   }
