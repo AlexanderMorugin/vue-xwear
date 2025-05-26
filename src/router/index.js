@@ -19,6 +19,7 @@ import {
   PATH_DELIVERY,
   PATH_PAYMENT,
   PATH_FAQ,
+  PATH_PRIVACY,
 } from '@/mock/routes'
 
 const routes = [
@@ -110,6 +111,12 @@ const routes = [
     path: PATH_FAQ,
     name: 'FaqView',
     component: () => import('../views/FaqView.vue'),
+    meta: { layout: 'main' },
+  },
+  {
+    path: PATH_PRIVACY,
+    name: 'PrivacyView',
+    component: () => import('../views/PrivacyView.vue'),
     meta: { layout: 'main' },
   },
   {

@@ -1,6 +1,8 @@
 <template>
   <footer class="footer">
+    <!-- Блок показывается в мобильной ширине не более 768px -->
     <AppLogo v-if="isScreenMedium" place="footer" />
+    <!-- Основные блоки навигации в подвале -->
     <nav class="footer-container">
       <AppFooterBlock
         title="Каталог"
@@ -10,21 +12,31 @@
       />
       <AppFooterBlock title="Информация" :links="footerInfoNavLinks" class="info" status="info" />
       <AppFooterBlock title="Контакты" class="contact" status="contact" />
-      <AppFooterBlock title="Подписка на новости" class="mailing" status="mailing" />
+      <AppFooterBlockMailing class="mailing" />
     </nav>
 
+    <!-- Блок показывается в средней ширине не более 1024px -->
+    <AppFooterBottomBlock v-if="!isScreenMedium && isScreenLarge" />
+
+    <!-- Блоки показываются в мобильной ширине не более 768px -->
+    <AppFooterPrivacy v-if="isScreenMedium" />
     <AppDeveloperLogo v-if="isScreenMedium" />
   </footer>
 </template>
 
 <script setup>
 import AppFooterBlock from './AppFooterBlock.vue'
+import AppFooterBlockMailing from './AppFooterBlockMailing.vue'
 import { footerCatalogNavLinks, footerInfoNavLinks } from '@/mock/footer-nav-links'
 import { useResizeMedium } from '@/use/useResizeMedium'
+import { useResizeLarge } from '@/use/useResizeLarge'
 import AppLogo from '@/components/logo/AppLogo.vue'
 import AppDeveloperLogo from '@/components/logo/AppDeveloperLogo.vue'
+import AppFooterPrivacy from './AppFooterPrivacy.vue'
+import AppFooterBottomBlock from './AppFooterBottomBlock.vue'
 
 const { isScreenMedium } = useResizeMedium()
+const { isScreenLarge } = useResizeLarge()
 </script>
 
 <style scoped>

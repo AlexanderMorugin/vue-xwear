@@ -14,6 +14,7 @@ export const PATH_CONTACTS = '/contacts'
 export const PATH_DELIVERY = '/delivery'
 export const PATH_PAYMENT = '/payment'
 export const PATH_FAQ = '/faq'
+export const PATH_PRIVACY = '/privacy'
 
 export const PATH_SEARCH = '/search'
 export const PATH_FAVORITE = '/favorite'

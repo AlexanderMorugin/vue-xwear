@@ -1,41 +1,41 @@
 <template>
   <div :class="['footer-block', { 'footer-block-active': isOpen(props.status) }]">
-    <div class="footer-block-top">
-      <!-- Блок для десктопа -->
-      <div v-if="!isScreenMedium">
-        <p class="footer-block-title">{{ props.title }}</p>
-        <ul v-if="props.status === 'catalog' || 'info'" class="footer-block-list">
-          <li v-for="item in links" :key="item.name">
-            <router-link :to="item.path" class="footer-block-link">{{ item.name }}</router-link>
-          </li>
-        </ul>
-      </div>
-      <!-- Тотже блок для мобилки -->
-      <div v-else class="footer-block-button-block">
-        <button @click="toggleAccordion(props.status)" class="footer-block-button">
-          <p class="footer-block-title">{{ props.title }}</p>
-          <img
-            src="/icons/icon-arrow-white.svg"
-            alt="Стрелка"
-            :class="[
-              'footer-block-button-arrow',
-              { 'footer-block-button-arrow-active': isOpen(props.status) },
-            ]"
-          />
-        </button>
-        <ul
-          v-if="props.status === 'catalog' || 'info'"
-          :class="[
-            'footer-block-list-mobile',
-            { 'footer-block-list-mobile-active': isOpen(props.status) },
-          ]"
-        >
-          <li v-for="item in links" :key="item.name">
-            <router-link :to="item.path" class="footer-block-link">{{ item.name }}</router-link>
-          </li>
-        </ul>
-      </div>
+    <!-- <div class="footer-block-top"> -->
+    <!-- Блоки "Каталог" и "Инфо" для десктопа -->
+    <div v-if="!isScreenMedium">
+      <p class="footer-block-title">{{ props.title }}</p>
+      <ul v-if="props.status === 'catalog' || 'info'" class="footer-block-list">
+        <li v-for="item in links" :key="item.name">
+          <router-link :to="item.path" class="footer-block-link">{{ item.name }}</router-link>
+        </li>
+      </ul>
     </div>
+    <!-- Блоки "Каталог" и "Инфо" для мобилки -->
+    <div v-else class="footer-block-button-block">
+      <button @click="toggleAccordion(props.status)" class="footer-block-button">
+        <p class="footer-block-title">{{ props.title }}</p>
+        <img
+          src="/icons/icon-arrow-white.svg"
+          alt="Стрелка"
+          :class="[
+            'footer-block-button-arrow',
+            { 'footer-block-button-arrow-active': isOpen(props.status) },
+          ]"
+        />
+      </button>
+      <ul
+        v-if="props.status === 'catalog' || 'info'"
+        :class="[
+          'footer-block-list-mobile',
+          { 'footer-block-list-mobile-active': isOpen(props.status) },
+        ]"
+      >
+        <li v-for="item in links" :key="item.name">
+          <router-link :to="item.path" class="footer-block-link">{{ item.name }}</router-link>
+        </li>
+      </ul>
+    </div>
+    <!-- </div> -->
     <AppLogo v-if="props.status === 'catalog' && !isScreenLarge" place="footer" />
     <AppDeveloperLogo v-if="props.status === 'info' && !isScreenLarge" />
   </div>
@@ -70,6 +70,11 @@ const isOpen = (index) => {
   flex-direction: column;
   justify-content: space-between;
   height: 275px;
+}
+@media (max-width: 1023px) {
+  .footer-block {
+    height: 246px;
+  }
 }
 @media (max-width: 767px) {
   .footer-block {
