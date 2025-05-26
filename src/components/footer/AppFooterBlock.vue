@@ -1,9 +1,8 @@
 <template>
   <div :class="['footer-block', { 'footer-block-active': isOpen(props.status) }]">
-    <!-- <div class="footer-block-top"> -->
-    <!-- Блоки "Каталог" и "Инфо" для десктопа -->
     <div v-if="!isScreenMedium">
       <p class="footer-block-title">{{ props.title }}</p>
+      <!-- Блоки "Каталог" и "Инфо" для десктопа -->
       <ul v-if="props.status === 'catalog' || 'info'" class="footer-block-list">
         <li v-for="item in links" :key="item.name">
           <router-link :to="item.path" class="footer-block-link">{{ item.name }}</router-link>
@@ -35,7 +34,10 @@
         </li>
       </ul>
     </div>
-    <!-- </div> -->
+    <!-- Блок "Контакты" для десктопа -->
+    <div v-if="props.status === 'contact'">Контакты</div>
+
+    <!-- Блоки "Логотипов" для мобильных расширений -->
     <AppLogo v-if="props.status === 'catalog' && !isScreenLarge" place="footer" />
     <AppDeveloperLogo v-if="props.status === 'info' && !isScreenLarge" />
   </div>
