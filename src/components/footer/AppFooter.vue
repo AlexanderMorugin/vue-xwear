@@ -1,6 +1,7 @@
 <template>
   <footer class="footer">
-    <div class="footer-container">
+    <AppLogo v-if="isScreenMedium" place="footer" />
+    <nav class="footer-container">
       <AppFooterBlock
         title="Каталог"
         :links="footerCatalogNavLinks"
@@ -10,18 +11,24 @@
       <AppFooterBlock title="Информация" :links="footerInfoNavLinks" class="info" status="info" />
       <AppFooterBlock title="Контакты" class="contact" status="contact" />
       <AppFooterBlock title="Подписка на новости" class="mailing" status="mailing" />
-    </div>
+    </nav>
+
+    <AppDeveloperLogo v-if="isScreenMedium" />
   </footer>
 </template>
 
 <script setup>
 import AppFooterBlock from './AppFooterBlock.vue'
 import { footerCatalogNavLinks, footerInfoNavLinks } from '@/mock/footer-nav-links'
+import { useResizeMedium } from '@/use/useResizeMedium'
+import AppLogo from '@/components/logo/AppLogo.vue'
+import AppDeveloperLogo from '@/components/logo/AppDeveloperLogo.vue'
+
+const { isScreenMedium } = useResizeMedium()
 </script>
 
 <style scoped>
 .footer {
-  /* height: 171px; */
   background: var(--black-primary);
   padding: 45px 10px 51px 10px;
 }
@@ -30,7 +37,6 @@ import { footerCatalogNavLinks, footerInfoNavLinks } from '@/mock/footer-nav-lin
     padding: 38px 50px;
   }
 }
-
 @media (max-width: 767px) {
   .footer {
     padding: 28px 10px 36px 10px;
@@ -41,11 +47,8 @@ import { footerCatalogNavLinks, footerInfoNavLinks } from '@/mock/footer-nav-lin
   grid-template-columns: repeat(4, 1fr);
   grid-template-areas: 'catalog info contact mailing';
   column-gap: 32px;
-  /* width: 100%; */
-  /* height: 300px; */
   max-width: 1360px;
   margin: 0 auto;
-  /* border: 1px solid red; */
 }
 @media (max-width: 1023px) {
   .footer-container {
@@ -59,6 +62,7 @@ import { footerCatalogNavLinks, footerInfoNavLinks } from '@/mock/footer-nav-lin
     grid-template-columns: 1fr;
     grid-template-areas: 'info' 'catalog' 'contact' 'mailing';
     row-gap: 0;
+    margin-top: 26px;
   }
 }
 .grid-one {

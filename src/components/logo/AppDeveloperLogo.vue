@@ -15,13 +15,18 @@
   gap: 6px;
   width: fit-content;
 }
+@media (max-width: 767px) {
+  .develop-logo {
+    justify-self: center;
+    margin-top: 34px;
+  }
+}
 .develop-logo-text-box {
   display: flex;
   flex-direction: column;
 }
 .develop-logo-text {
   text-transform: uppercase;
-  /* letter-spacing: 0.8px; */
   color: var(--gray-sevendary);
 }
 .top {

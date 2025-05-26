@@ -1,5 +1,11 @@
 <template>
-  <router-link to="/" v-slot="{ navigate }" custom class="logo">
+  <router-link
+    to="/"
+    v-slot="{ navigate }"
+    custom
+    class="logo"
+    :class="props.place === 'footer' ? 'logo-footer-mobile' : ''"
+  >
     <img :src="logoUrl" alt="Логотип" :class="logoClass" @click="navigate" />
   </router-link>
 </template>
@@ -30,7 +36,11 @@ if (props.place === 'footer') {
     margin-left: 60px;
   }
 }
-
+.logo-footer-mobile {
+  display: flex;
+  justify-self: center;
+  margin-left: 0;
+}
 .logoHeader {
   width: 84px;
   cursor: pointer;

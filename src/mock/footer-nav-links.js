@@ -11,16 +11,16 @@ import {
 } from './routes'
 
 export const footerCatalogNavLinks = [
-  { path: PATH_CLOTHES, name: 'Одежда' },
-  { path: PATH_SHOES, name: 'Обувь' },
-  { path: PATH_ACCESSORIES, name: 'Аксессуары' },
-  { path: PATH_CALCULATION, name: 'Расчёт стоимости' },
+  { id: 1, path: PATH_CLOTHES, name: 'Одежда' },
+  { id: 2, path: PATH_SHOES, name: 'Обувь' },
+  { id: 3, path: PATH_ACCESSORIES, name: 'Аксессуары' },
+  { id: 4, path: PATH_CALCULATION, name: 'Расчёт стоимости' },
 ]
 
 export const footerInfoNavLinks = [
-  { path: PATH_BLOG, name: 'Блог' },
-  { path: PATH_CONTACTS, name: 'Контакты' },
-  { path: PATH_DELIVERY, name: 'Доставка' },
-  { path: PATH_PAYMENT, name: 'Оплата' },
-  { path: PATH_FAQ, name: 'FAQ' },
+  { id: 1, path: PATH_BLOG, name: 'Блог' },
+  { id: 2, path: PATH_CONTACTS, name: 'Контакты' },
+  { id: 3, path: PATH_DELIVERY, name: 'Доставка' },
+  { id: 4, path: PATH_PAYMENT, name: 'Оплата' },
+  { id: 5, path: PATH_FAQ, name: 'FAQ' },
 ]
