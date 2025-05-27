@@ -37,8 +37,8 @@ if (props.place === 'footer') {
   }
 }
 .logo-footer-mobile {
-  display: flex;
-  justify-self: center;
+  /* display: flex;
+  justify-self: center; */
   margin-left: 0;
 }
 .logoHeader {

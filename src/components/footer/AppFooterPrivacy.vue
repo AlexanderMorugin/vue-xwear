@@ -33,7 +33,7 @@ import { PATH_PRIVACY } from '@/mock/routes'
 }
 @media (max-width: 767px) {
   .footer-privacy {
-    justify-self: center;
+    /* justify-self: center; */
     margin-top: 32px;
   }
 }

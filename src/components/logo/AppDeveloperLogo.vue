@@ -17,7 +17,7 @@
 }
 @media (max-width: 767px) {
   .develop-logo {
-    justify-self: center;
+    /* justify-self: center; */
     margin-top: 34px;
   }
 }

@@ -51,6 +51,9 @@ const { isScreenLarge } = useResizeLarge()
 }
 @media (max-width: 767px) {
   .footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     padding: 28px 10px 36px 10px;
   }
 }

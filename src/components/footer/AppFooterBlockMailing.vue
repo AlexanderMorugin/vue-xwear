@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="footer-block-mail-container">
     <AppFooterSocial v-if="isScreenMedium" />
 
     <div class="footer-block-mail">
@@ -41,6 +41,15 @@ const submit = () => {
 </script>
 
 <style scoped>
+.footer-block-mail-container {
+}
+@media (max-width: 767px) {
+  .footer-block-mail-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
 .footer-block-mail {
   display: flex;
   flex-direction: column;
