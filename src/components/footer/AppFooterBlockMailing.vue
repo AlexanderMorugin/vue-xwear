@@ -16,8 +16,8 @@
       <p class="footer-block-mail-text">
         Подписываясь на рассылку вы соглашатесь с обработкой персональных данных
       </p>
-      <AppFooterPrivacy v-if="!isScreenLarge" />
     </div>
+    <AppFooterPrivacy v-if="!isScreenLarge" />
   </div>
 </template>
 
@@ -42,18 +42,18 @@ const submit = () => {
 
 <style scoped>
 .footer-block-mail-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 @media (max-width: 767px) {
   .footer-block-mail-container {
-    display: flex;
-    flex-direction: column;
     align-items: center;
   }
 }
 .footer-block-mail {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 }
 @media (max-width: 1023px) {
   .footer-block-mail {

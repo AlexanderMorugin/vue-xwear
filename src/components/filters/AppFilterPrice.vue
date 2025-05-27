@@ -130,4 +130,7 @@ const setRangeSliders = () => {
   font-weight: 400;
   color: var(--gray-dark-secondary);
 }
+.range-values input[type='number']:focus {
+  outline: 0;
+}
 </style>

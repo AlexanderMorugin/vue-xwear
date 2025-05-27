@@ -4,7 +4,7 @@
       <div class="circle" />
       <img src="/icons/icon-cart-empty.svg" alt="Иконка корзины" class="icon-cart" />
     </div>
-    <h1 class="cart-empty-title">Ваша корзина на данный момент пуста.</h1>
+    <h2 class="cart-empty-title">Ваша корзина на данный момент пуста.</h2>
     <p class="cart-empty-subtitle">
       Прежде чем приступить к оформлению заказа, вы должны добавить некоторые товары в корзину. На
       странице "Каталог" вы найдете много интересных товаров.

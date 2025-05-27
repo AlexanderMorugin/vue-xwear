@@ -162,7 +162,6 @@ const isOpen = (index) => {
   font-size: 15px;
   line-height: 28px;
   color: var(--gray-sixdary);
-  transition: 0.2s ease all;
 }
 .footer-block-link:hover {
   color: var(--white-primary);
@@ -205,7 +204,6 @@ const isOpen = (index) => {
   text-decoration: underline;
   text-decoration-style: solid;
   color: var(--gray-sixdary);
-  transition: 0.3s ease all;
 }
 .footer-block-contact-email:hover {
   color: var(--white-primary);

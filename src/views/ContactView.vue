@@ -4,8 +4,8 @@
   <div v-else>
     <AppBreadcrumbs :breadcrumbs="breadcrumbs" />
     <app-page>
-      <AppHeading title="Контакты" />
-      <AppCartIsEmpty />
+      <AppHeading title="Наши контакты" />
+      <AppContactBlock />
     </app-page>
   </div>
 </template>
@@ -15,7 +15,7 @@ import { ref } from 'vue'
 import AppPage from '@/layouts/AppPage.vue'
 import AppBreadcrumbs from '@/components/breadcrumbs/AppBreadcrumbs.vue'
 import AppHeading from '@/components/AppHeading.vue'
-import AppCartIsEmpty from '@/components/cart/AppCartIsEmpty.vue'
+import AppContactBlock from '../components/contact/AppContactBlock.vue'
 import { PATH_CONTACTS } from '@/mock/routes'
 
 const breadcrumbs = ref([

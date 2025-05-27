@@ -21,7 +21,6 @@
 <style scoped>
 .footer-social {
   display: flex;
-  /* justify-self: center; */
   gap: 10px;
   width: fit-content;
   padding-top: 21px;

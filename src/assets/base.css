@@ -15,6 +15,10 @@
   --gray-light-sixdary: #dee3e9;
   --gray-light-sevendary: #8d93ab;
 
+  --gray-normal-primary: #f9f9f9;
+  --gray-normal-secondary: #cdcfdb;
+  --gray-normal-thirdary: #5b5b5c;
+
   --gray-primary: #8c8f96;
   --gray-secondary: #6d6d6d;
   --gray-thirdary: #3c3c3c;
@@ -27,6 +31,7 @@
   --gray-dark-secondary: #67708a;
   --gray-dark-thirdary: #666666;
   --gray-dark-fourdary: #707076;
+  --gray-dark-fivedary: #3c3d44;
 
   --blue-primary: #49d0ff;
 

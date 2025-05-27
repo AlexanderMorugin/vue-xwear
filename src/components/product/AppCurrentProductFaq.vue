@@ -1,5 +1,5 @@
 <template>
-  <section class="product-faq">
+  <section :class="['product-faq', { 'product-faq-page': props.isPage }]">
     <h2 class="product-faq-title">Общие вопросы</h2>
     <ul class="product-faq-list">
       <li v-for="item in faqTextCommon" :key="item.id" class="product-faq-list-item">
@@ -75,6 +75,8 @@
 import { ref } from 'vue'
 import { faqTextCommon, faqTextThings, faqTextDelivery } from '@/mock/faq-text'
 
+const props = defineProps(['isPage'])
+
 const openCommonIndex = ref(null)
 const openThingsIndex = ref(null)
 const openDeliveryIndex = ref(null)
@@ -118,6 +120,9 @@ const isOpenDelivery = (index) => {
   .product-faq {
     padding-top: 25px;
   }
+}
+.product-faq-page {
+  max-width: 100%;
 }
 .product-faq-title {
   line-height: 28px;

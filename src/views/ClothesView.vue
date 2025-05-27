@@ -1,14 +1,21 @@
+<!-- ClothesView -->
 <template>
-  <app-page>
+  <AppLoader v-if="isLoading" />
+  <div v-else>
     <AppBreadcrumbs :breadcrumbs="breadcrumbs" />
-    <h1>ClothesView</h1>
-  </app-page>
+    <app-page>
+      <AppHeading title="Одежда" />
+      <AppFavoriteIsEmpty />
+    </app-page>
+  </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 import AppPage from '@/layouts/AppPage.vue'
-import AppBreadcrumbs from '../components/breadcrumbs/AppBreadcrumbs.vue'
+import AppBreadcrumbs from '@/components/breadcrumbs/AppBreadcrumbs.vue'
+import AppHeading from '@/components/AppHeading.vue'
+import AppFavoriteIsEmpty from '@/components/favorite/AppFavoriteIsEmpty.vue'
 import { PATH_CLOTHES } from '../mock/routes'
 
 const breadcrumbs = ref([

@@ -19,7 +19,7 @@
         class="icon-favorite-eye-right"
       />
     </div>
-    <h1 class="favorite-empty-title">Этот список желаний пуст.</h1>
+    <h2 class="favorite-empty-title">Этот список желаний пуст.</h2>
     <p class="favorite-empty-subtitle">
       У вас пока нет товаров в списке желаний. На странице "Каталог" вы найдете много интересных
       товаров.
