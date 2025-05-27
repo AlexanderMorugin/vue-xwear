@@ -77,13 +77,6 @@ const { isScreenLarge } = useResizeLarge()
     margin-top: 26px;
   }
 }
-.grid-one {
-  /* width: 100%; */
-  /* max-width: 274px; */
-  height: 200px;
-  /* border: 1px solid white; */
-  color: white;
-}
 .catalog {
   grid-area: catalog;
 }

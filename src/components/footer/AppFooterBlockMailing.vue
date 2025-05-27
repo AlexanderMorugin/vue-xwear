@@ -1,19 +1,23 @@
 <template>
-  <div class="footer-block-mail">
-    <div class="title">
-      <p class="footer-block-mail-title">Подписка на новости</p>
-      <p class="footer-block-mail-subtitle">Будьте в курсе скидок и новостей</p>
+  <div>
+    <AppFooterSocial v-if="isScreenMedium" />
+
+    <div class="footer-block-mail">
+      <div class="title">
+        <p class="footer-block-mail-title">Подписка на новости</p>
+        <p class="footer-block-mail-subtitle">Будьте в курсе скидок и новостей</p>
+      </div>
+      <form @submit.prevent="submit" class="footer-block-mail-form">
+        <input type="email" id="email" name="email" v-model="email" placeholder="Ваш email" />
+        <button class="footer-block-mail-button">
+          <img src="/icons/icon-arrow-black.svg" alt="Стрелка" />
+        </button>
+      </form>
+      <p class="footer-block-mail-text">
+        Подписываясь на рассылку вы соглашатесь с обработкой персональных данных
+      </p>
+      <AppFooterPrivacy v-if="!isScreenLarge" />
     </div>
-    <form @submit.prevent="submit" class="footer-block-mail-form">
-      <input type="email" id="email" name="email" v-model="email" placeholder="Ваш email" />
-      <button class="footer-block-mail-button">
-        <img src="/icons/icon-arrow-black.svg" alt="Стрелка" />
-      </button>
-    </form>
-    <p class="footer-block-mail-text">
-      Подписываясь на рассылку вы соглашатесь с обработкой персональных данных
-    </p>
-    <AppFooterPrivacy v-if="!isScreenLarge" />
   </div>
 </template>
 
@@ -21,8 +25,11 @@
 import { ref } from 'vue'
 import AppFooterPrivacy from './AppFooterPrivacy.vue'
 import { useResizeLarge } from '@/use/useResizeLarge'
+import { useResizeMedium } from '@/use/useResizeMedium'
+import AppFooterSocial from './AppFooterSocial.vue'
 
 const { isScreenLarge } = useResizeLarge()
+const { isScreenMedium } = useResizeMedium()
 
 const email = ref(null)
 
@@ -68,6 +75,7 @@ const submit = () => {
 @media (max-width: 767px) {
   .footer-block-mail-title {
     font-size: 13px;
+    text-align: center;
   }
 }
 .footer-block-mail-subtitle {
@@ -85,6 +93,7 @@ const submit = () => {
 @media (max-width: 767px) {
   .footer-block-mail-subtitle {
     font-size: 14px;
+    text-align: center;
   }
 }
 .footer-block-mail-form {

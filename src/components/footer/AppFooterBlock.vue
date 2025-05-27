@@ -9,7 +9,7 @@
         </li>
       </ul>
     </div>
-    <!-- Блоки "Каталог" и "Инфо" для мобилки -->
+    <!-- Блоки "Каталог" и "Инфо" и "Контакты" для мобилки -->
     <div v-else class="footer-block-button-block">
       <button @click="toggleAccordion(props.status)" class="footer-block-button">
         <p class="footer-block-title">{{ props.title }}</p>
@@ -22,6 +22,7 @@
           ]"
         />
       </button>
+      <!-- Контент блока "Каталог" и "Инфо" для мобилок -->
       <ul
         v-if="props.status === 'catalog' || 'info'"
         :class="[
@@ -33,9 +34,58 @@
           <router-link :to="item.path" class="footer-block-link">{{ item.name }}</router-link>
         </li>
       </ul>
+      <!-- Контент блока "Контакты" для мобилок -->
+      <ul
+        v-if="props.status === 'contact'"
+        :class="[
+          'footer-block-list-mobile',
+          { 'footer-block-list-mobile-active': isOpen(props.status) },
+        ]"
+      >
+        <li>
+          <a href="mailto:info@xwear.info" class="footer-block-contact-email">info@xwear.info</a>
+        </li>
+        <li>
+          <a href="tel:+79936083885" class="footer-block-contact-phone">+7 993 608 38 85</a>
+        </li>
+      </ul>
     </div>
     <!-- Блок "Контакты" для десктопа -->
-    <div v-if="props.status === 'contact'">Контакты</div>
+    <div v-if="props.status === 'contact' && !isScreenMedium" class="footer-block-contact">
+      <a href="mailto:info@xwear.info" class="footer-block-contact-email">info@xwear.info</a>
+      <a href="tel:+79936083885" class="footer-block-contact-phone">+7 993 608 38 85</a>
+      <div class="footer-block-contact-social">
+        <span class="footer-block-contact-social-title">Мессенджеры</span>
+        <div class="footer-block-contact-social-icons">
+          <a target="_blank" href="https://t.me/имя_пользователя">
+            <img
+              src="/icons/icon-telegramm.png"
+              alt="Телеграм"
+              class="footer-block-contact-social-icon"
+            />
+          </a>
+          <a target="_blank" href="https://wa.me/+79001111111">
+            <img
+              src="/icons/icon-whatsapp.png"
+              alt="Вотсап"
+              class="footer-block-contact-social-icon"
+            />
+          </a>
+        </div>
+      </div>
+      <div v-if="!isScreenMedium" class="footer-block-contact-social">
+        <span class="footer-block-contact-social-title">Наши соц.сети</span>
+        <div class="footer-block-contact-social-icons">
+          <a target="_blank" href="https://vk.com/имя_пользователя">
+            <img
+              src="/icons/icon-wk.png"
+              alt="ВКонтакте"
+              class="footer-block-contact-social-icon"
+            />
+          </a>
+        </div>
+      </div>
+    </div>
 
     <!-- Блоки "Логотипов" для мобильных расширений -->
     <AppLogo v-if="props.status === 'catalog' && !isScreenLarge" place="footer" />
@@ -142,5 +192,48 @@ const isOpen = (index) => {
 .footer-block-list-mobile-active {
   max-height: 100vh;
   visibility: visible;
+}
+.footer-block-contact {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.footer-block-contact-email {
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 28px;
+  text-decoration: underline;
+  text-decoration-style: solid;
+  color: var(--gray-sixdary);
+  transition: 0.3s ease all;
+}
+.footer-block-contact-email:hover {
+  color: var(--white-primary);
+}
+.footer-block-contact-phone {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 32px;
+  color: var(--white-primary);
+}
+.footer-block-contact-social {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.footer-block-contact-social-title {
+  font-weight: 800;
+  font-size: 12px;
+  line-height: 28px;
+  text-transform: uppercase;
+  color: var(--white-primary);
+}
+.footer-block-contact-social-icons {
+  display: flex;
+  gap: 9px;
+  width: fit-content;
+}
+.footer-block-contact-social-icon {
+  width: 30px;
 }
 </style>
