@@ -4,11 +4,7 @@
   </sidebar>
 </template>
 
-<script setup>
-// import { useResizeLarge } from '@/use/useResizeLarge'
-
-// const { isScreenLarge } = useResizeLarge()
-</script>
+<script setup></script>
 
 <style scoped>
 .left {

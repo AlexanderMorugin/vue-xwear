@@ -11,7 +11,10 @@
   margin: 0 auto;
   font-weight: normal;
 }
-
+.container {
+  display: flex;
+  gap: 28px;
+}
 .filter-box {
   display: flex;
   flex-direction: column;

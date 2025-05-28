@@ -39,7 +39,7 @@ const props = defineProps(['breadcrumbs'])
   display: flex;
   align-items: center;
   width: 100%;
-  max-width: 1380px;
+  max-width: 1360px;
   margin: 0 auto;
 }
 

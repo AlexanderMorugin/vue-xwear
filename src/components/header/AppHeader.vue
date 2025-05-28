@@ -1,6 +1,6 @@
 <template>
   <header class="header">
-    <div class="container">
+    <div class="header-container">
       <TheHeaderLogo />
       <TheHeaderNav v-if="!isScreenLarge" />
       <TheHeaderProfilePanel />
@@ -40,7 +40,7 @@ const { isScreenLarge } = useResizeLarge()
     padding-right: 13px;
   }
 }
-.container {
+.header-container {
   display: flex;
   justify-content: space-between;
   gap: 20px;
