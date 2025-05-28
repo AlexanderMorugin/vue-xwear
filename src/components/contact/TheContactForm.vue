@@ -11,13 +11,16 @@
           name="nameField"
           placeholder="Введите ваш имя"
           v-model="v$.nameField.$model"
-          class="contact-form-input"
+          :class="[
+            'contact-form-input',
+            { 'contact-form-input-warning': v$.nameField.$errors.length && isAgree.length },
+          ]"
         />
         <span
           v-for="item in v$.nameField.$errors"
           :key="item.$uid"
           class="contact-form-input-error"
-          >{{ item.$message }}</span
+          >{{ isAgree.length ? item.$message : '' }}</span
         >
       </div>
       <div class="contact-form-field email">
@@ -28,13 +31,16 @@
           name="emailField"
           placeholder="Email адрес"
           v-model="v$.emailField.$model"
-          class="contact-form-input"
+          :class="[
+            'contact-form-input',
+            { 'contact-form-input-warning': v$.emailField.$errors.length && isAgree.length },
+          ]"
         />
         <span
           v-for="item in v$.emailField.$errors"
           :key="item.$uid"
           class="contact-form-input-error"
-          >{{ item.$message }}</span
+          >{{ isAgree.length ? item.$message : '' }}</span
         >
       </div>
       <div class="contact-form-field phone">
@@ -45,13 +51,16 @@
           name="phoneField"
           placeholder="89261234567"
           v-model="v$.phoneField.$model"
-          class="contact-form-input"
+          :class="[
+            'contact-form-input',
+            { 'contact-form-input-warning': v$.phoneField.$errors.length && isAgree.length },
+          ]"
         />
         <span
           v-for="item in v$.phoneField.$errors"
           :key="item.$uid"
           class="contact-form-input-error"
-          >{{ item.$message }}</span
+          >{{ isAgree.length ? item.$message : '' }}</span
         >
       </div>
       <div class="contact-form-field text">
@@ -111,7 +120,7 @@ const rules = computed(() => ({
 const v$ = useVuelidate(rules, { nameField, emailField, phoneField })
 
 const submit = async () => {
-  await v$.value.$validate()
+  await v$.value.$touch()
   if (v$.value.$error) return
 
   const result = {
@@ -121,6 +130,12 @@ const submit = async () => {
     message: messageField.value,
   }
   console.log('submit - ', result)
+
+  nameField.value = null
+  emailField.value = null
+  phoneField.value = null
+  messageField.value = null
+  isAgree.value = []
 }
 </script>
 
@@ -189,6 +204,9 @@ const submit = async () => {
   font-size: 12px;
   line-height: 18px;
   color: red;
+}
+.contact-form-input-warning {
+  border: 1px solid red;
 }
 .text-area {
   height: 103px;
