@@ -4,52 +4,69 @@
 
     <div class="contact-form-fields">
       <div class="contact-form-field name">
-        <label for="name" class="contact-form-label">Ваше имя:</label>
+        <label for="nameField" class="contact-form-label">Ваше имя:</label>
         <input
           type="text"
-          id="name"
-          name="name"
+          id="nameField"
+          name="nameField"
           placeholder="Введите ваш имя"
-          v-model="name"
+          v-model="v$.nameField.$model"
           class="contact-form-input"
         />
+        <span
+          v-for="item in v$.nameField.$errors"
+          :key="item.$uid"
+          class="contact-form-input-error"
+          >{{ item.$message }}</span
+        >
       </div>
       <div class="contact-form-field email">
-        <label for="email" class="contact-form-label">Ваш email:</label>
+        <label for="emailField" class="contact-form-label">Ваш email:</label>
         <input
           type="email"
-          id="email"
-          name="email"
+          id="emailField"
+          name="emailField"
           placeholder="Email адрес"
-          v-model="email"
+          v-model="v$.emailField.$model"
           class="contact-form-input"
         />
+        <span
+          v-for="item in v$.emailField.$errors"
+          :key="item.$uid"
+          class="contact-form-input-error"
+          >{{ item.$message }}</span
+        >
       </div>
       <div class="contact-form-field phone">
-        <label for="phone" class="contact-form-label">Номер телефона:</label>
+        <label for="phoneField" class="contact-form-label">Номер телефона:</label>
         <input
           type="tel"
-          id="phone"
-          name="phone"
-          placeholder="+7 (000) 000 - 00 - 00"
-          v-model="phone"
+          id="phoneField"
+          name="phoneField"
+          placeholder="89261234567"
+          v-model="v$.phoneField.$model"
           class="contact-form-input"
         />
+        <span
+          v-for="item in v$.phoneField.$errors"
+          :key="item.$uid"
+          class="contact-form-input-error"
+          >{{ item.$message }}</span
+        >
       </div>
       <div class="contact-form-field text">
-        <label for="message" class="contact-form-label">Текст сообщения:</label>
+        <label for="messageField" class="contact-form-label">Текст сообщения:</label>
         <input
-          id="message"
-          name="message"
+          id="messageField"
+          name="messageField"
           placeholder="Опишите ваш вопрос как можно подробнее"
-          v-model="message"
+          v-model="messageField"
           class="contact-form-input text-area"
         />
       </div>
     </div>
     <div class="contact-form-button-box">
       <button :class="['contact-form-button', { 'contact-form-button-active': isAgree.length }]">
-        <!-- isAgree.length &&  -->
         Задать вопрос
       </button>
       <div class="contact-form-checkbox-container">
@@ -59,42 +76,51 @@
           <router-link :to="PATH_PRIVACY">политикой конфиденциальности</router-link>
         </p>
       </div>
-      {{ isSubmitting }}
     </div>
   </form>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import { useVuelidate } from '@vuelidate/core'
+import { helpers, required, email, minLength, numeric } from '@vuelidate/validators'
 import TheContactHeader from './TheContactHeader.vue'
 import { PATH_PRIVACY } from '@/mock/routes'
-// import { useContactForm } from '@/use/use-contact-form'
 
-const name = ref(null)
-const email = ref(null)
-const phone = ref(null)
-const message = ref(null)
+const nameField = ref(null)
+const emailField = ref(null)
+const phoneField = ref(null)
+const messageField = ref(null)
 const isAgree = ref([])
 
-// const {
-//   // name,
-//   // nError,
-//   // nBlur,
-//   // email,
-//   // eError,
-//   // eBlur,
-//   // phone,
-//   // pError,
-//   // pBlur,
-//   // message,
-//   // mError,
-//   // mBlur,
-//   // onSubmit,
-//   isSubmitting,
-// } = useContactForm()
+const rules = computed(() => ({
+  nameField: {
+    required: helpers.withMessage('Укажите имя', required),
+    minLength: helpers.withMessage('Имя должно быть не менее 3 символов', minLength(3)),
+  },
+  emailField: {
+    required: helpers.withMessage('Укажите почту', required),
+    email: helpers.withMessage('Введите корректную почту', email),
+  },
+  phoneField: {
+    required: helpers.withMessage('Укажите телефон', required),
+    numeric: helpers.withMessage('Введите цифры', numeric),
+  },
+}))
 
-const submit = () => {
-  console.log('submit')
+const v$ = useVuelidate(rules, { nameField, emailField, phoneField })
+
+const submit = async () => {
+  await v$.value.$validate()
+  if (v$.value.$error) return
+
+  const result = {
+    name: nameField.value,
+    email: emailField.value,
+    phone: phoneField.value,
+    message: messageField.value,
+  }
+  console.log('submit - ', result)
 }
 </script>
 
@@ -131,7 +157,6 @@ const submit = () => {
 .contact-form-field {
   position: relative;
 }
-
 .contact-form-input {
   width: 100%;
   height: 71px;
@@ -155,6 +180,15 @@ const submit = () => {
   font-size: 14px;
   line-height: 22px;
   color: var(--gray-normal-secondary);
+}
+.contact-form-input-error {
+  position: absolute;
+  top: 73px;
+  left: 20px;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 18px;
+  color: red;
 }
 .text-area {
   height: 103px;

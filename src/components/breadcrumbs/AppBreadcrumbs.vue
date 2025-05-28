@@ -37,6 +37,7 @@ const props = defineProps(['breadcrumbs'])
 }
 .breadcrumbs-list {
   display: flex;
+  align-items: center;
   width: 100%;
   max-width: 1380px;
   margin: 0 auto;

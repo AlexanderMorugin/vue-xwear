@@ -14,4 +14,10 @@ const props = defineProps(['title'])
   text-transform: uppercase;
   color: var(--black-thirdary);
 }
+@media (max-width: 767px) {
+  .contact-header {
+    font-size: 18px;
+    line-height: 26px;
+  }
+}
 </style>
