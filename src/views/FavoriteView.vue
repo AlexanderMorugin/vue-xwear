@@ -1,4 +1,4 @@
-<!-- FavoriteView -->
+<!-- FavoriteView
 <template>
   <AppLoader v-if="isLoading" />
   <div v-else>
@@ -26,4 +26,4 @@ const breadcrumbs = ref([
     content: 'last',
   },
 ])
-</script>
+</script> -->

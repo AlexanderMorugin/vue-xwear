@@ -1,4 +1,9 @@
-import { PATH_SEARCH, PATH_FAVORITE, PATH_PROFILE, PATH_CART } from './routes'
+import {
+  PATH_SEARCH,
+  // PATH_FAVORITE,
+  PATH_PROFILE,
+  PATH_CART,
+} from './routes'
 
 export const iconsDesktop = [
   {
@@ -6,11 +11,11 @@ export const iconsDesktop = [
     path: PATH_SEARCH,
     icon: '/icons/icon-search.svg',
   },
-  {
-    name: 'Избранные',
-    path: PATH_FAVORITE,
-    icon: '/icons/icon-star-white.svg',
-  },
+  // {
+  //   name: 'Избранные',
+  //   path: PATH_FAVORITE,
+  //   icon: '/icons/icon-star-white.svg',
+  // },
   {
     name: 'Профиль',
     path: PATH_PROFILE,
@@ -24,11 +29,11 @@ export const iconsDesktop = [
 ]
 
 export const iconsMobile = [
-  {
-    name: 'Избранные',
-    path: PATH_FAVORITE,
-    icon: '/icons/icon-star-white.svg',
-  },
+  // {
+  //   name: 'Избранные',
+  //   path: PATH_FAVORITE,
+  //   icon: '/icons/icon-star-white.svg',
+  // },
   {
     name: 'Профиль',
     path: PATH_PROFILE,

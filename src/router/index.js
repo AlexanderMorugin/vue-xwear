@@ -10,7 +10,7 @@ import {
   PATH_CALCULATION,
   PATH_INFORMATION,
   PATH_SEARCH,
-  PATH_FAVORITE,
+  // PATH_FAVORITE,
   PATH_PROFILE,
   PATH_CART,
   PATH_ADMIN,
@@ -125,12 +125,12 @@ const routes = [
     component: () => import('../views/SearchView.vue'),
     meta: { layout: 'main' },
   },
-  {
-    path: PATH_FAVORITE,
-    name: 'FavoriteView',
-    component: () => import('../views/FavoriteView.vue'),
-    meta: { layout: 'main' },
-  },
+  // {
+  //   path: PATH_FAVORITE,
+  //   name: 'FavoriteView',
+  //   component: () => import('../views/FavoriteView.vue'),
+  //   meta: { layout: 'main' },
+  // },
   {
     path: PATH_PROFILE,
     name: 'ProfileView',

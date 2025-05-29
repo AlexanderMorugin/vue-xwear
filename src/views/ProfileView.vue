@@ -26,7 +26,7 @@
       </app-left>
       <app-right>
         <div class="profile-menu-right" v-if="hasChoiseBlock === 1">
-          <h2 class="profile-menu-right-title">Приветствуем, Василий!</h2>
+          <AppProfileHeading title="Приветствуем, Василий!" />
           <ul class="profile-menu-right-list">
             <li v-for="item in profileMenuList.slice(1)" :key="item.id">
               <button class="profile-menu-right-item" @click="handleChoiseBlock(item)">
@@ -36,13 +36,11 @@
             </li>
           </ul>
         </div>
+        <AppProfileFavorite v-if="hasChoiseBlock === 2" />
         <AppProfileOrders v-if="hasChoiseBlock === 3" />
         <AppProfileHistory v-if="hasChoiseBlock === 4" />
         <AppProfileAddress v-if="hasChoiseBlock === 5" />
         <AppProfileEdit v-if="hasChoiseBlock === 6" />
-
-        <!-- <AppProfileAddressEdit v-if="hasChoiseBlock === 6" /> -->
-        <!-- <AppProfilePassword v-if="hasChoiseBlock === 7" /> -->
       </app-right>
     </app-page>
   </div>
@@ -60,9 +58,9 @@ import AppProfileEdit from '@/components/profile/AppProfileEdit.vue'
 import AppProfileHistory from '@/components/profile/AppProfileHistory.vue'
 import AppProfileOrders from '@/components/profile/AppProfileOrders.vue'
 import AppProfileAddress from '@/components/profile/AppProfileAddress.vue'
-import AppProfileAddressEdit from '@/components/profile/AppProfileAddressEdit.vue'
-import AppProfilePassword from '@/components/profile/AppProfilePassword.vue'
+import AppProfileFavorite from '@/components/profile/AppProfileFavorite.vue'
 import { profileMenuList } from '@/mock/profile-menu-list'
+import AppProfileHeading from '@/components/profile/AppProfileHeading.vue'
 
 const hasChoiseBlock = ref(1)
 
@@ -127,12 +125,6 @@ const setShowImage = (index) => {
   display: flex;
   flex-direction: column;
   gap: 30px;
-}
-.profile-menu-right-title {
-  font-weight: 700;
-  font-size: 23px;
-  line-height: 30px;
-  color: var(--black-thirdary);
 }
 .profile-menu-right-list {
   display: grid;
