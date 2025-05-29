@@ -4,7 +4,7 @@
   <AppLoader v-if="isLoading" />
   <div v-else>
     <AppBreadcrumbs :breadcrumbs="allKedyBreadcrumbs" />
-    <app-page class="container">
+    <app-page tag="main" class="container split">
       <!-- Если Десктоп то колонка слева AppLeft, если Мобайл то вызываемое меню AppFiltersMenu -->
       <component
         :is="isScreenLarge ? AppFiltersMenu : AppLeft"

@@ -1,6 +1,6 @@
 <template>
   <AppBreadcrumbs :breadcrumbs="breadcrumbs" />
-  <app-page>
+  <app-page tag="main" class="container">
     <AppCurrentProductCard v-if="product" :product="product" :currentId="currentId" />
   </app-page>
 </template>

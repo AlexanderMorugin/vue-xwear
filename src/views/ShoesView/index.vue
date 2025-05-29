@@ -2,7 +2,7 @@
 <!-- ShoesView -->
 <template>
   <AppBreadcrumbs :breadcrumbs="breadcrumbs" />
-  <app-page class="container">
+  <app-page tag="main" class="container">
     <!-- <app-left></app-left> -->
     <!-- <app-right> -->
     <AppHeading title="Обувь" />

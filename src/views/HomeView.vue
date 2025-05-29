@@ -1,5 +1,5 @@
 <template>
-  <app-page>
+  <app-page tag="main" class="container">
     <h1>Home View</h1>
     <ul>
       <li>

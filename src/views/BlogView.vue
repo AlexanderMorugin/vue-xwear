@@ -3,7 +3,7 @@
   <AppLoader v-if="isLoading" />
   <div v-else>
     <AppBreadcrumbs :breadcrumbs="breadcrumbs" />
-    <app-page>
+    <app-page tag="main" class="container">
       <AppHeading title="Блог" />
       <AppCartIsEmpty />
     </app-page>

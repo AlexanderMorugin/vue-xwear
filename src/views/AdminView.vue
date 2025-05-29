@@ -1,6 +1,6 @@
 <template>
   <AppBreadcrumbs :breadcrumbs="breadcrumbs" />
-  <app-page>
+  <app-page tag="main" class="container">
     <AppHeading title="Админ панель" />
     <ProductAddForm />
   </app-page>
