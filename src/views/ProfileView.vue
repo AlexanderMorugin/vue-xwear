@@ -7,8 +7,12 @@
       <AppHeading title="Личный кабинет" />
     </app-page>
     <app-page tag="main" class="container split">
-      <app-left v-if="hasChoiseBlock !== 1">
-        <ul class="profile-menu">
+      <app-left v-if="!isScreenLarge && hasChoiseBlock !== 1">
+        <AppProfileMenu
+          @handleChoiseBlock="(item) => handleChoiseBlock(item)"
+          :hasChoiseBlock="hasChoiseBlock"
+        />
+        <!-- <ul class="profile-menu">
           <li v-for="item in profileMenuList" :key="item.id">
             <button class="profile-menu-item" @click="handleChoiseBlock(item)">
               <img
@@ -22,8 +26,9 @@
               <span class="profile-menu-item-text">{{ item.name }}</span>
             </button>
           </li>
-        </ul>
+        </ul> -->
       </app-left>
+
       <app-right>
         <div class="profile-menu-right" v-if="hasChoiseBlock === 1">
           <AppProfileHeading title="Приветствуем, Василий!" />
@@ -61,6 +66,11 @@ import AppProfileAddress from '@/components/profile/AppProfileAddress.vue'
 import AppProfileFavorite from '@/components/profile/AppProfileFavorite.vue'
 import { profileMenuList } from '@/mock/profile-menu-list'
 import AppProfileHeading from '@/components/profile/AppProfileHeading.vue'
+import AppProfileMenu from '@/components/profile/AppProfileMenu.vue'
+import { useResizeLarge } from '@/use/useResizeLarge'
+
+// Брейкпоинты ширины экрана
+const { isScreenLarge } = useResizeLarge()
 
 const hasChoiseBlock = ref(1)
 
@@ -68,22 +78,32 @@ const handleChoiseBlock = (index) => {
   hasChoiseBlock.value = index.id
 }
 
-const setShowImage = (index) => {
-  let image = index.icon
+// const currentIcon = computed((index) => {
+//   let image = index.icon
 
-  if (hasChoiseBlock.value === index.id) {
-    image = index.iconDark
-  }
+//   if (hasChoiseBlock.value === index.id) {
+//     image = index.iconDark
+//   }
 
-  return image
-}
+//   return image
+// })
+
+// const setShowImage = (index) => {
+//   let image = index.icon
+
+//   if (hasChoiseBlock.value === index.id) {
+//     image = index.iconDark
+//   }
+
+//   return image
+// }
 </script>
 
 <style scoped>
 .container-dashboard {
   padding-bottom: 80px;
 }
-.profile-menu {
+/* .profile-menu {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -120,7 +140,7 @@ const setShowImage = (index) => {
 }
 .profile-menu-item:hover .profile-menu-item-text {
   color: var(--blue-primary);
-}
+} */
 .profile-menu-right {
   display: flex;
   flex-direction: column;
