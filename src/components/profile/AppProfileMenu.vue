@@ -1,7 +1,7 @@
 <template>
-  <ul class="profile-menu">
+  <ul @click.stop class="profile-menu">
     <li v-for="item in profileMenuList" :key="item.id">
-      <button class="profile-menu-item" @click="$emit('handleChoiseBlock', item)">
+      <button :class="setActiveClass(item)" @click="$emit('handleChoiseBlock', item)">
         <img
           :src="setShowImage(item)"
           :alt="item.name"
@@ -18,7 +18,6 @@
 
 <script setup>
 import { profileMenuList } from '@/mock/profile-menu-list'
-// import { ref } from 'vue'
 
 // eslint-disable-next-line no-unused-vars
 const emit = defineEmits(['handleChoiseBlock'])
@@ -33,6 +32,16 @@ const setShowImage = (index) => {
 
   return image
 }
+
+const setActiveClass = (index) => {
+  let activeClass = 'profile-menu-item'
+
+  if (props.hasChoiseBlock === index.id) {
+    activeClass = 'profile-menu-item profile-menu-item-active'
+  }
+
+  return activeClass
+}
 </script>
 
 <style scoped>
@@ -42,9 +51,22 @@ const setShowImage = (index) => {
   justify-content: center;
   gap: 21px;
   width: 318px;
+  background: var(--white-primary);
   border-radius: 5px;
   border: 1px solid var(--white-sixdary);
   padding: 28px 40px 22px 40px;
+}
+@media (max-width: 767px) {
+  .profile-menu {
+    width: 100%;
+    max-width: 318px;
+  }
+}
+@media (max-width: 359px) {
+  .profile-menu {
+    padding-right: 20px;
+    padding-left: 20px;
+  }
 }
 .profile-menu-item {
   display: flex;
@@ -55,7 +77,7 @@ const setShowImage = (index) => {
   cursor: pointer;
   transition: 0.3s ease all;
 }
-.profile-menu-item:hover {
+.profile-menu-item-active {
   border-bottom: 1px solid var(--blue-primary);
 }
 .profile-menu-item-icon {

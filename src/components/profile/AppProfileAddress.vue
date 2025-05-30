@@ -1,4 +1,7 @@
 <template>
+  <!-- Кнопка меню профиля появляется при разрешении менее 1024px -->
+  <AppProfileButton v-if="isScreenLarge" @openProfileMenu="$emit('openProfileMenu')" />
+
   <AppProfileHeading title="Мои адреса" />
   <div class="profile-address">
     <AddressCard number="1" />
@@ -18,10 +21,15 @@
 </template>
 
 <script setup>
+import { ref } from 'vue'
 import AppProfileHeading from '@/components/profile/AppProfileHeading.vue'
 import AddressCard from '@/components/profile/AddressCard.vue'
 import FormAddAddress from '@/components/profile/FormAddAddress.vue'
-import { ref } from 'vue'
+import AppProfileButton from '@/components/profile/AppProfileButton.vue'
+import { useResizeLarge } from '@/use/useResizeLarge'
+
+// Брейкпоинты ширины экрана
+const { isScreenLarge } = useResizeLarge()
 
 const isAddAddressOpen = ref(false)
 
@@ -40,6 +48,7 @@ const closeForm = () => (isAddAddressOpen.value = false)
 @media (max-width: 767px) {
   .profile-address {
     grid-template-columns: 1fr;
+    justify-items: center;
     padding-top: 20px;
     padding-bottom: 40px;
   }

@@ -36,10 +36,9 @@ const props = defineProps(['number'])
   flex-direction: column;
   width: 100%;
   max-width: 491px;
-  min-height: 319px;
   border-radius: 5px;
   border: 1px solid var(--white-sixdary);
-  padding: 31px 35px;
+  padding: 60px 35px;
   overflow: hidden;
 }
 .address-card-owner-name {
@@ -105,6 +104,12 @@ const props = defineProps(['number'])
   border-top: 1px solid var(--white-sixdary);
   border-top-right-radius: 5px;
   padding: 13px 34px;
+}
+@media (max-width: 389px) {
+  .address-card-badge-bottom {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
 }
 .address-card-badge-bottom-button {
   display: flex;

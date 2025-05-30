@@ -7,7 +7,12 @@
       <AppHeading title="Личный кабинет" />
     </app-page>
     <app-page tag="main" class="container split">
-      <app-left v-if="!isScreenLarge && hasChoiseBlock !== 1">
+      <component
+        :is="!isScreenLarge ? AppLeft : AppProfileMenuMobile"
+        v-if="hasChoiseBlock !== 1"
+        :isProfileMenuMobileOpen="isProfileMenuMobileOpen"
+        @closeProfileMenu="closeProfileMenu"
+      >
         <AppProfileMenu
           @handleChoiseBlock="(item) => handleChoiseBlock(item)"
           :hasChoiseBlock="hasChoiseBlock"
@@ -27,11 +32,12 @@
             </button>
           </li>
         </ul> -->
-      </app-left>
+      </component>
 
       <app-right>
         <div class="profile-menu-right" v-if="hasChoiseBlock === 1">
           <AppProfileHeading title="Приветствуем, Василий!" />
+
           <ul class="profile-menu-right-list">
             <li v-for="item in profileMenuList.slice(1)" :key="item.id">
               <button class="profile-menu-right-item" @click="handleChoiseBlock(item)">
@@ -41,11 +47,11 @@
             </li>
           </ul>
         </div>
-        <AppProfileFavorite v-if="hasChoiseBlock === 2" />
-        <AppProfileOrders v-if="hasChoiseBlock === 3" />
-        <AppProfileHistory v-if="hasChoiseBlock === 4" />
-        <AppProfileAddress v-if="hasChoiseBlock === 5" />
-        <AppProfileEdit v-if="hasChoiseBlock === 6" />
+        <AppProfileFavorite v-if="hasChoiseBlock === 2" @openProfileMenu="openProfileMenu" />
+        <AppProfileOrders v-if="hasChoiseBlock === 3" @openProfileMenu="openProfileMenu" />
+        <AppProfileHistory v-if="hasChoiseBlock === 4" @openProfileMenu="openProfileMenu" />
+        <AppProfileAddress v-if="hasChoiseBlock === 5" @openProfileMenu="openProfileMenu" />
+        <AppProfileEdit v-if="hasChoiseBlock === 6" @openProfileMenu="openProfileMenu" />
       </app-right>
     </app-page>
   </div>
@@ -67,16 +73,23 @@ import AppProfileFavorite from '@/components/profile/AppProfileFavorite.vue'
 import { profileMenuList } from '@/mock/profile-menu-list'
 import AppProfileHeading from '@/components/profile/AppProfileHeading.vue'
 import AppProfileMenu from '@/components/profile/AppProfileMenu.vue'
+import AppProfileMenuMobile from '@/components/profile/AppProfileMenuMobile.vue'
+
 import { useResizeLarge } from '@/use/useResizeLarge'
 
 // Брейкпоинты ширины экрана
 const { isScreenLarge } = useResizeLarge()
 
 const hasChoiseBlock = ref(1)
+const isProfileMenuMobileOpen = ref(false)
 
 const handleChoiseBlock = (index) => {
   hasChoiseBlock.value = index.id
+  isProfileMenuMobileOpen.value = false
 }
+
+const openProfileMenu = () => (isProfileMenuMobileOpen.value = true)
+const closeProfileMenu = () => (isProfileMenuMobileOpen.value = false)
 
 // const currentIcon = computed((index) => {
 //   let image = index.icon
