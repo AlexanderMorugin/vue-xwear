@@ -15,7 +15,7 @@ export const profileMenuList = [
     id: 3,
     icon: '/icons/icon-orders-gray.svg',
     iconDark: '/icons/icon-orders-dark.svg',
-    name: 'Мои заказы',
+    name: 'Заказы в пути',
   },
   {
     id: 4,
@@ -39,7 +39,7 @@ export const profileMenuList = [
   {
     id: 7,
     icon: '/icons/icon-exit-gray.svg',
-    iconDark: '/icons/icon-exit-gray.svg',
+    iconDark: '/icons/icon-exit-dark.svg',
     name: 'Выход',
   },
 ]

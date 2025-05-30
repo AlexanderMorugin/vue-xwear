@@ -7,6 +7,7 @@
       <AppHeading title="Личный кабинет" />
     </app-page>
     <app-page tag="main" class="container split">
+      <!-- В зависимости от ширины экрана, компонент меняет свои свойства и функционал -->
       <component
         :is="!isScreenLarge ? AppLeft : AppProfileMenuMobile"
         v-if="hasChoiseBlock !== 1"
@@ -17,21 +18,6 @@
           @handleChoiseBlock="(item) => handleChoiseBlock(item)"
           :hasChoiseBlock="hasChoiseBlock"
         />
-        <!-- <ul class="profile-menu">
-          <li v-for="item in profileMenuList" :key="item.id">
-            <button class="profile-menu-item" @click="handleChoiseBlock(item)">
-              <img
-                :src="setShowImage(item)"
-                :alt="item.name"
-                :class="[
-                  'profile-menu-item-icon',
-                  { 'profile-menu-item-icon-slim': item.name === 'Адреса' },
-                ]"
-              />
-              <span class="profile-menu-item-text">{{ item.name }}</span>
-            </button>
-          </li>
-        </ul> -->
       </component>
 
       <app-right>
@@ -90,70 +76,12 @@ const handleChoiseBlock = (index) => {
 
 const openProfileMenu = () => (isProfileMenuMobileOpen.value = true)
 const closeProfileMenu = () => (isProfileMenuMobileOpen.value = false)
-
-// const currentIcon = computed((index) => {
-//   let image = index.icon
-
-//   if (hasChoiseBlock.value === index.id) {
-//     image = index.iconDark
-//   }
-
-//   return image
-// })
-
-// const setShowImage = (index) => {
-//   let image = index.icon
-
-//   if (hasChoiseBlock.value === index.id) {
-//     image = index.iconDark
-//   }
-
-//   return image
-// }
 </script>
 
 <style scoped>
 .container-dashboard {
   padding-bottom: 80px;
 }
-/* .profile-menu {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 21px;
-  width: 318px;
-  border-radius: 5px;
-  border: 1px solid var(--white-sixdary);
-  padding: 28px 40px 22px 40px;
-}
-.profile-menu-item {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  gap: 21px;
-  border-bottom: 1px solid transparent;
-  cursor: pointer;
-  transition: 0.3s ease all;
-}
-.profile-menu-item:hover {
-  border-bottom: 1px solid var(--blue-primary);
-}
-.profile-menu-item-icon {
-  width: 19px;
-}
-.profile-menu-item-icon-slim {
-  width: 17px;
-}
-.profile-menu-item-text {
-  font-weight: 500;
-  font-size: 15px;
-  line-height: 42px;
-  color: var(--black-primary);
-  transition: 0.2s ease all;
-}
-.profile-menu-item:hover .profile-menu-item-text {
-  color: var(--blue-primary);
-} */
 .profile-menu-right {
   display: flex;
   flex-direction: column;
