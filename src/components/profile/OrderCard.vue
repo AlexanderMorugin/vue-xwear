@@ -16,30 +16,42 @@
       </div>
       <ul>
         <li class="order-item order-item-product">
-          <router-link
-            :to="`${PATH_CROSSOVKY}/-OQTkURjHxmobgTYenUh`"
-            class="order-item-product-name"
-            >Кроссовки Nike Air Max 3000</router-link
+          <span class="order-item-product-name-span"
+            ><router-link
+              :to="`${PATH_CROSSOVKY}/-OQTkURjHxmobgTYenUh`"
+              class="order-item-product-name"
+              >Кроссовки Nike Air Max 3000</router-link
+            >
+            x 1</span
           >
           <span class="order-item-product-price">4 699 ₽</span>
         </li>
         <li class="order-item order-item-product">
-          <router-link :to="`${PATH_KEDY}/-OQYupPcY6KgRpHSPYGR`" class="order-item-product-name"
-            >Кроссовки Nike Air Max 3000</router-link
+          <span class="order-item-product-name-span"
+            ><router-link :to="`${PATH_KEDY}/-OQYupPcY6KgRpHSPYGR`" class="order-item-product-name"
+              >Кроссовки Nike Air Max 3000</router-link
+            >
+            x 2</span
           >
           <span class="order-item-product-price">4 699 ₽</span>
         </li>
         <li class="order-item order-item-product">
-          <router-link
-            :to="`${PATH_CROSSOVKY}/-OQTkURjHxmobgTYenUh`"
-            class="order-item-product-name"
-            >Кроссовки Nike Air Max 3000</router-link
+          <span class="order-item-product-name-span"
+            ><router-link
+              :to="`${PATH_CROSSOVKY}/-OQTkURjHxmobgTYenUh`"
+              class="order-item-product-name"
+              >Кроссовки Nike Air Max 3000</router-link
+            >
+            x 3</span
           >
           <span class="order-item-product-price">4 699 ₽</span>
         </li>
         <li class="order-item order-item-product">
-          <router-link :to="`${PATH_KEDY}/-OQYupPcY6KgRpHSPYGR`" class="order-item-product-name"
-            >Кроссовки Nike Air Max 3000</router-link
+          <span class="order-item-product-name-span"
+            ><router-link :to="`${PATH_KEDY}/-OQYupPcY6KgRpHSPYGR`" class="order-item-product-name"
+              >Кроссовки Nike Air Max 3000</router-link
+            >
+            x 4</span
           >
           <span class="order-item-product-price">4 699 ₽</span>
         </li>
@@ -64,10 +76,13 @@
       </div>
     </div>
   </div>
+
+  <AddressCard number="1" />
 </template>
 
 <script setup>
-import { PATH_KEDY, PATH_CROSSOVKY } from '../../mock/routes'
+import { PATH_KEDY, PATH_CROSSOVKY } from '@/mock/routes'
+import AddressCard from '@/components/profile/AddressCard.vue'
 </script>
 
 <style scoped>
@@ -75,6 +90,7 @@ import { PATH_KEDY, PATH_CROSSOVKY } from '../../mock/routes'
   border: 1px solid var(--white-sixdary);
   border-radius: 5px;
   padding: 30px;
+  margin-bottom: 36px;
 }
 .order-title {
   font-weight: 700;
@@ -132,12 +148,15 @@ import { PATH_KEDY, PATH_CROSSOVKY } from '../../mock/routes'
   color: var(--gray-dark-sevendary);
 }
 .order-item-product-name {
+  color: var(--gray-dark-sevendary);
+}
+.order-item-product-name-span {
   font-weight: 400;
   font-size: 14px;
   line-height: 30px;
   letter-spacing: 1%;
   vertical-align: middle;
-  color: var(--gray-dark-sevendary);
+  color: var(--gray-semi-fivedary);
 }
 .order-item-product-price {
   font-weight: 400;
