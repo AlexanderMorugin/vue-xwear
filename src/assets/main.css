@@ -190,3 +190,9 @@
   color: var(--black-primary);
   background: var(--blue-primary);
 }
+.profile-modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  margin-top: 26px;
+}
