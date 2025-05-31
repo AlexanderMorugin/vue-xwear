@@ -7,14 +7,68 @@
       &nbsp;- статус заказа
       <span class="order-subtitle-status">Отправлен</span>
     </div>
+
+    <!-- Таблица -->
     <div class="order-items">
       <div class="order-item order-item-top">
         <span class="order-item-top-name">Товар</span>
         <span class="order-item-top-name">Итого</span>
       </div>
+      <ul>
+        <li class="order-item order-item-product">
+          <router-link
+            :to="`${PATH_CROSSOVKY}/-OQTkURjHxmobgTYenUh`"
+            class="order-item-product-name"
+            >Кроссовки Nike Air Max 3000</router-link
+          >
+          <span class="order-item-product-price">4 699 ₽</span>
+        </li>
+        <li class="order-item order-item-product">
+          <router-link :to="`${PATH_KEDY}/-OQYupPcY6KgRpHSPYGR`" class="order-item-product-name"
+            >Кроссовки Nike Air Max 3000</router-link
+          >
+          <span class="order-item-product-price">4 699 ₽</span>
+        </li>
+        <li class="order-item order-item-product">
+          <router-link
+            :to="`${PATH_CROSSOVKY}/-OQTkURjHxmobgTYenUh`"
+            class="order-item-product-name"
+            >Кроссовки Nike Air Max 3000</router-link
+          >
+          <span class="order-item-product-price">4 699 ₽</span>
+        </li>
+        <li class="order-item order-item-product">
+          <router-link :to="`${PATH_KEDY}/-OQYupPcY6KgRpHSPYGR`" class="order-item-product-name"
+            >Кроссовки Nike Air Max 3000</router-link
+          >
+          <span class="order-item-product-price">4 699 ₽</span>
+        </li>
+      </ul>
+      <ul>
+        <li class="order-item order-item-product">
+          <span class="order-item-bottom-name">Всего</span>
+          <span class="order-item-bottom-price">14 798 ₽</span>
+        </li>
+        <li class="order-item order-item-product">
+          <span class="order-item-bottom-name">Скидка</span>
+          <span class="order-item-bottom-price">-300 ₽</span>
+        </li>
+        <li class="order-item order-item-product">
+          <span class="order-item-bottom-name">Доставка</span>
+          <span class="order-item-bottom-price">300 ₽</span>
+        </li>
+      </ul>
+      <div class="order-item order-item-product">
+        <span class="order-item-total-name">Итого</span>
+        <span class="order-item-total-price">14 798 ₽</span>
+      </div>
     </div>
   </div>
 </template>
+
+<script setup>
+import { PATH_KEDY, PATH_CROSSOVKY } from '../../mock/routes'
+</script>
 
 <style scoped>
 .order {
@@ -56,13 +110,17 @@
 }
 .order-item {
   display: grid;
-  grid-template-columns: 1fr 186px;
+  grid-template-columns: 1fr auto;
   align-items: center;
+  column-gap: 16px;
   width: 100%;
   border-bottom: 1px solid var(--gray-semi-fourdary);
 }
 .order-item-top {
   height: 44px;
+}
+.order-item-product {
+  height: 66px;
 }
 .order-item-top-name {
   font-weight: 700;
@@ -72,5 +130,55 @@
   vertical-align: middle;
   text-transform: uppercase;
   color: var(--gray-dark-sevendary);
+}
+.order-item-product-name {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 30px;
+  letter-spacing: 1%;
+  vertical-align: middle;
+  color: var(--gray-dark-sevendary);
+}
+.order-item-product-price {
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 24px;
+  vertical-align: middle;
+  text-transform: uppercase;
+  color: var(--black-primary);
+}
+.order-item-bottom-name {
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 30px;
+  letter-spacing: 1%;
+  vertical-align: middle;
+  color: var(--gray-dark-sevendary);
+}
+.order-item-bottom-price {
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 24px;
+  letter-spacing: 0%;
+  vertical-align: middle;
+  text-transform: uppercase;
+  color: var(--black-primary);
+}
+.order-item-total-name {
+  font-weight: 700;
+  font-size: 19px;
+  line-height: 30px;
+  letter-spacing: 1%;
+  vertical-align: middle;
+  color: var(--gray-dark-sevendary);
+}
+.order-item-total-price {
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 24px;
+  letter-spacing: 0%;
+  vertical-align: middle;
+  text-transform: uppercase;
+  color: var(--black-primary);
 }
 </style>

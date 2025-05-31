@@ -3,6 +3,7 @@ import {
   PATH_CLOTHES,
   PATH_SHOES,
   PATH_KEDY,
+  PATH_CURRENT_KEDA,
   PATH_CROSSOVKY,
   PATH_CURRENT_CROSSOVKA,
   PATH_ACCESSORIES,
@@ -45,6 +46,12 @@ const routes = [
     path: PATH_KEDY,
     name: 'KedyView',
     component: () => import('../views/ShoesView/KedyView/index.vue'),
+    meta: { layout: 'main' },
+  },
+  {
+    path: PATH_CURRENT_KEDA,
+    name: 'CurrentKedaView',
+    component: () => import('../views/ShoesView/CurrentShoesView.vue'),
     meta: { layout: 'main' },
   },
   {

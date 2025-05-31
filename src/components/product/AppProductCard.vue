@@ -4,12 +4,12 @@
     <img :src="props.item.imageOneSmall" alt="product" class="image" />
     <p class="name">{{ props.item.name }}</p>
     <span class="price">от {{ currencyFormater(props.item.price36) }}</span>
-    <router-link :to="`${PATH_CROSSOVKY}/${props.item.id}`" class="product-link"></router-link>
+    <router-link :to="`${props.item.category}/${props.item.id}`" class="product-link"></router-link>
   </div>
 </template>
 
 <script setup>
-import { PATH_CROSSOVKY } from '@/mock/routes'
+// import { PATH_CROSSOVKY, PATH_CURRENT_CROSSOVKA, PATH_KEDY } from '@/mock/routes'
 import AppFavoriteButton from '@/components/product/AppFavoriteButton.vue'
 import { currencyFormater } from '@/utils/currency-formater'
 
