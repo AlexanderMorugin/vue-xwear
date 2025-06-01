@@ -61,12 +61,17 @@ const props = defineProps(['products', 'fromPage'])
   .cart-total-box {
     flex-direction: column;
     align-items: flex-end;
-    margin-top: 16px;
+    margin-top: 60px;
+  }
+}
+@media (max-width: 767px) {
+  .cart-total-box {
+    margin-top: 26px;
   }
 }
 .cart-total-text {
   line-height: 32px;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 400;
   text-align: end;
   color: var(--color-main-heading);

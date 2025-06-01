@@ -125,10 +125,12 @@ const emit = defineEmits(['toggleSorting', 'openFiltersForMobile'])
   cursor: pointer;
 }
 .heading-cart-clear-button-text {
-  line-height: 16px;
+  line-height: 18px;
   font-size: 16px;
   font-weight: 400;
+  vertical-align: middle;
   color: var(--gray-normal-sevendary);
+  border-bottom: 1px solid var(--gray-normal-sevendary);
   transition: 0.3s ease all;
 }
 @media (max-width: 767px) {
@@ -148,5 +150,6 @@ const emit = defineEmits(['toggleSorting', 'openFiltersForMobile'])
 }
 .heading-cart-clear-button:hover .heading-cart-clear-button-text {
   color: var(--blue-primary);
+  border-bottom: 1px solid var(--blue-primary);
 }
 </style>

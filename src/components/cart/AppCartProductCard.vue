@@ -20,7 +20,12 @@
 
   <div class="cart-product-counter-box">
     <div class="cart-product-counter">
-      <button class="cart-product-count" @click="handleDecrement">&#8722;</button>
+      <button
+        :class="['cart-product-count', { 'cart-product-count-disabled': quantity <= 1 }]"
+        @click="handleDecrement"
+      >
+        &#8722;
+      </button>
       <span class="cart-product-quantity">{{ quantity }}</span>
       <button class="cart-product-count" @click="handleIncrement">&#43;</button>
     </div>
@@ -46,7 +51,7 @@ const handleDecrement = () => {
   if (quantity.value > 1) {
     quantity.value--
   } else {
-    quantity.value = null
+    quantity.value = 1
   }
 }
 </script>
@@ -168,6 +173,13 @@ const handleDecrement = () => {
 }
 .cart-product-count:hover {
   border: 1px solid var(--blue-primary);
+}
+.cart-product-count-disabled {
+  color: var(--gray-light-fourdary);
+  cursor: default;
+}
+.cart-product-count-disabled:hover {
+  border: 1px solid var(--gray-semi-fourdary);
 }
 .cart-product-quantity {
   display: flex;

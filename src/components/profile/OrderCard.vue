@@ -16,43 +16,47 @@
       </div>
       <ul>
         <li class="order-item order-item-product">
-          <span class="order-item-product-name-span"
-            ><router-link
-              :to="`${PATH_CROSSOVKY}/-OQTkURjHxmobgTYenUh`"
-              class="order-item-product-name"
-              >Кроссовки Nike Air Max 3000</router-link
-            >
-            x 1</span
-          >
+          <router-link :to="`${PATH_KEDY}/-OQYupPcY6KgRpHSPYGR`" class="order-item-product-link"
+            ><span class="order-item-product-name">Кроссовки Nike Air Max 3000</span>
+            <div class="order-item-product-details">
+              Цвет: <span class="order-item-product-details-accent">Синий</span>, Размер:
+              <span class="order-item-product-details-accent">42</span>, Количество:
+              <span class="order-item-product-details-accent">2</span>
+            </div>
+          </router-link>
           <span class="order-item-product-price">4 699 ₽</span>
         </li>
         <li class="order-item order-item-product">
-          <span class="order-item-product-name-span"
-            ><router-link :to="`${PATH_KEDY}/-OQYupPcY6KgRpHSPYGR`" class="order-item-product-name"
-              >Кроссовки Nike Air Max 3000</router-link
-            >
-            x 2</span
-          >
+          <router-link :to="`${PATH_KEDY}/-OQYupPcY6KgRpHSPYGR`" class="order-item-product-link"
+            ><span class="order-item-product-name">Кроссовки Nike Air Max 3000</span>
+            <div class="order-item-product-details">
+              Цвет: <span class="order-item-product-details-accent">Синий</span>, Размер:
+              <span class="order-item-product-details-accent">42</span>, Количество:
+              <span class="order-item-product-details-accent">2</span>
+            </div>
+          </router-link>
           <span class="order-item-product-price">4 699 ₽</span>
         </li>
         <li class="order-item order-item-product">
-          <span class="order-item-product-name-span"
-            ><router-link
-              :to="`${PATH_CROSSOVKY}/-OQTkURjHxmobgTYenUh`"
-              class="order-item-product-name"
-              >Кроссовки Nike Air Max 3000</router-link
-            >
-            x 3</span
-          >
+          <router-link :to="`${PATH_KEDY}/-OQYupPcY6KgRpHSPYGR`" class="order-item-product-link"
+            ><span class="order-item-product-name">Кроссовки Nike Air Max 3000</span>
+            <div class="order-item-product-details">
+              Цвет: <span class="order-item-product-details-accent">Синий</span>, Размер:
+              <span class="order-item-product-details-accent">42</span>, Количество:
+              <span class="order-item-product-details-accent">2</span>
+            </div>
+          </router-link>
           <span class="order-item-product-price">4 699 ₽</span>
         </li>
         <li class="order-item order-item-product">
-          <span class="order-item-product-name-span"
-            ><router-link :to="`${PATH_KEDY}/-OQYupPcY6KgRpHSPYGR`" class="order-item-product-name"
-              >Кроссовки Nike Air Max 3000</router-link
-            >
-            x 4</span
-          >
+          <router-link :to="`${PATH_KEDY}/-OQYupPcY6KgRpHSPYGR`" class="order-item-product-link"
+            ><span class="order-item-product-name">Кроссовки Nike Air Max 3000</span>
+            <div class="order-item-product-details">
+              Цвет: <span class="order-item-product-details-accent">Синий</span>, Размер:
+              <span class="order-item-product-details-accent">42</span>, Количество:
+              <span class="order-item-product-details-accent">2</span>
+            </div>
+          </router-link>
           <span class="order-item-product-price">4 699 ₽</span>
         </li>
       </ul>
@@ -81,7 +85,7 @@
 </template>
 
 <script setup>
-import { PATH_KEDY, PATH_CROSSOVKY } from '@/mock/routes'
+import { PATH_KEDY } from '@/mock/routes'
 import AddressCard from '@/components/profile/AddressCard.vue'
 </script>
 
@@ -136,7 +140,8 @@ import AddressCard from '@/components/profile/AddressCard.vue'
   height: 44px;
 }
 .order-item-product {
-  height: 66px;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 .order-item-top-name {
   font-weight: 700;
@@ -147,16 +152,33 @@ import AddressCard from '@/components/profile/AddressCard.vue'
   text-transform: uppercase;
   color: var(--gray-dark-sevendary);
 }
-.order-item-product-name {
-  color: var(--gray-dark-sevendary);
+.order-item-product-link {
+  display: flex;
+  flex-direction: column;
 }
-.order-item-product-name-span {
+.order-item-product-name {
   font-weight: 400;
   font-size: 14px;
-  line-height: 30px;
+  line-height: 22px;
+  color: var(--gray-dark-sevendary);
+  transition: 0.3s ease all;
+}
+.order-item-product-link:hover .order-item-product-name {
+  color: var(--blue-primary);
+}
+.order-item-product-details {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
   letter-spacing: 1%;
   vertical-align: middle;
   color: var(--gray-semi-fivedary);
+}
+.order-item-product-details-accent {
+  font-weight: 600;
+  font-size: 14px;
+  /* line-height: 24px; */
+  color: var(--black-thirdary);
 }
 .order-item-product-price {
   font-weight: 400;
