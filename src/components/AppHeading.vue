@@ -110,11 +110,10 @@ const emit = defineEmits(['toggleSorting', 'openFiltersForMobile'])
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  width: fit-content;
+  width: 100%;
 }
 @media (max-width: 767px) {
   .heading-cart-clear-button-box {
-    width: 100%;
     padding-top: 10px;
   }
 }

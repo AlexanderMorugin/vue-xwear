@@ -26,11 +26,11 @@
 </template>
 
 <script setup>
+import { computed, ref } from 'vue'
 import AppCartDeleteButton from '@/components/cart/AppCartDeleteButton.vue'
 import { currencyFormater } from '@/utils/currency-formater'
 import { categoryNameFormater } from '@/utils/category-name-formater'
 import { PATH_SHOES } from '@/mock/routes'
-import { computed, ref } from 'vue'
 
 const props = defineProps(['item', 'fromPage'])
 
@@ -38,6 +38,7 @@ const quantity = ref(1)
 const sum = computed(() => props.item.price36 * quantity.value)
 
 const handleIncrement = () => quantity.value++
+
 const handleDecrement = () => {
   if (quantity.value > 1) {
     quantity.value--
