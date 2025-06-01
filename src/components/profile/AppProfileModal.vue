@@ -8,8 +8,18 @@
         </button>
 
         <div class="profile-modal-content">
-          <!-- <FormLogin @closeProfileModal="$emit('closeProfileModal')" /> -->
-          <FormRegistration @closeProfileModal="$emit('closeProfileModal')" />
+          <FormLogin
+            @closeProfileModal="$emit('closeProfileModal')"
+            @openRegisterForm="openRegisterForm"
+            @openAdminForm="openAdminForm"
+            v-if="isLoginForm"
+          />
+          <FormRegistration
+            @closeProfileModal="$emit('closeProfileModal')"
+            @openLoginForm="openLoginForm"
+            v-if="isRegisterForm"
+          />
+          <FormAdmin @closeProfileModal="$emit('closeProfileModal')" v-if="isAdminForm" />
         </div>
       </div>
     </div>
@@ -17,10 +27,32 @@
 </template>
 
 <script setup>
-// import FormLogin from './FormLogin.vue'
+import { ref } from 'vue'
+import FormLogin from './FormLogin.vue'
 import FormRegistration from './FormRegistration.vue'
+import FormAdmin from './FormAdmin.vue'
 // eslint-disable-next-line no-unused-vars
 const emit = defineEmits(['closeProfileModal'])
+
+const isLoginForm = ref(true)
+const isRegisterForm = ref(false)
+const isAdminForm = ref(false)
+
+const openLoginForm = () => {
+  isLoginForm.value = true
+  isRegisterForm.value = false
+  isAdminForm.value = false
+}
+const openRegisterForm = () => {
+  isLoginForm.value = false
+  isRegisterForm.value = true
+  isAdminForm.value = false
+}
+const openAdminForm = () => {
+  isLoginForm.value = false
+  isRegisterForm.value = false
+  isAdminForm.value = true
+}
 </script>
 
 <style scoped>
@@ -37,8 +69,8 @@ const emit = defineEmits(['closeProfileModal'])
   justify-content: center;
   align-items: center;
   padding-top: 30px;
-  padding-right: 10px;
-  padding-left: 10px;
+  padding-right: 20px;
+  padding-left: 20px;
 }
 .profile-modal {
   display: flex;
@@ -56,8 +88,13 @@ const emit = defineEmits(['closeProfileModal'])
 .profile-modal-content {
   width: 100%;
   background: var(--white-primary);
-  border-radius: 5px;
+  border-radius: 10px;
   padding: 35px 40px;
+}
+@media (max-width: 767px) {
+  .profile-modal-content {
+    padding: 20px 10px;
+  }
 }
 
 @keyframes slide-in {

@@ -36,7 +36,7 @@
         id="confirmPasswordField"
         name="confirmPasswordField"
         placeholder="123456"
-        v-model="v$.confirmPasswordField.$model"
+        v-model.trim="v$.confirmPasswordField.$model"
         :class="['form-input', { 'form-input-warning': v$.confirmPasswordField.$errors.length }]"
       />
       <span
@@ -45,6 +45,11 @@
         class="form-input-error"
         >{{ item.$message }}</span
       >
+    </div>
+    <div class="profile-modal-form-bottom">
+      <button class="profile-modal-form-bottom-button" @click="$emit('openLoginForm')">
+        Уже есть логин?
+      </button>
     </div>
 
     <button :class="['form-button', { 'form-button-active': isValid }]">Зарегистрироваться</button>
@@ -57,9 +62,9 @@ import { useRouter } from 'vue-router'
 import { useVuelidate } from '@vuelidate/core'
 import { helpers, required, email, minLength, sameAs } from '@vuelidate/validators'
 import AppProfileHeading from '@/components/profile/AppProfileHeading.vue'
-import { PATH_PROFILE } from '../../mock/routes'
+import { PATH_PROFILE } from '@/mock/routes'
 
-const emit = defineEmits(['closeProfileModal'])
+const emit = defineEmits(['closeProfileModal', 'openLoginForm'])
 
 const router = useRouter()
 

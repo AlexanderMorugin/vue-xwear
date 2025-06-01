@@ -1,5 +1,5 @@
 <template>
-  <AppProfileHeading title="Войти" />
+  <AppProfileHeading title="Вход для сотрудников" />
   <form class="profile-modal-form" @submit.prevent="submitProfileEditForm">
     <div class="form-field">
       <label for="emailField" class="form-label">Email адрес:</label>
@@ -29,26 +29,7 @@
         item.$message
       }}</span>
     </div>
-    <div class="profile-modal-form-bottom">
-      <!-- <div class="profile-modal-form-checkbox-container">
-        <input
-          type="checkbox"
-          :id="item"
-          :value="item"
-          v-model="selectedBrands"
-          class="checkbox-input"
-        />
-        <label :for="item" class="profile-modal-form-checkbox-label">Запомнить меня</label>
-      </div> -->
 
-      <button class="profile-modal-form-bottom-button" @click="$emit('openAdminForm')">
-        Вход для сотрудников
-      </button>
-
-      <button class="profile-modal-form-bottom-button" @click="$emit('openRegisterForm')">
-        Забыли пароль?
-      </button>
-    </div>
     <button :class="['form-button', { 'form-button-active': isValid }]">Войти</button>
   </form>
 </template>
@@ -59,9 +40,9 @@ import { useRouter } from 'vue-router'
 import { useVuelidate } from '@vuelidate/core'
 import { helpers, required, email, minLength } from '@vuelidate/validators'
 import AppProfileHeading from '@/components/profile/AppProfileHeading.vue'
-import { PATH_PROFILE } from '@/mock/routes'
+import { PATH_ADMIN } from '@/mock/routes'
 
-const emit = defineEmits(['closeProfileModal', 'openRegisterForm', 'openAdminForm'])
+const emit = defineEmits(['closeProfileModal', 'toggleLoginForm'])
 
 const router = useRouter()
 
@@ -88,7 +69,7 @@ const isValid = computed(() => emailField.value && passwordField.value && !v$.$e
 
 const submitProfileEditForm = () => {
   console.log('submitProfileEditForm')
-  router.push(PATH_PROFILE)
+  router.push(PATH_ADMIN)
   emit('closeProfileModal')
 }
 </script>

@@ -196,3 +196,33 @@
   gap: 30px;
   margin-top: 26px;
 }
+.profile-modal-form-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+.profile-modal-form-checkbox-container {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  gap: 12px;
+}
+.profile-modal-form-checkbox-label {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--black-secondary);
+}
+.profile-modal-form-bottom-button {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  text-decoration: underline;
+  color: var(--gray-semi-sevendary);
+  cursor: pointer;
+  transition: 0.3s ease all;
+}
+.profile-modal-form-bottom-button:hover {
+  color: var(--blue-primary);
+}

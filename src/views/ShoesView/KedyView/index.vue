@@ -46,7 +46,7 @@
           :isDesc="isDesc"
         />
 
-        <AppProductList v-if="filterData.length" :products="filterData" />
+        <AppProductList v-if="filterData.length" :products="filterData" fromPage="productPage" />
         <AppProductNotFound v-else />
       </app-right>
     </app-page>

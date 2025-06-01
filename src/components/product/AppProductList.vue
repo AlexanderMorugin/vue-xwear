@@ -1,14 +1,18 @@
 <template>
   <ul class="product-list">
     <li v-for="item in props.products" :key="item.name">
-      <AppProductCard :item="item" />
+      <!-- Карточка товара для Корзины -->
+      <AppCartProductCard v-if="props.fromPage === 'cartPage'" :item="item" />
+      <!-- Карточка товара для Списка товаров -->
+      <AppProductCard v-else :item="item" :fromPage="props.fromPage" />
     </li>
   </ul>
 </template>
 
 <script setup>
 import AppProductCard from '@/components/product/AppProductCard.vue'
-const props = defineProps(['products'])
+import AppCartProductCard from '@/components/cart/AppCartProductCard.vue'
+const props = defineProps(['products', 'fromPage'])
 </script>
 
 <style scoped>
