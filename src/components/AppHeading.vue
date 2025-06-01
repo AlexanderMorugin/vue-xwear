@@ -4,9 +4,32 @@
       <h1 class="title">{{ props.title }}</h1>
       <span class="quantity" v-if="props.quantity">{{ props.quantity }} товаров</span>
     </div>
-    <SortBox v-if="props.sortBox" @toggleSorting="$emit('toggleSorting')" :isDesc="props.isDesc" />
-    <div v-if="props.filters" class="heading-filter-buttons">
-      <AppFilterButton v-if="isScreenLarge" @openFiltersForMobile="$emit('openFiltersForMobile')" />
+
+    <!-- Этот блок показывается только на страницах товаров типа CrossovkyView -->
+    <div v-if="props.fromPage === 'productPage'">
+      <SortBox
+        v-if="props.sortBox"
+        @toggleSorting="$emit('toggleSorting')"
+        :isDesc="props.isDesc"
+      />
+      <div v-if="props.filters" class="heading-filter-buttons">
+        <AppFilterButton
+          v-if="isScreenLarge"
+          @openFiltersForMobile="$emit('openFiltersForMobile')"
+        />
+      </div>
+    </div>
+
+    <!-- Этот блок показывается только на странице Корзины -->
+    <div v-if="props.fromPage === 'cartPage'" class="heading-cart-clear-button-box">
+      <button class="heading-cart-clear-button">
+        <span class="heading-cart-clear-button-text">Очистить корзину</span>
+        <img
+          src="/icons/icon-trash-gray.svg"
+          alt="Иконка очистить"
+          class="heading-cart-clear-button-image"
+        />
+      </button>
     </div>
   </div>
 </template>
@@ -17,7 +40,7 @@ import AppFilterButton from '@/components/filters/AppFilterButton.vue'
 import { useResizeLarge } from '@/use/useResizeLarge'
 const { isScreenLarge } = useResizeLarge()
 
-const props = defineProps(['title', 'quantity', 'sortBox', 'filters', 'isDesc'])
+const props = defineProps(['title', 'quantity', 'sortBox', 'filters', 'isDesc', 'fromPage'])
 // eslint-disable-next-line no-unused-vars
 const emit = defineEmits(['toggleSorting', 'openFiltersForMobile'])
 </script>
@@ -82,5 +105,49 @@ const emit = defineEmits(['toggleSorting', 'openFiltersForMobile'])
     padding-top: 25px;
     padding-bottom: 15px;
   }
+}
+.heading-cart-clear-button-box {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: fit-content;
+}
+@media (max-width: 767px) {
+  .heading-cart-clear-button-box {
+    width: 100%;
+    padding-top: 10px;
+  }
+}
+.heading-cart-clear-button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: fit-content;
+  cursor: pointer;
+}
+.heading-cart-clear-button-text {
+  line-height: 16px;
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--gray-normal-sevendary);
+  transition: 0.3s ease all;
+}
+@media (max-width: 767px) {
+  .heading-cart-clear-button-text {
+    line-height: 13px;
+    font-size: 13px;
+  }
+}
+.heading-cart-clear-button-image {
+  width: 24px;
+  cursor: pointer;
+}
+@media (max-width: 767px) {
+  .heading-cart-clear-button-image {
+    width: 19px;
+  }
+}
+.heading-cart-clear-button:hover .heading-cart-clear-button-text {
+  color: var(--blue-primary);
 }
 </style>

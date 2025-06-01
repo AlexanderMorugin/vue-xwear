@@ -1,6 +1,6 @@
 <template>
   <div class="cart-product-card">
-    <div class="cart-product-sum">{{ currencyFormater(props.item.price36) }}</div>
+    <div class="cart-product-sum">{{ currencyFormater(sum) }}</div>
     <AppCartDeleteButton />
     <img :src="props.item.imageOneSmall" alt="product" class="cart-image" />
 
@@ -17,9 +17,9 @@
 
   <div class="cart-product-counter-box">
     <div class="cart-product-counter">
-      <button class="cart-product-count">&#8722;</button>
-      <span class="cart-product-quantity">32</span>
-      <button class="cart-product-count">&#43;</button>
+      <button class="cart-product-count" @click="handleDecrement">&#8722;</button>
+      <span class="cart-product-quantity">{{ quantity }}</span>
+      <button class="cart-product-count" @click="handleIncrement">&#43;</button>
     </div>
     <button class="cart-product-button">Купить</button>
   </div>
@@ -30,8 +30,21 @@ import AppCartDeleteButton from '@/components/cart/AppCartDeleteButton.vue'
 import { currencyFormater } from '@/utils/currency-formater'
 import { categoryNameFormater } from '@/utils/category-name-formater'
 import { PATH_SHOES } from '@/mock/routes'
+import { computed, ref } from 'vue'
 
 const props = defineProps(['item', 'fromPage'])
+
+const quantity = ref(1)
+const sum = computed(() => props.item.price36 * quantity.value)
+
+const handleIncrement = () => quantity.value++
+const handleDecrement = () => {
+  if (quantity.value > 1) {
+    quantity.value--
+  } else {
+    quantity.value = null
+  }
+}
 </script>
 
 <style scoped>

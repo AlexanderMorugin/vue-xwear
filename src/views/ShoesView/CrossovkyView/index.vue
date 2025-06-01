@@ -44,6 +44,7 @@
           @toggleSorting="toggleSorting"
           @openFiltersForMobile="openFiltersForMobile"
           :isDesc="isDesc"
+          fromPage="productPage"
         />
 
         <AppProductList v-if="filterData.length" :products="filterData" fromPage="productPage" />

@@ -4,7 +4,7 @@
   <div v-else>
     <AppBreadcrumbs :breadcrumbs="breadcrumbs" />
     <app-page tag="main" class="container">
-      <AppHeading title="Корзина товаров" />
+      <AppHeading title="Корзина товаров" fromPage="cartPage" />
       <AppProductList
         v-if="favoriteProducts.length"
         :products="favoriteProducts"
