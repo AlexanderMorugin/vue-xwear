@@ -1,6 +1,9 @@
 <template>
   <div class="cart-product-card">
-    <div class="cart-product-sum">{{ currencyFormater(sum) }}</div>
+    <div class="cart-product-sum-box">
+      <span class="cart-product-sum">{{ currencyFormater(sum) }}</span>
+      <div class="cart-product-size">Размер: <span class="cart-product-size-number">42</span></div>
+    </div>
     <AppCartDeleteButton />
     <img :src="props.item.imageOneSmall" alt="product" class="cart-image" />
 
@@ -56,11 +59,19 @@ const handleDecrement = () => {
   width: 100%;
   max-width: 318px;
 }
-.cart-product-sum {
+.cart-product-sum-box {
   position: absolute;
   top: 33px;
   left: 25px;
   z-index: 10;
+}
+@media (max-width: 767px) {
+  .cart-product-sum-box {
+    top: 0;
+    left: 0;
+  }
+}
+.cart-product-sum {
   line-height: 28px;
   font-size: 19px;
   font-weight: 700;
@@ -73,6 +84,18 @@ const handleDecrement = () => {
     line-height: 18px;
     font-size: 14px;
   }
+}
+.cart-product-size {
+  line-height: 16px;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--gray-dark-fourdary);
+}
+.cart-product-size-number {
+  line-height: 18px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--black-thirdary);
 }
 .cart-image {
   width: 100%;
@@ -91,7 +114,7 @@ const handleDecrement = () => {
   }
 }
 .cart-product-name {
-  height: 56px;
+  height: 48px;
   line-height: 28px;
   font-size: 19px;
   font-weight: 500;
@@ -100,7 +123,7 @@ const handleDecrement = () => {
 }
 @media (max-width: 767px) {
   .cart-product-name {
-    height: 36px;
+    /* height: 36px; */
     line-height: 18px;
     font-size: 14px;
   }
@@ -108,29 +131,30 @@ const handleDecrement = () => {
 .cart-product-counter-box {
   display: flex;
   justify-content: space-between;
-  align-content: center;
+  align-items: center;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 20px;
   width: 100%;
+  /* margin-top: 20px; */
 }
 .cart-product-counter {
   display: flex;
   justify-content: space-between;
-  align-content: center;
-  gap: 10px;
-  width: fit-content;
+  align-items: center;
+  gap: 5px;
+  /* width: fit-content; */
 }
 .cart-product-count {
   display: flex;
   justify-content: center;
   align-items: center;
   background: var(--white-primary);
-  border-radius: 5px;
+  border-radius: 50%;
   border: 1px solid var(--gray-semi-fourdary);
-  width: 42px;
-  height: 42px;
-  line-height: 22px;
-  font-size: 22px;
+  width: 28px;
+  height: 28px;
+  line-height: 18px;
+  font-size: 18px;
   font-weight: 500;
   color: var(--black-thirdary);
   cursor: pointer;
@@ -138,8 +162,8 @@ const handleDecrement = () => {
 }
 @media (max-width: 767px) {
   .cart-product-count {
-    width: 32px;
-    height: 32px;
+    width: 22px;
+    height: 22px;
   }
 }
 .cart-product-count:hover {
@@ -149,11 +173,11 @@ const handleDecrement = () => {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: var(--blue-primary);
+  /* background: var(--blue-primary); */
   border-radius: 5px;
   border: 1px solid transparent;
-  width: 52px;
-  height: 42px;
+  width: 32px;
+  height: 28px;
   line-height: 16px;
   font-size: 16px;
   font-weight: 500;
@@ -161,8 +185,8 @@ const handleDecrement = () => {
 }
 @media (max-width: 767px) {
   .cart-product-quantity {
-    width: 42px;
-    height: 32px;
+    width: 32px;
+    height: 22px;
     line-height: 14px;
     font-size: 14px;
   }
@@ -184,7 +208,8 @@ const handleDecrement = () => {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: var(--black-primary);
+  /* background: var(--black-primary); */
+  border: 1px solid var(--gray-dark-fourdary);
   border-radius: 5px;
   width: fit-content;
   height: 42px;
@@ -192,7 +217,8 @@ const handleDecrement = () => {
   font-size: 16px;
   font-weight: 600;
   letter-spacing: 1px;
-  color: var(--white-primary);
+  /* color: var(--white-primary); */
+  color: var(--black-primary);
   padding-left: 20px;
   padding-right: 20px;
   margin-right: 20px;

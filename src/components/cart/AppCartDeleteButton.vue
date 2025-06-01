@@ -16,7 +16,7 @@
 }
 @media (max-width: 767px) {
   .btn-delete {
-    top: 15px;
+    top: 0;
     right: 15px;
   }
 }

@@ -9,7 +9,7 @@
   </ul>
 
   <!-- Этот блок показывается только на странице Корзины -->
-  <div class="cart-total-box">
+  <div class="cart-total-box" v-if="props.fromPage === 'cartPage'">
     <div class="cart-total-text">
       Всего товаров <span>5</span> на сумму: <span>{{ currencyFormater(10000000) }}</span>
     </div>
@@ -65,16 +65,16 @@ const props = defineProps(['products', 'fromPage'])
   }
 }
 .cart-total-text {
-  line-height: 42px;
-  font-size: 31px;
+  line-height: 32px;
+  font-size: 24px;
   font-weight: 400;
   text-align: end;
   color: var(--color-main-heading);
 }
 @media (max-width: 1023px) {
   .cart-total-text {
-    line-height: 32px;
-    font-size: 26px;
+    line-height: 24px;
+    font-size: 18px;
   }
 }
 @media (max-width: 767px) {
@@ -94,8 +94,8 @@ const props = defineProps(['products', 'fromPage'])
   border-radius: 5px;
   background: var(--green-primary);
   line-height: 20px;
-  font-size: 12px;
-  font-weight: 800;
+  font-size: 14px;
+  font-weight: 700;
   letter-spacing: 1px;
   color: var(--color-text-product-choose-button);
   text-transform: uppercase;
