@@ -2,11 +2,9 @@
   <div class="profilePanel">
     <ul class="list">
       <li v-for="item in icons()" :key="item.path" class="list-item">
-        <!-- <router-link :to="item.path"> -->
         <button @click="handleClickIcon(item)" class="list-item-button">
           <img :src="item.icon" :alt="item.name" />
         </button>
-        <!-- </router-link> -->
       </li>
     </ul>
 
@@ -83,9 +81,6 @@ const icons = () => {
 .list-item-button {
   cursor: pointer;
 }
-/* .list-item.active {
-  border-bottom: 2px solid var(--color-link-header-hover);
-} */
 .sum {
   font-size: 13px;
   line-height: 13px;
