@@ -109,10 +109,16 @@
 <script setup>
 import { currencyFormater } from '@/utils/currency-formater'
 import { ref } from 'vue'
+import { useCartStore } from '@/stores/cart-store'
+
+const cartStore = useCartStore()
+
 const props = defineProps(['product', 'id'])
 
 const chooseSize = ref(null)
 const submitPrice = ref(null)
+
+// console.log(props.product)
 
 const setPrice = () => {
   if (chooseSize.value === '37') {
@@ -146,19 +152,21 @@ const submit = () => {
     name: props.product.name,
     size: chooseSize.value ? chooseSize.value : '36',
     price: submitPrice.value,
-    description: props.product.description,
+    // description: props.product.description,
     color: props.product.color,
     imageOneSmall: props.product.imageOneSmall,
-    imageOneBig: props.product.imageOneBig,
-    imageTwoSmall: props.product.imageTwoSmall,
-    imageTwoBig: props.product.imageTwoBig,
-    imageThreeSmall: props.product.imageThreeSmall,
-    imageThreeBig: props.product.imageThreeBig,
-    imageFourSmall: props.product.imageFourSmall,
-    imageFourBig: props.product.imageFourBig,
-    isFavorite: props.product.isFavorite,
+    count: 1,
+    // imageOneBig: props.product.imageOneBig,
+    // imageTwoSmall: props.product.imageTwoSmall,
+    // imageTwoBig: props.product.imageTwoBig,
+    // imageThreeSmall: props.product.imageThreeSmall,
+    // imageThreeBig: props.product.imageThreeBig,
+    // isFavorite: props.product.isFavorite,
   }
-  console.log(data)
+
+  cartStore.addCartItem(data)
+
+  // console.log(data)
 }
 </script>
 

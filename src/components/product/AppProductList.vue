@@ -11,7 +11,8 @@
   <!-- Этот блок показывается только на странице Корзины -->
   <div class="cart-total-box" v-if="props.fromPage === 'cartPage'">
     <div class="cart-total-text">
-      Всего товаров <span>5</span> на сумму: <span>{{ currencyFormater(10000000) }}</span>
+      Всего товаров <span>{{ props.cartStore.totalCountCartItems }}</span> на сумму:
+      <span>{{ currencyFormater(props.cartStore.totalCartSum) }}</span>
     </div>
     <button class="cart-total-button">Купить&nbsp;все</button>
   </div>
@@ -22,7 +23,7 @@ import AppProductCard from '@/components/product/AppProductCard.vue'
 import AppCartProductCard from '@/components/cart/AppCartProductCard.vue'
 import { currencyFormater } from '@/utils/currency-formater'
 
-const props = defineProps(['products', 'fromPage'])
+const props = defineProps(['products', 'fromPage', 'cartStore'])
 </script>
 
 <style scoped>

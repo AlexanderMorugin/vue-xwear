@@ -1,10 +1,16 @@
 <template>
   <div class="cart-product-card">
+    <!-- Бейдж с ценой и размером в верхнем левом углу карточки товара -->
     <div class="cart-product-sum-box">
-      <span class="cart-product-sum">{{ currencyFormater(sum) }}</span>
-      <div class="cart-product-size">Размер: <span class="cart-product-size-number">42</span></div>
+      <span class="cart-product-sum">{{ currencyFormater(props.item.price) }}</span>
+      <div class="cart-product-size">
+        Размер: <span class="cart-product-size-number">{{ props.item.size }}</span>
+      </div>
     </div>
-    <AppCartDeleteButton />
+    <!-- Кнопка "Удалить" в верхнем правом углу карточки товара -->
+    <AppCartDeleteButton @deleteItem="cartStore.deleteItem(props.item.id, props.item.size)" />
+
+    <!-- Сам товар -->
     <img :src="props.item.imageOneSmall" alt="product" class="cart-image" />
 
     <span class="cart-product-brand">{{ props.item.brand }}</span>
@@ -18,42 +24,51 @@
     ></router-link>
   </div>
 
+  <!-- Счетчик уеличинения и уменьшения товара -->
   <div class="cart-product-counter-box">
     <div class="cart-product-counter">
       <button
-        :class="['cart-product-count', { 'cart-product-count-disabled': quantity <= 1 }]"
-        @click="handleDecrement"
+        :class="['cart-product-count', { 'cart-product-count-disabled': props.item.count <= 1 }]"
+        @click="cartStore.decrement(props.item.id, props.item.size)"
       >
         &#8722;
       </button>
-      <span class="cart-product-quantity">{{ quantity }}</span>
-      <button class="cart-product-count" @click="handleIncrement">&#43;</button>
+      <span class="cart-product-quantity">{{ props.item.count }}</span>
+      <button
+        class="cart-product-count"
+        @click="cartStore.increment(props.item.id, props.item.size)"
+      >
+        &#43;
+      </button>
     </div>
     <button class="cart-product-button">Купить</button>
   </div>
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
+// import { computed, ref } from 'vue'
 import AppCartDeleteButton from '@/components/cart/AppCartDeleteButton.vue'
 import { currencyFormater } from '@/utils/currency-formater'
 import { categoryNameFormater } from '@/utils/category-name-formater'
 import { PATH_SHOES } from '@/mock/routes'
+import { useCartStore } from '@/stores/cart-store'
+
+const cartStore = useCartStore()
 
 const props = defineProps(['item', 'fromPage'])
 
-const quantity = ref(1)
-const sum = computed(() => props.item.price36 * quantity.value)
+// const quantity = ref(1)
+// const sum = computed(() => Number(props.item.price) * quantity.value)
 
-const handleIncrement = () => quantity.value++
+// const handleIncrement = () => quantity.value++
 
-const handleDecrement = () => {
-  if (quantity.value > 1) {
-    quantity.value--
-  } else {
-    quantity.value = 1
-  }
-}
+// const handleDecrement = () => {
+//   if (quantity.value > 1) {
+//     quantity.value--
+//   } else {
+//     quantity.value = 1
+//   }
+// }
 </script>
 
 <style scoped>

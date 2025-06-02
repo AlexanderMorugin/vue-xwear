@@ -10,8 +10,13 @@
       </li>
     </ul>
 
-    <div v-if="!isScreenMedium" class="sum">111 899 P</div>
-    <TheHeaderCartCount />
+    <div v-if="!isScreenMedium && cartStore.totalCartSum" class="sum">
+      {{ currencyFormater(cartStore.totalCartSum) }}
+    </div>
+    <TheHeaderCartCount
+      v-if="cartStore.totalCountCartItems"
+      :amount="cartStore.totalCountCartItems"
+    />
   </div>
   <AppProfileModal v-if="isLoginModal" @closeProfileModal="closeProfileModal" />
 </template>
@@ -23,7 +28,10 @@ import TheHeaderCartCount from './TheHeaderCartCount.vue'
 import { useResizeMedium } from '@/use/useResizeMedium'
 import { iconsMobile, iconsDesktop } from '@/mock/header-profile-icons'
 import AppProfileModal from '@/components/profile/AppProfileModal.vue'
+import { useCartStore } from '@/stores/cart-store'
+import { currencyFormater } from '@/utils/currency-formater'
 
+const cartStore = useCartStore()
 const { isScreenMedium } = useResizeMedium()
 const router = useRouter()
 const isLoginModal = ref(false)
@@ -62,11 +70,11 @@ const icons = () => {
   align-items: center;
   gap: 12px;
   width: 100%;
-  max-width: 168px;
+  max-width: 104px;
 }
 @media (max-width: 767px) {
   .list {
-    max-width: 92px;
+    max-width: 52px;
   }
 }
 .list-item {

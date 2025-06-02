@@ -21,8 +21,11 @@
     </div>
 
     <!-- Этот блок показывается только на странице Корзины -->
-    <div v-if="props.fromPage === 'cartPage'" class="heading-cart-clear-button-box">
-      <button class="heading-cart-clear-button">
+    <div
+      v-if="props.fromPage === 'cartPage' && cartStore.cartItems.length"
+      class="heading-cart-clear-button-box"
+    >
+      <button class="heading-cart-clear-button" @click="cartStore.deleteAllItems">
         <span class="heading-cart-clear-button-text">Очистить корзину</span>
         <img
           src="/icons/icon-trash-gray.svg"
@@ -38,6 +41,9 @@
 import SortBox from '@/components/filters/SortBox.vue'
 import AppFilterButton from '@/components/filters/AppFilterButton.vue'
 import { useResizeLarge } from '@/use/useResizeLarge'
+import { useCartStore } from '@/stores/cart-store'
+
+const cartStore = useCartStore()
 const { isScreenLarge } = useResizeLarge()
 
 const props = defineProps(['title', 'quantity', 'sortBox', 'filters', 'isDesc', 'fromPage'])

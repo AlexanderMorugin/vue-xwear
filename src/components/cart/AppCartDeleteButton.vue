@@ -1,10 +1,13 @@
 <template>
-  <button class="btn-delete" @click="handleDelete">
+  <button class="btn-delete" @click="$emit('deleteItem')">
     <img src="/icons/icon-trash-gray.svg" alt="Иконка удаления" class="btn-delete-icon" />
   </button>
 </template>
 
-<script setup></script>
+<script setup>
+// eslint-disable-next-line no-unused-vars
+const emit = defineEmits(['deleteItem'])
+</script>
 
 <style scoped>
 .btn-delete {

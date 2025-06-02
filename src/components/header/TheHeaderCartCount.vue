@@ -1,8 +1,12 @@
 <template>
   <div class="cartCount">
-    <span class="amount">70</span>
+    <span class="amount">{{ props.amount }}</span>
   </div>
 </template>
+
+<script setup>
+const props = defineProps(['amount'])
+</script>
 
 <style scoped>
 .cartCount {
