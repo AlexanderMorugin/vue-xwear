@@ -9,6 +9,16 @@
             <span class="size">36</span>
             <span class="price">{{ currencyFormater(props.product.price36) }}</span>
           </label>
+          <AppProductSizeBadge :id="props.id" size="36" />
+          <!-- <div
+            v-if="
+              getCartItemsById.find((item) => item === props.id) &&
+              getCartItemsBySize.find((item) => item === '36')
+            "
+            class="form-radio-group-item-badge"
+          >
+            Cart
+          </div> -->
         </div>
       </li>
       <li>
@@ -18,6 +28,7 @@
             <span class="size">37</span>
             <span class="price">{{ currencyFormater(props.product.price37) }}</span>
           </label>
+          <AppProductSizeBadge :id="props.id" size="37" />
         </div>
       </li>
       <li>
@@ -27,6 +38,7 @@
             <span class="size">38</span>
             <span class="price">{{ currencyFormater(props.product.price38) }}</span>
           </label>
+          <AppProductSizeBadge :id="props.id" size="38" />
         </div>
       </li>
       <li>
@@ -36,6 +48,7 @@
             <span class="size">39</span>
             <span class="price">{{ currencyFormater(props.product.price39) }}</span>
           </label>
+          <AppProductSizeBadge :id="props.id" size="39" />
         </div>
       </li>
       <li>
@@ -45,6 +58,7 @@
             <span class="size">40</span>
             <span class="price">{{ currencyFormater(props.product.price40) }}</span>
           </label>
+          <AppProductSizeBadge :id="props.id" size="40" />
         </div>
       </li>
       <li>
@@ -54,6 +68,7 @@
             <span class="size">41</span>
             <span class="price">{{ currencyFormater(props.product.price41) }}</span>
           </label>
+          <AppProductSizeBadge :id="props.id" size="41" />
         </div>
       </li>
       <li>
@@ -63,6 +78,7 @@
             <span class="size">42</span>
             <span class="price">{{ currencyFormater(props.product.price42) }}</span>
           </label>
+          <AppProductSizeBadge :id="props.id" size="42" />
         </div>
       </li>
       <li>
@@ -72,6 +88,7 @@
             <span class="size">43</span>
             <span class="price">{{ currencyFormater(props.product.price43) }}</span>
           </label>
+          <AppProductSizeBadge :id="props.id" size="43" />
         </div>
       </li>
       <li>
@@ -81,6 +98,7 @@
             <span class="size">44</span>
             <span class="price">{{ currencyFormater(props.product.price44) }}</span>
           </label>
+          <AppProductSizeBadge :id="props.id" size="44" />
         </div>
       </li>
       <li>
@@ -90,6 +108,7 @@
             <span class="size">45</span>
             <span class="price">{{ currencyFormater(props.product.price45) }}</span>
           </label>
+          <AppProductSizeBadge :id="props.id" size="45" />
         </div>
       </li>
     </ul>
@@ -103,12 +122,26 @@
         <img src="/icons/icon-arrow-white.svg" alt="Стрелка" />
       </button>
     </div>
+    <!-- {{ props.id }} -->
+
+    <!-- {{ cartStore.cartItems }} -->
+    <!-- {{ getCartItemsById.find((item) => item === props.id) && 'Hello' }}
+    {{ getCartItemsBySize.find((item) => item === '38') && 'World' }} -->
+
+    <!-- {{
+      getCartItemsById.find((item) => item === props.id) &&
+      getCartItemsBySize.find((item) => item === '38') &&
+      'Hello World'
+    }} -->
   </form>
+
+  <!-- {{ chooseSize }} -->
 </template>
 
 <script setup>
-import { currencyFormater } from '@/utils/currency-formater'
 import { ref } from 'vue'
+import { currencyFormater } from '@/utils/currency-formater'
+import AppProductSizeBadge from './AppProductSizeBadge.vue'
 import { useCartStore } from '@/stores/cart-store'
 
 const cartStore = useCartStore()
@@ -118,7 +151,8 @@ const props = defineProps(['product', 'id'])
 const chooseSize = ref(null)
 const submitPrice = ref(null)
 
-// console.log(props.product)
+// const getCartItemsBySize = computed(() => cartStore.cartItems.map((item) => item.size))
+// const getCartItemsById = computed(() => cartStore.cartItems.map((item) => item.id))
 
 const setPrice = () => {
   if (chooseSize.value === '37') {
@@ -144,6 +178,8 @@ const setPrice = () => {
   }
 }
 
+// console.log(chooseSize)
+
 const submit = () => {
   const data = {
     id: props.id,
@@ -165,8 +201,6 @@ const submit = () => {
   }
 
   cartStore.addCartItem(data)
-
-  // console.log(data)
 }
 </script>
 
@@ -207,10 +241,12 @@ const submit = () => {
     padding-top: 13px;
   }
 }
+.form-radio-group-item {
+  position: relative;
+}
 .form-radio-group input[type='radio'] {
   display: none;
 }
-/* .form-radio-group-item label { */
 .form-radio-group-item label {
   display: flex;
   flex-direction: column;
@@ -240,7 +276,7 @@ const submit = () => {
 .size {
   line-height: 15px;
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 500;
   color: var(--color-text-product-size);
   transition: 0.5s ease all;
 }
@@ -252,7 +288,7 @@ const submit = () => {
 .price {
   line-height: 15px;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 500;
   color: var(--color-text-product-price);
   transition: 0.8s ease all;
 }

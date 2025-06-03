@@ -14,6 +14,10 @@ export const useCartStore = defineStore('cartStore', () => {
     return data
   })
 
+  const getCurrentItem = (id) => {
+    return cartItems.value.find((item) => item.id === id)
+  }
+
   const addCartItem = (item) => cartItems.value.push(item)
 
   const increment = (id, size) => {
@@ -41,6 +45,7 @@ export const useCartStore = defineStore('cartStore', () => {
     cartItems,
     totalCountCartItems,
     totalCartSum,
+    getCurrentItem,
     addCartItem,
     increment,
     decrement,
