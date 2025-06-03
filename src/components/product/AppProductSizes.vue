@@ -10,15 +10,6 @@
             <span class="price">{{ currencyFormater(props.product.price36) }}</span>
           </label>
           <AppProductSizeBadge :id="props.id" size="36" />
-          <!-- <div
-            v-if="
-              getCartItemsById.find((item) => item === props.id) &&
-              getCartItemsBySize.find((item) => item === '36')
-            "
-            class="form-radio-group-item-badge"
-          >
-            Cart
-          </div> -->
         </div>
       </li>
       <li>
@@ -122,24 +113,11 @@
         <img src="/icons/icon-arrow-white.svg" alt="Стрелка" />
       </button>
     </div>
-    <!-- {{ props.id }} -->
-
-    <!-- {{ cartStore.cartItems }} -->
-    <!-- {{ getCartItemsById.find((item) => item === props.id) && 'Hello' }}
-    {{ getCartItemsBySize.find((item) => item === '38') && 'World' }} -->
-
-    <!-- {{
-      getCartItemsById.find((item) => item === props.id) &&
-      getCartItemsBySize.find((item) => item === '38') &&
-      'Hello World'
-    }} -->
   </form>
-
-  <!-- {{ chooseSize }} -->
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { currencyFormater } from '@/utils/currency-formater'
 import AppProductSizeBadge from './AppProductSizeBadge.vue'
 import { useCartStore } from '@/stores/cart-store'
@@ -150,9 +128,6 @@ const props = defineProps(['product', 'id'])
 
 const chooseSize = ref(null)
 const submitPrice = ref(null)
-
-// const getCartItemsBySize = computed(() => cartStore.cartItems.map((item) => item.size))
-// const getCartItemsById = computed(() => cartStore.cartItems.map((item) => item.id))
 
 const setPrice = () => {
   if (chooseSize.value === '37') {
@@ -178,7 +153,8 @@ const setPrice = () => {
   }
 }
 
-// console.log(chooseSize)
+const getCartItemsId = computed(() => cartStore.cartItems.map((item) => item.id))
+const getCartItemsSize = computed(() => cartStore.cartItems.map((item) => item.size))
 
 const submit = () => {
   const data = {

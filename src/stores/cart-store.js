@@ -4,6 +4,7 @@ import { defineStore } from 'pinia'
 export const useCartStore = defineStore('cartStore', () => {
   const cartItems = ref([])
 
+  // const CartItemsGetter = computed(() => cartItems.value)
   const totalCountCartItems = computed(() => cartItems.value.length)
 
   const totalCartSum = computed(() => {
@@ -18,7 +19,28 @@ export const useCartStore = defineStore('cartStore', () => {
     return cartItems.value.find((item) => item.id === id)
   }
 
-  const addCartItem = (item) => cartItems.value.push(item)
+  // const getItemId = (id) => {
+  //   return cartItems.value.find((item) => item.id === id)
+  // }
+  // const getItemSize = (size) => {
+  //   return cartItems.value.find((item) => item.size === size)
+  // }
+
+  const cartItemsId = computed(() => cartItems.value.map((item) => item.id))
+  const cartItemsSize = computed(() => cartItems.value.map((item) => item.size))
+
+  const addCartItem = (item) => {
+    if (cartItems.value.find((el) => el.size === item.size && el.id === item.id)) {
+      return
+    } else if (cartItemsId.value.find((el) => el !== item.id)) {
+      cartItems.value.push(item)
+    } else {
+      cartItems.value.push(item)
+    }
+    console.log(item.size)
+    console.log(cartItemsId.value)
+    console.log(cartItemsSize.value)
+  }
 
   const increment = (id, size) => {
     const currentItem = cartItems.value.find((item) => item.id === id && item.size === size)
