@@ -7,7 +7,12 @@
     />
     <span class="product-list-badge-size-text">В корзине</span>
     <div class="product-list-badge-size-text">
-      Размер: <span class="product-list-badge-size-span">{{ props.size }}</span>
+      Размер:
+      <span class="product-list-badge-size-span"
+        ><ul>
+          <li v-for="item in props.currentCartItem" :key="item.size">{{ item.size }}</li>
+        </ul></span
+      >
     </div>
   </router-link>
 </template>
@@ -15,7 +20,7 @@
 <script setup>
 import { PATH_CART } from '@/mock/routes'
 
-const props = defineProps(['size'])
+const props = defineProps(['currentCartItem'])
 </script>
 
 <style scoped>

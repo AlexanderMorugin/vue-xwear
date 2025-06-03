@@ -2,7 +2,7 @@
   <div class="product-card">
     <!-- Бейджи-Absolut сверху на карточке товара. Бейдж с размером показывается только если товар добавлен в корзину -->
     <AppFavoriteButton :isFavorite="props.item.isFavorite" :id="props.item.id" />
-    <AppProductListBadgeSize v-if="currentCartItem" :size="currentCartItem.size" />
+    <AppProductListBadgeSize v-if="currentCartItem.length" :currentCartItem="currentCartItem" />
 
     <img :src="props.item.imageOneSmall" alt="product" class="image" />
     <p class="name">{{ props.item.name }}</p>
@@ -32,11 +32,11 @@ import { PATH_SHOES } from '@/mock/routes'
 import { useCartStore } from '@/stores/cart-store'
 import AppProductListBadgeSize from './AppProductListBadgeSize.vue'
 
-const cartStore = useCartStore()
-
 const props = defineProps(['item', 'fromPage'])
 
-const currentCartItem = computed(() => cartStore.getCurrentItem(props.item.id))
+const cartStore = useCartStore()
+
+const currentCartItem = computed(() => cartStore.getCurrentItem(props.item))
 </script>
 
 <style scoped>

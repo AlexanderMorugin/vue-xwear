@@ -15,19 +15,12 @@ export const useCartStore = defineStore('cartStore', () => {
     return data
   })
 
-  const getCurrentItem = (id) => {
-    return cartItems.value.find((item) => item.id === id)
+  const getCurrentItem = (item) => {
+    return cartItems.value.filter((el) => el.id === item.id)
   }
 
-  // const getItemId = (id) => {
-  //   return cartItems.value.find((item) => item.id === id)
-  // }
-  // const getItemSize = (size) => {
-  //   return cartItems.value.find((item) => item.size === size)
-  // }
-
   const cartItemsId = computed(() => cartItems.value.map((item) => item.id))
-  const cartItemsSize = computed(() => cartItems.value.map((item) => item.size))
+  // const cartItemsSize = computed(() => cartItems.value.map((item) => item.size))
 
   const addCartItem = (item) => {
     if (cartItems.value.find((el) => el.size === item.size && el.id === item.id)) {
@@ -37,9 +30,6 @@ export const useCartStore = defineStore('cartStore', () => {
     } else {
       cartItems.value.push(item)
     }
-    console.log(item.size)
-    console.log(cartItemsId.value)
-    console.log(cartItemsSize.value)
   }
 
   const increment = (id, size) => {
