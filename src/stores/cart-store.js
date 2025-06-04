@@ -1,10 +1,16 @@
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useCartStore = defineStore('cartStore', () => {
   const cartItems = ref([])
 
-  // const CartItemsGetter = computed(() => cartItems.value)
+  // Подтягиваем данные корзины из LocalStorage
+  const cartItemsinLocalStorage = localStorage.getItem('cartItems')
+
+  if (cartItemsinLocalStorage) {
+    cartItems.value = JSON.parse(cartItemsinLocalStorage)
+  }
+
   const totalCountCartItems = computed(() => cartItems.value.length)
 
   const totalCartSum = computed(() => {
@@ -58,6 +64,15 @@ export const useCartStore = defineStore('cartStore', () => {
   }
 
   const deleteAllItems = () => (cartItems.value = [])
+
+  // Следим за изменениями в корзине и обновляем данные в LocalStorage
+  watch(
+    () => cartItems,
+    (cartItems) => {
+      localStorage.setItem('cartItems', JSON.stringify(cartItems.value))
+    },
+    { deep: true },
+  )
 
   return {
     cartItems,
