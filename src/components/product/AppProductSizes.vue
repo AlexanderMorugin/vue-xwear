@@ -108,15 +108,18 @@
         <span class="choose-size">Размер - {{ chooseSize ? chooseSize : '36' }}</span>
         <span class="choose-price">{{ currencyFormater(setPrice()) }}</span>
       </div>
-      <button class="btn-submit">
+
+      <!-- Показываем кнопку если конкретного размера нет в корзине -->
+      <button class="btn-submit" v-if="!setActiveSizeBadge(chooseSize)">
         Добавить в корзину
         <img src="/icons/icon-arrow-white.svg" alt="Стрелка" />
       </button>
+      <!-- Иначе показываем кнопку для перехода в корзину -->
+      <router-link :to="PATH_CART" v-else class="btn-submit btn-to-cart"
+        >Этот размер в корзине <img src="/icons/icon-arrow-black.svg" alt="Стрелка"
+      /></router-link>
     </div>
   </form>
-
-  {{ chooseSize }}
-  {{ ArrayByItemId }}
 </template>
 
 <script setup>
@@ -124,6 +127,7 @@ import { ref, computed } from 'vue'
 import { currencyFormater } from '@/utils/currency-formater'
 import AppProductSizeBadge from './AppProductSizeBadge.vue'
 import { useCartStore } from '@/stores/cart-store'
+import { PATH_CART } from '@/mock/routes'
 
 const props = defineProps(['product', 'id'])
 
@@ -131,7 +135,6 @@ const cartStore = useCartStore()
 
 // Находим в корзине все товары с разными размерами и одинаковым ID
 const ArrayByItemId = computed(() => cartStore.getCurrentItemById(props.id))
-// const ArrayByItemSize = computed(() => ArrayByItemId.value.filter((el) => el.size === '37'))
 
 const chooseSize = ref(null)
 const submitPrice = ref(null)
@@ -139,6 +142,8 @@ const submitPrice = ref(null)
 const setActiveSizeBadge = (index) => {
   let active = false
   if (ArrayByItemId.value.find((el) => el.size === index)) {
+    active = true
+  } else if (!index && ArrayByItemId.value.find((el) => el.size === '36')) {
     active = true
   } else {
     active = false
@@ -314,6 +319,7 @@ const submit = () => {
 @media (max-width: 767px) {
   .bottom-container {
     justify-content: flex-end;
+    gap: 20px;
     padding-top: 25px;
   }
 }
@@ -351,6 +357,7 @@ const submit = () => {
   align-items: center;
   gap: 23px;
   border-radius: 5px;
+  border: 1px solid transparent;
   background: var(--color-background-product-choose-button);
   line-height: 20px;
   font-size: 12px;
@@ -377,5 +384,14 @@ const submit = () => {
     gap: 23px;
     padding: 15px 12px;
   }
+}
+.btn-to-cart {
+  color: var(--black-primary);
+  background: var(--white-primary);
+  border: 1px solid var(--gray-sixdary);
+}
+.btn-to-cart:hover {
+  background: var(--gray-sixdary);
+  border: 1px solid var(--gray-normal-thirdary);
 }
 </style>

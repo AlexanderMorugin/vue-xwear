@@ -5,36 +5,7 @@
 </template>
 
 <script setup>
-// import { computed } from 'vue'
 import { PATH_CART } from '@/mock/routes'
-// import { useCartStore } from '@/stores/cart-store'
-
-const props = defineProps(['id', 'size'])
-
-// const cartStore = useCartStore()
-
-// const getCartItemsById = computed(() => cartStore.cartItems.map((item) => item.id))
-// const getCartItemsBySize = computed(() => cartStore.cartItems.map((item) => item.size))
-
-// const currentId = getCartItemsById.value.find((item) => item === props.id)
-// const currentSize = getCartItemsBySize.value.find((item) => item === props.size)
-
-// const showBadge = () => {
-//   let show = false
-
-//   // const currentId = cartStore.cartItems.find((item) => item === props.id)
-//   // const currentSize = getCartItemsBySize.value.find((item) => item === props.size)
-//   const currentId = getCartItemsById.value.find((item) => item === props.id)
-//   const currentSize = getCartItemsBySize.value.find((item) => item === props.size)
-
-//   // console.log(currentId)
-
-//   if (currentId && currentSize) {
-//     show = true
-//   }
-
-//   return show
-// }
 </script>
 
 <style scoped>
