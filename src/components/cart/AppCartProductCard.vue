@@ -8,7 +8,14 @@
       </div>
     </div>
     <!-- Кнопка "Удалить" в верхнем правом углу карточки товара -->
-    <AppCartDeleteButton @deleteItem="cartStore.deleteItem(props.item.id, props.item.size)" />
+    <AppCartDeleteButton @openDeleteModal="openDeleteModal" />
+    <!-- Модалка удаления -->
+    <AppCartDeleteModal
+      v-if="isDeleteModalOpen"
+      title="Удалить товар из корзины?"
+      @closeDeleteModal="closeDeleteModal"
+      @deleteItem="deleteItem"
+    />
 
     <!-- Сам товар -->
     <img :src="props.item.imageOneSmall" alt="product" class="cart-image" />
@@ -24,7 +31,7 @@
     ></router-link>
   </div>
 
-  <!-- Счетчик уеличинения и уменьшения товара -->
+  <!-- Счетчик увеличинения и уменьшения товара -->
   <div class="cart-product-counter-box">
     <div class="cart-product-counter">
       <button
@@ -46,29 +53,26 @@
 </template>
 
 <script setup>
-// import { computed, ref } from 'vue'
+import { ref } from 'vue'
 import AppCartDeleteButton from '@/components/cart/AppCartDeleteButton.vue'
 import { currencyFormater } from '@/utils/currency-formater'
 import { categoryNameFormater } from '@/utils/category-name-formater'
 import { PATH_SHOES } from '@/mock/routes'
 import { useCartStore } from '@/stores/cart-store'
+import AppCartDeleteModal from './AppCartDeleteModal.vue'
 
 const cartStore = useCartStore()
 
 const props = defineProps(['item', 'fromPage'])
 
-// const quantity = ref(1)
-// const sum = computed(() => Number(props.item.price) * quantity.value)
+const isDeleteModalOpen = ref(false)
 
-// const handleIncrement = () => quantity.value++
-
-// const handleDecrement = () => {
-//   if (quantity.value > 1) {
-//     quantity.value--
-//   } else {
-//     quantity.value = 1
-//   }
-// }
+const openDeleteModal = () => (isDeleteModalOpen.value = true)
+const closeDeleteModal = () => (isDeleteModalOpen.value = false)
+const deleteItem = () => {
+  cartStore.deleteItem(props.item.id, props.item.size)
+  closeDeleteModal()
+}
 </script>
 
 <style scoped>

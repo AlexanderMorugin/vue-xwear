@@ -25,7 +25,7 @@
       v-if="props.fromPage === 'cartPage' && cartStore.cartItems.length"
       class="heading-cart-clear-button-box"
     >
-      <button class="heading-cart-clear-button" @click="cartStore.deleteAllItems">
+      <button class="heading-cart-clear-button" @click="openDeleteModal">
         <span class="heading-cart-clear-button-text">Очистить корзину</span>
         <img
           src="/icons/icon-trash-gray.svg"
@@ -34,14 +34,23 @@
         />
       </button>
     </div>
+    <!-- Модалка удаления -->
+    <AppCartDeleteModal
+      v-if="isDeleteModalOpen"
+      title="Очистить корзину?"
+      @closeDeleteModal="closeDeleteModal"
+      @deleteItem="deleteItem"
+    />
   </div>
 </template>
 
 <script setup>
+import { ref } from 'vue'
 import SortBox from '@/components/filters/SortBox.vue'
 import AppFilterButton from '@/components/filters/AppFilterButton.vue'
 import { useResizeLarge } from '@/use/useResizeLarge'
 import { useCartStore } from '@/stores/cart-store'
+import AppCartDeleteModal from '@/components/cart/AppCartDeleteModal.vue'
 
 const cartStore = useCartStore()
 const { isScreenLarge } = useResizeLarge()
@@ -49,6 +58,15 @@ const { isScreenLarge } = useResizeLarge()
 const props = defineProps(['title', 'quantity', 'sortBox', 'filters', 'isDesc', 'fromPage'])
 // eslint-disable-next-line no-unused-vars
 const emit = defineEmits(['toggleSorting', 'openFiltersForMobile'])
+
+const isDeleteModalOpen = ref(false)
+
+const openDeleteModal = () => (isDeleteModalOpen.value = true)
+const closeDeleteModal = () => (isDeleteModalOpen.value = false)
+const deleteItem = () => {
+  cartStore.deleteAllItems()
+  closeDeleteModal()
+}
 </script>
 
 <style scoped>

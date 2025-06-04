@@ -3,7 +3,7 @@
     <div class="profile-modal-overlay" @click="$emit('closeProfileModal')">
       <div @click.stop class="profile-modal">
         <!-- Кнопка крестик -->
-        <button v-if="!isScreenMedium" class="modal-close" @click="$emit('closeProfileModal')">
+        <button class="modal-close" @click="$emit('closeProfileModal')">
           <img src="/icons/icon-close-gray.svg" alt="Закрыть" />
         </button>
 
