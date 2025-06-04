@@ -5,43 +5,36 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+// import { computed } from 'vue'
 import { PATH_CART } from '@/mock/routes'
-import { useCartStore } from '@/stores/cart-store'
+// import { useCartStore } from '@/stores/cart-store'
 
 const props = defineProps(['id', 'size'])
 
-const cartStore = useCartStore()
+// const cartStore = useCartStore()
 
-const getCartItemsById = computed(() => cartStore.cartItems.map((item) => item.id))
-const getCartItemsBySize = computed(() => cartStore.cartItems.map((item) => item.size))
+// const getCartItemsById = computed(() => cartStore.cartItems.map((item) => item.id))
+// const getCartItemsBySize = computed(() => cartStore.cartItems.map((item) => item.size))
 
 // const currentId = getCartItemsById.value.find((item) => item === props.id)
 // const currentSize = getCartItemsBySize.value.find((item) => item === props.size)
 
-const showBadge = () => {
-  let show = false
+// const showBadge = () => {
+//   let show = false
 
-  // const currentId = cartStore.cartItems.find((item) => item === props.id)
-  // const currentSize = getCartItemsBySize.value.find((item) => item === props.size)
-  const currentId = getCartItemsById.value.find((item) => item === props.id)
-  const currentSize = getCartItemsBySize.value.find((item) => item === props.size)
+//   // const currentId = cartStore.cartItems.find((item) => item === props.id)
+//   // const currentSize = getCartItemsBySize.value.find((item) => item === props.size)
+//   const currentId = getCartItemsById.value.find((item) => item === props.id)
+//   const currentSize = getCartItemsBySize.value.find((item) => item === props.size)
 
-  // console.log(currentId)
+//   // console.log(currentId)
 
-  if (currentId && currentSize) {
-    // console.log('getCartItemsById - ', getCartItemsById.value)
-    // console.log('getCartItemsBySize - ', getCartItemsBySize.value)
-    // console.log(
-    //   'currentId - ',
-    //   cartStore.cartItems.find((item) => item.id === props.id),
-    // )
-    // console.log('currentSize - ', currentSize)
-    show = true
-  }
+//   if (currentId && currentSize) {
+//     show = true
+//   }
 
-  return show
-}
+//   return show
+// }
 </script>
 
 <style scoped>

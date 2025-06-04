@@ -9,7 +9,7 @@
             <span class="size">36</span>
             <span class="price">{{ currencyFormater(props.product.price36) }}</span>
           </label>
-          <AppProductSizeBadge :id="props.id" size="36" />
+          <AppProductSizeBadge v-if="setActiveSizeBadge('36')" />
         </div>
       </li>
       <li>
@@ -19,7 +19,7 @@
             <span class="size">37</span>
             <span class="price">{{ currencyFormater(props.product.price37) }}</span>
           </label>
-          <AppProductSizeBadge :id="props.id" size="37" />
+          <AppProductSizeBadge v-if="setActiveSizeBadge('37')" />
         </div>
       </li>
       <li>
@@ -29,7 +29,7 @@
             <span class="size">38</span>
             <span class="price">{{ currencyFormater(props.product.price38) }}</span>
           </label>
-          <AppProductSizeBadge :id="props.id" size="38" />
+          <AppProductSizeBadge v-if="setActiveSizeBadge('38')" />
         </div>
       </li>
       <li>
@@ -39,7 +39,7 @@
             <span class="size">39</span>
             <span class="price">{{ currencyFormater(props.product.price39) }}</span>
           </label>
-          <AppProductSizeBadge :id="props.id" size="39" />
+          <AppProductSizeBadge v-if="setActiveSizeBadge('39')" />
         </div>
       </li>
       <li>
@@ -49,7 +49,7 @@
             <span class="size">40</span>
             <span class="price">{{ currencyFormater(props.product.price40) }}</span>
           </label>
-          <AppProductSizeBadge :id="props.id" size="40" />
+          <AppProductSizeBadge v-if="setActiveSizeBadge('40')" />
         </div>
       </li>
       <li>
@@ -59,7 +59,7 @@
             <span class="size">41</span>
             <span class="price">{{ currencyFormater(props.product.price41) }}</span>
           </label>
-          <AppProductSizeBadge :id="props.id" size="41" />
+          <AppProductSizeBadge v-if="setActiveSizeBadge('41')" />
         </div>
       </li>
       <li>
@@ -69,7 +69,7 @@
             <span class="size">42</span>
             <span class="price">{{ currencyFormater(props.product.price42) }}</span>
           </label>
-          <AppProductSizeBadge :id="props.id" size="42" />
+          <AppProductSizeBadge v-if="setActiveSizeBadge('42')" />
         </div>
       </li>
       <li>
@@ -79,7 +79,7 @@
             <span class="size">43</span>
             <span class="price">{{ currencyFormater(props.product.price43) }}</span>
           </label>
-          <AppProductSizeBadge :id="props.id" size="43" />
+          <AppProductSizeBadge v-if="setActiveSizeBadge('43')" />
         </div>
       </li>
       <li>
@@ -89,7 +89,7 @@
             <span class="size">44</span>
             <span class="price">{{ currencyFormater(props.product.price44) }}</span>
           </label>
-          <AppProductSizeBadge :id="props.id" size="44" />
+          <AppProductSizeBadge v-if="setActiveSizeBadge('44')" />
         </div>
       </li>
       <li>
@@ -99,7 +99,7 @@
             <span class="size">45</span>
             <span class="price">{{ currencyFormater(props.product.price45) }}</span>
           </label>
-          <AppProductSizeBadge :id="props.id" size="45" />
+          <AppProductSizeBadge v-if="setActiveSizeBadge('45')" />
         </div>
       </li>
     </ul>
@@ -114,6 +114,9 @@
       </button>
     </div>
   </form>
+
+  {{ chooseSize }}
+  {{ ArrayByItemId }}
 </template>
 
 <script setup>
@@ -122,12 +125,26 @@ import { currencyFormater } from '@/utils/currency-formater'
 import AppProductSizeBadge from './AppProductSizeBadge.vue'
 import { useCartStore } from '@/stores/cart-store'
 
+const props = defineProps(['product', 'id'])
+
 const cartStore = useCartStore()
 
-const props = defineProps(['product', 'id'])
+// Находим в корзине все товары с разными размерами и одинаковым ID
+const ArrayByItemId = computed(() => cartStore.getCurrentItemById(props.id))
+// const ArrayByItemSize = computed(() => ArrayByItemId.value.filter((el) => el.size === '37'))
 
 const chooseSize = ref(null)
 const submitPrice = ref(null)
+
+const setActiveSizeBadge = (index) => {
+  let active = false
+  if (ArrayByItemId.value.find((el) => el.size === index)) {
+    active = true
+  } else {
+    active = false
+  }
+  return active
+}
 
 const setPrice = () => {
   if (chooseSize.value === '37') {
@@ -152,9 +169,6 @@ const setPrice = () => {
     return (submitPrice.value = props.product.price36)
   }
 }
-
-const getCartItemsId = computed(() => cartStore.cartItems.map((item) => item.id))
-const getCartItemsSize = computed(() => cartStore.cartItems.map((item) => item.size))
 
 const submit = () => {
   const data = {

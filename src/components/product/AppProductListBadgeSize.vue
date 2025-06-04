@@ -7,12 +7,16 @@
     />
     <span class="product-list-badge-size-text">В корзине</span>
     <div class="product-list-badge-size-text">
-      Размер:
-      <span class="product-list-badge-size-span"
-        ><ul>
-          <li v-for="item in props.currentCartItem" :key="item.size">{{ item.size }}</li>
-        </ul></span
-      >
+      <span>{{ props.currentCartItem.length > 1 ? 'Размеры:' : 'Размер:' }}</span>
+      <ul>
+        <li
+          v-for="item in props.currentCartItem"
+          :key="item.size"
+          class="product-list-badge-size-span"
+        >
+          {{ item.size }}&ensp;
+        </li>
+      </ul>
     </div>
   </router-link>
 </template>
@@ -32,10 +36,12 @@ const props = defineProps(['currentCartItem'])
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 100%;
+  max-width: 82px;
   background: rgba(255, 255, 255, 0.6);
   border-radius: 5px;
   border: 1px solid var(--gray-sixdary);
-  padding: 5px 10px;
+  padding: 5px 7px;
   transition: 0.3s ease all;
   z-index: 20;
 }
@@ -57,8 +63,10 @@ const props = defineProps(['currentCartItem'])
   font-size: 12px;
   font-weight: 400;
   color: var(--gray-normal-sevendary);
+  text-align: center;
 }
 .product-list-badge-size-span {
+  display: inline-flex;
   font-weight: 600;
   color: var(--black-thirdary);
 }

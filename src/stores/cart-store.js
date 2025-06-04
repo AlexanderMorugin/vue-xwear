@@ -15,8 +15,14 @@ export const useCartStore = defineStore('cartStore', () => {
     return data
   })
 
+  // Используется для составления массива товаров с уникальными ID
   const getCurrentItem = (item) => {
     return cartItems.value.filter((el) => el.id === item.id)
+  }
+
+  // Используется для составления массива товаров с уникальными ID
+  const getCurrentItemById = (id) => {
+    return cartItems.value.filter((el) => el.id === id)
   }
 
   const cartItemsId = computed(() => cartItems.value.map((item) => item.id))
@@ -58,6 +64,7 @@ export const useCartStore = defineStore('cartStore', () => {
     totalCountCartItems,
     totalCartSum,
     getCurrentItem,
+    getCurrentItemById,
     addCartItem,
     increment,
     decrement,
