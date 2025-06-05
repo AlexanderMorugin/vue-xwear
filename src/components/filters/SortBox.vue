@@ -1,8 +1,10 @@
 <template>
   <div class="sort-box">
     <span class="text sort-text">Сортировать: </span>
-    <button class="btn text btn-text" @click="$emit('toggleSorting')">
-      {{ isDesc ? 'От дешевых к дорогим' : 'От дорогих к дешевым' }}
+    <button class="btn" @click="$emit('toggleSorting')">
+      <span class="text btn-text">{{
+        isDesc ? 'От дешевых к дорогим' : 'От дорогих к дешевым'
+      }}</span>
       <img
         src="/icons/icon-arrow-gray.svg"
         alt="Стрелка"
@@ -44,10 +46,13 @@ const props = defineProps(['isDesc'])
 }
 .btn {
   display: flex;
+  align-items: center;
   gap: 6px;
   cursor: pointer;
 }
 .btn-text {
+  /* font-size: 13px;
+  font-weight: 600; */
   color: var(--color-text-sort-button);
   transition: 0.3s ease all;
 }
@@ -56,6 +61,8 @@ const props = defineProps(['isDesc'])
 }
 .arrow {
   width: 10px;
+  height: 10px;
+  /* object-fit: contain; */
   transition: 0.8s ease all;
 }
 .arrow-desc {
