@@ -115,8 +115,8 @@
         <img src="/icons/icon-arrow-white.svg" alt="Стрелка" />
       </button>
       <!-- Иначе показываем кнопку для перехода в корзину -->
-      <router-link :to="PATH_CART" v-else class="btn-submit btn-to-cart"
-        >Этот размер в корзине <img src="/icons/icon-arrow-black.svg" alt="Стрелка"
+      <router-link :to="PATH_CART" v-else class="btn-submit btn-to-cart">
+        Этот размер в корзине<img src="/icons/icon-arrow-black.svg" alt="Стрелка"
       /></router-link>
     </div>
   </form>
@@ -306,9 +306,13 @@ const submit = () => {
 }
 
 .bottom-container {
-  display: flex;
-  align-items: center;
-  gap: 34px;
+  /* display: flex;
+  align-items: center; */
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  /* justify-items: end; */
+  /* gap: 34px; */
+  /* width: fit-content; */
   padding-top: 29px;
 }
 @media (max-width: 1023px) {
@@ -318,14 +322,16 @@ const submit = () => {
 }
 @media (max-width: 767px) {
   .bottom-container {
-    justify-content: flex-end;
-    gap: 20px;
+    /* justify-content: flex-end; */
+    /* gap: 20px; */
     padding-top: 25px;
   }
 }
 .choose-box {
   display: flex;
   flex-direction: column;
+
+  /* border: 1px solid red; */
 }
 .choose-price {
   line-height: 24px;
@@ -356,6 +362,8 @@ const submit = () => {
   justify-content: center;
   align-items: center;
   gap: 23px;
+  width: 100%;
+  max-width: 250px;
   border-radius: 5px;
   border: 1px solid transparent;
   background: var(--color-background-product-choose-button);
@@ -386,6 +394,7 @@ const submit = () => {
   }
 }
 .btn-to-cart {
+  text-align: center;
   color: var(--black-primary);
   background: var(--white-primary);
   border: 1px solid var(--gray-sixdary);

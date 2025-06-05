@@ -38,8 +38,9 @@ const props = defineProps(['breadcrumbs'])
 .breadcrumbs-list {
   display: flex;
   align-items: center;
-  width: 100%;
-  max-width: 1360px;
+  /* width: 100%;
+  max-width: 1360px; */
+  width: 1360px;
   margin: 0 auto;
 }
 
@@ -61,8 +62,8 @@ const props = defineProps(['breadcrumbs'])
   padding-right: 15px;
 }
 .active {
-  display: flex;
-  flex-wrap: nowrap;
+  /* display: flex; */
+  /* flex-wrap: nowrap; */
   color: var(--color-link-breadcrumbs-active);
 }
 </style>

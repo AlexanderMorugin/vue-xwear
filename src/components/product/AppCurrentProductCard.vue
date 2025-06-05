@@ -145,6 +145,11 @@ const setShowImage = (args) => {
   width: fit-content;
   border-bottom: 1px solid var(--gray-light-fourdary);
 }
+@media (max-width: 767px) {
+  .image-thumbs {
+    gap: 10px;
+  }
+}
 .image-thumbs-item {
   height: 106px;
   cursor: pointer;

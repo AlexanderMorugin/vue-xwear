@@ -93,7 +93,7 @@ const setActive = (args) => {
 }
 @media (max-width: 767px) {
   .details-head {
-    gap: 31px;
+    gap: 20px;
     margin-top: 52px;
   }
 }
