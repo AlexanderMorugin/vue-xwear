@@ -6,12 +6,19 @@
     <app-page tag="main" class="container">
       <AppHeading title="Оформление заказа" />
       <div class="order-view">
-        <AppOrderCard :orderStore="orderStore" />
+        <AppOrderCard
+          :orderStore="orderStore"
+          :discount="discount"
+          :delivery="delivery"
+          :totalSum="totalSum"
+        />
         <div class="order-view-address-submit">
           <AddressCard number="1" />
 
           <div class="order-view-buttons">
-            <button class="order-view-button order-view-button-submit">Оформить</button>
+            <button class="order-view-button order-view-button-submit" @click="submitOrder">
+              Оформить
+            </button>
             <button class="order-view-button order-view-button-cancel" @click="cancelOrder">
               Отменить
             </button>
@@ -23,7 +30,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import AppPage from '@/layouts/AppPage.vue'
 import AppBreadcrumbs from '@/components/breadcrumbs/AppBreadcrumbs.vue'
@@ -39,6 +46,29 @@ const orderStore = useOrderStore()
 const router = useRouter()
 
 const isLoading = ref(false)
+
+const discount = ref(20)
+const delivery = ref(500)
+
+const totalSum = computed(() => {
+  const discountSum = (orderStore.totalOrderSum * discount.value) / 100
+  return orderStore.totalOrderSum - discountSum + delivery.value
+})
+
+const submitOrder = () => {
+  const order = {
+    date: new Date().toLocaleString(),
+    items: orderStore.orderItems,
+    discount: discount.value,
+    delivery: delivery.value,
+    totalSum: totalSum.value,
+    customer: 'Василий Иванов',
+    address: '056734, Mосква, Poccия, улица Варшавская, 37/5, кв.574',
+    phone: '+7 (956) 373-46-33',
+    email: 'yavasyaivanov@gmail.com',
+  }
+  console.log(order)
+}
 
 const cancelOrder = () => {
   router.push(PATH_CART)

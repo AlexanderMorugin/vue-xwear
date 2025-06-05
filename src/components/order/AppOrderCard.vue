@@ -61,16 +61,16 @@
         </li>
         <li class="order-item order-item-product">
           <span class="order-item-bottom-name">Скидка</span>
-          <span class="order-item-bottom-price">{{ discount }} %</span>
+          <span class="order-item-bottom-price">{{ props.discount }} %</span>
         </li>
         <li class="order-item order-item-product">
           <span class="order-item-bottom-name">Доставка</span>
-          <span class="order-item-bottom-price">{{ currencyFormater(delivery) }}</span>
+          <span class="order-item-bottom-price">{{ currencyFormater(props.delivery) }}</span>
         </li>
       </ul>
       <div class="order-item order-item-product">
         <span class="order-item-total-name">Итого</span>
-        <span class="order-item-total-price">{{ currencyFormater(totalSum) }}</span>
+        <span class="order-item-total-price">{{ currencyFormater(props.totalSum) }}</span>
       </div>
     </div>
   </div>
@@ -79,22 +79,22 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+// import { ref, computed } from 'vue'
 import { PATH_SHOES } from '@/mock/routes'
 // import AddressCard from '@/components/profile/AddressCard.vue'
 import { categoryNameFormater } from '@/utils/category-name-formater'
 import { colorNameFormater } from '@/utils/color-name-formater'
 import { currencyFormater } from '@/utils/currency-formater'
 
-const props = defineProps(['orderStore', 'fromPage'])
+const props = defineProps(['orderStore', 'discount', 'delivery', 'totalSum', 'fromPage'])
 
-const discount = ref(20)
-const delivery = ref(500)
+// const discount = ref(20)
+// const delivery = ref(500)
 
-const totalSum = computed(() => {
-  const discountSum = (props.orderStore.totalOrderSum * discount.value) / 100
-  return props.orderStore.totalOrderSum - discountSum + delivery.value
-})
+// const totalSum = computed(() => {
+//   const discountSum = (props.orderStore.totalOrderSum * discount.value) / 100
+//   return props.orderStore.totalOrderSum - discountSum + delivery.value
+// })
 </script>
 
 <style scoped>

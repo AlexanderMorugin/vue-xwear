@@ -3,17 +3,17 @@
   <AppProfileButton v-if="isScreenLarge" @openProfileMenu="$emit('openProfileMenu')" />
 
   <AppProfileHeading title="Заказы в пути" />
-  <ul class="profile-orders">
+  <!-- <ul class="profile-orders">
     <li>
       <AppOrderCard />
     </li>
-  </ul>
+  </ul> -->
 </template>
 
 <script setup>
 import AppProfileHeading from '@/components/profile/AppProfileHeading.vue'
 import AppProfileButton from '@/components/profile/AppProfileButton.vue'
-import AppOrderCard from '@/components/order/AppOrderCard.vue'
+// import AppOrderCard from '@/components/order/AppOrderCard.vue'
 import { useResizeLarge } from '@/use/useResizeLarge'
 
 // Брейкпоинты ширины экрана
