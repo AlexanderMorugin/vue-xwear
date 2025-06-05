@@ -118,6 +118,11 @@ const deleteItem = () => {
   font-weight: 600;
   color: var(--color-text-quantity);
 }
+/* .heading-filter-buttons-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+} */
 .heading-filter-buttons {
   grid-area: filters;
   display: flex;

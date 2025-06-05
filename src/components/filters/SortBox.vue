@@ -27,12 +27,12 @@ const props = defineProps(['isDesc'])
   gap: 6px;
   width: fit-content;
 }
-@media (max-width: 767px) {
+/* @media (max-width: 767px) {
   .sort-box {
     justify-self: center;
     align-self: center;
   }
-}
+} */
 .text {
   line-height: 38px;
   font-size: 13px;
