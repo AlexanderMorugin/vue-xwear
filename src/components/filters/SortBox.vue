@@ -26,6 +26,7 @@ const props = defineProps(['isDesc'])
   align-items: center;
   gap: 6px;
   width: fit-content;
+  padding-top: 20px;
 }
 /* @media (max-width: 767px) {
   .sort-box {
@@ -34,7 +35,7 @@ const props = defineProps(['isDesc'])
   }
 } */
 .text {
-  line-height: 38px;
+  /* line-height: 38px; */
   font-size: 13px;
   font-weight: 600;
 }
