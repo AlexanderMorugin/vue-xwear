@@ -17,6 +17,5 @@ import AppFooter from '@/components/footer/AppFooter.vue'
   margin: 0;
   display: grid;
   grid-template-rows: auto 1fr;
-  /* overflow: hidden; */
 }
 </style>

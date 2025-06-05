@@ -48,7 +48,9 @@
         &#43;
       </button>
     </div>
-    <button class="cart-product-button">Купить</button>
+
+    <!-- Кнопка купить один товар -->
+    <button class="cart-product-button" @click="buyOneProduct(props.item)">Купить</button>
   </div>
 </template>
 
@@ -59,9 +61,11 @@ import { currencyFormater } from '@/utils/currency-formater'
 import { categoryNameFormater } from '@/utils/category-name-formater'
 import { PATH_SHOES } from '@/mock/routes'
 import { useCartStore } from '@/stores/cart-store'
+import { useOrderStore } from '@/stores/order-store'
 import AppCartDeleteModal from './AppCartDeleteModal.vue'
 
 const cartStore = useCartStore()
+const orderStore = useOrderStore()
 
 const props = defineProps(['item', 'fromPage'])
 
@@ -72,6 +76,13 @@ const closeDeleteModal = () => (isDeleteModalOpen.value = false)
 const deleteItem = () => {
   cartStore.deleteItem(props.item.id, props.item.size)
   closeDeleteModal()
+}
+
+const buyOneProduct = (index) => {
+  // console.log(index)
+
+  orderStore.addOrderItem(index)
+  cartStore.deleteItem(index.id, index.size)
 }
 </script>
 
