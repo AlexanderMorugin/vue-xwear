@@ -35,7 +35,7 @@ const props = defineProps(['number'])
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-width: 491px;
+  /* max-width: 491px; */
   height: fit-content;
   border-radius: 5px;
   border: 1px solid var(--white-sixdary);
@@ -50,7 +50,7 @@ const props = defineProps(['number'])
 }
 .address-card-owner-address {
   width: 100%;
-  max-width: 296px;
+  /* max-width: 296px; */
   font-weight: 400;
   font-size: 15px;
   line-height: 25px;

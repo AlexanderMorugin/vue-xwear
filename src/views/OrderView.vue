@@ -12,8 +12,22 @@
           :delivery="delivery"
           :totalSum="totalSum"
         />
-        <div class="order-view-address-submit">
+        <div class="order-view-address">
           <AddressCard number="1" />
+
+          <form class="order-view-comment">
+            <div class="form-field">
+              <label for="commentField" class="form-label">Комментарий:</label>
+              <input
+                type="text"
+                id="commentField"
+                name="commentField"
+                placeholder="Напишите нам"
+                v-model="commentField"
+                class="form-input"
+              />
+            </div>
+          </form>
 
           <div class="order-view-buttons">
             <button class="order-view-button order-view-button-submit" @click="submitOrder">
@@ -25,6 +39,9 @@
           </div>
         </div>
       </div>
+
+      <!-- Модалка "Благодарим за заказ" -->
+      <AppOrderSubmitModal v-if="isSubmitModalOpen" @closeSubmitModal="closeSubmitModal" />
     </app-page>
   </div>
 </template>
@@ -40,12 +57,17 @@ import AppLoader from '@/components/AppLoader.vue'
 import { orderBreadcrumbs } from '@/components/breadcrumbs/breadcrumbs-pages/order-breadcrumbs'
 import AddressCard from '@/components/profile/AddressCard.vue'
 import { useOrderStore } from '@/stores/order-store'
+import { useCartStore } from '@/stores/cart-store'
 import { PATH_CART } from '@/mock/routes'
+import AppOrderSubmitModal from '@/components/order/AppOrderSubmitModal.vue'
 
 const orderStore = useOrderStore()
+const cartStore = useCartStore()
 const router = useRouter()
 
 const isLoading = ref(false)
+const isSubmitModalOpen = ref(false)
+const commentField = ref(null)
 
 const discount = ref(20)
 const delivery = ref(500)
@@ -54,6 +76,8 @@ const totalSum = computed(() => {
   const discountSum = (orderStore.totalOrderSum * discount.value) / 100
   return orderStore.totalOrderSum - discountSum + delivery.value
 })
+
+const closeSubmitModal = () => (isSubmitModalOpen.value = false)
 
 const submitOrder = () => {
   const order = {
@@ -66,12 +90,20 @@ const submitOrder = () => {
     address: '056734, Mосква, Poccия, улица Варшавская, 37/5, кв.574',
     phone: '+7 (956) 373-46-33',
     email: 'yavasyaivanov@gmail.com',
+    comment: commentField.value,
   }
   console.log(order)
+  isSubmitModalOpen.value = true
+  orderStore.deleteAllItems()
 }
 
 const cancelOrder = () => {
-  router.push(PATH_CART)
+  if (!cartStore.cartItems.length) {
+    router.push('/')
+  } else {
+    router.push(PATH_CART)
+  }
+
   orderStore.deleteAllItems()
 }
 </script>
@@ -96,16 +128,20 @@ const cancelOrder = () => {
     padding-top: 16px;
   }
 }
-.order-view-address-submit {
+.order-view-address {
   display: flex;
   flex-direction: column;
   gap: 30px;
 }
+/* .order-view-comment {
+  width: 100%;
+  max-width: 491px;
+} */
 .order-view-buttons {
   display: grid;
   grid-template-columns: 1fr 1fr;
   width: 100%;
-  max-width: 491px;
+  /* max-width: 491px; */
   column-gap: 30px;
 }
 .order-view-button {
