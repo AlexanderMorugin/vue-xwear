@@ -1,11 +1,13 @@
 <template>
   <div class="order">
-    <h3 class="order-title">Заказ #4353</h3>
-    <div class="order-subtitle">
-      Был оформлен&nbsp;
-      <span class="order-subtitle-span">27 Июня в 12:34</span>
-      &nbsp;- статус заказа
-      <span class="order-subtitle-status">Отправлен</span>
+    <div v-if="props.fromPage">
+      <h3 class="order-title">Заказ #4353</h3>
+      <div class="order-subtitle">
+        Был оформлен&nbsp;
+        <span class="order-subtitle-span">27 Июня в 12:34</span>
+        &nbsp;- статус заказа
+        <span class="order-subtitle-status">Отправлен</span>
+      </div>
     </div>
 
     <!-- Таблица -->
@@ -15,78 +17,84 @@
         <span class="order-item-top-name">Итого</span>
       </div>
       <ul>
-        <li class="order-item order-item-product">
-          <router-link :to="`${PATH_KEDY}/-OQYupPcY6KgRpHSPYGR`" class="order-item-product-link"
-            ><span class="order-item-product-name">Кроссовки Nike Air Max 3000</span>
-            <div class="order-item-product-details">
-              Цвет: <span class="order-item-product-details-accent">Синий</span>, Размер:
-              <span class="order-item-product-details-accent">42</span>, Количество:
-              <span class="order-item-product-details-accent">2</span>
+        <li
+          v-for="(item, index) in props.orderStore.orderItems"
+          :key="index"
+          class="order-item order-item-product"
+        >
+          <router-link
+            :to="`${PATH_SHOES}/${item.category}/${item.id}`"
+            class="order-item-product-link"
+          >
+            <img :src="item.imageOneSmall" :alt="item.name" class="order-item-product-image" />
+
+            <div class="order-item-product-text-block">
+              <span class="order-item-product-name"
+                >{{ categoryNameFormater(item.category) }} {{ item.name }}</span
+              >
+              <div class="order-item-product-details">
+                <div>
+                  Цвет:
+                  <span class="order-item-product-details-accent">{{
+                    colorNameFormater(item.color)
+                  }}</span>
+                </div>
+                <div>
+                  Размер: <span class="order-item-product-details-accent">{{ item.size }}</span>
+                </div>
+                <div>
+                  Количество:
+                  <span class="order-item-product-details-accent">{{ item.count }}</span>
+                </div>
+              </div>
             </div>
           </router-link>
-          <span class="order-item-product-price">4 699 ₽</span>
-        </li>
-        <li class="order-item order-item-product">
-          <router-link :to="`${PATH_KEDY}/-OQYupPcY6KgRpHSPYGR`" class="order-item-product-link"
-            ><span class="order-item-product-name">Кроссовки Nike Air Max 3000</span>
-            <div class="order-item-product-details">
-              Цвет: <span class="order-item-product-details-accent">Синий</span>, Размер:
-              <span class="order-item-product-details-accent">42</span>, Количество:
-              <span class="order-item-product-details-accent">2</span>
-            </div>
-          </router-link>
-          <span class="order-item-product-price">4 699 ₽</span>
-        </li>
-        <li class="order-item order-item-product">
-          <router-link :to="`${PATH_KEDY}/-OQYupPcY6KgRpHSPYGR`" class="order-item-product-link"
-            ><span class="order-item-product-name">Кроссовки Nike Air Max 3000</span>
-            <div class="order-item-product-details">
-              Цвет: <span class="order-item-product-details-accent">Синий</span>, Размер:
-              <span class="order-item-product-details-accent">42</span>, Количество:
-              <span class="order-item-product-details-accent">2</span>
-            </div>
-          </router-link>
-          <span class="order-item-product-price">4 699 ₽</span>
-        </li>
-        <li class="order-item order-item-product">
-          <router-link :to="`${PATH_KEDY}/-OQYupPcY6KgRpHSPYGR`" class="order-item-product-link"
-            ><span class="order-item-product-name">Кроссовки Nike Air Max 3000</span>
-            <div class="order-item-product-details">
-              Цвет: <span class="order-item-product-details-accent">Синий</span>, Размер:
-              <span class="order-item-product-details-accent">42</span>, Количество:
-              <span class="order-item-product-details-accent">2</span>
-            </div>
-          </router-link>
-          <span class="order-item-product-price">4 699 ₽</span>
+          <span class="order-item-product-price">{{ currencyFormater(item.price) }}</span>
         </li>
       </ul>
       <ul>
         <li class="order-item order-item-product">
           <span class="order-item-bottom-name">Всего</span>
-          <span class="order-item-bottom-price">14 798 ₽</span>
+          <span class="order-item-bottom-price">{{
+            currencyFormater(orderStore.totalOrderSum)
+          }}</span>
         </li>
         <li class="order-item order-item-product">
           <span class="order-item-bottom-name">Скидка</span>
-          <span class="order-item-bottom-price">-300 ₽</span>
+          <span class="order-item-bottom-price">{{ discount }} %</span>
         </li>
         <li class="order-item order-item-product">
           <span class="order-item-bottom-name">Доставка</span>
-          <span class="order-item-bottom-price">300 ₽</span>
+          <span class="order-item-bottom-price">{{ currencyFormater(delivery) }}</span>
         </li>
       </ul>
       <div class="order-item order-item-product">
         <span class="order-item-total-name">Итого</span>
-        <span class="order-item-total-price">14 798 ₽</span>
+        <span class="order-item-total-price">{{ currencyFormater(totalSum) }}</span>
       </div>
     </div>
   </div>
 
-  <AddressCard number="1" />
+  <!-- <AddressCard number="1" /> -->
 </template>
 
 <script setup>
-import { PATH_KEDY } from '@/mock/routes'
-import AddressCard from '@/components/profile/AddressCard.vue'
+import { ref, computed } from 'vue'
+import { PATH_SHOES } from '@/mock/routes'
+// import AddressCard from '@/components/profile/AddressCard.vue'
+import { categoryNameFormater } from '@/utils/category-name-formater'
+import { colorNameFormater } from '@/utils/color-name-formater'
+import { currencyFormater } from '@/utils/currency-formater'
+
+const props = defineProps(['orderStore', 'fromPage'])
+
+const discount = ref(20)
+const delivery = ref(500)
+
+const totalSum = computed(() => {
+  const discountSum = (props.orderStore.totalOrderSum * discount.value) / 100
+  return props.orderStore.totalOrderSum - discountSum + delivery.value
+})
 </script>
 
 <style scoped>
@@ -95,6 +103,11 @@ import AddressCard from '@/components/profile/AddressCard.vue'
   border-radius: 5px;
   padding: 30px;
   margin-bottom: 36px;
+}
+@media (max-width: 767px) {
+  .order {
+    padding: 10px;
+  }
 }
 .order-title {
   font-weight: 700;
@@ -136,6 +149,14 @@ import AddressCard from '@/components/profile/AddressCard.vue'
   width: 100%;
   border-bottom: 1px solid var(--gray-semi-fourdary);
 }
+@media (max-width: 767px) {
+  .order-item {
+    align-items: flex-start;
+  }
+}
+.order-item:last-child {
+  border-bottom: none;
+}
 .order-item-top {
   height: 44px;
 }
@@ -143,6 +164,17 @@ import AddressCard from '@/components/profile/AddressCard.vue'
   padding-top: 20px;
   padding-bottom: 20px;
 }
+.order-item-product-image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+}
+/* @media (max-width: 767px) {
+  .order-item-product-image {
+    width: 50px;
+    height: 50px;
+  }
+} */
 .order-item-top-name {
   font-weight: 700;
   font-size: 14px;
@@ -154,10 +186,23 @@ import AddressCard from '@/components/profile/AddressCard.vue'
 }
 .order-item-product-link {
   display: flex;
+  align-items: center;
+  gap: 10px;
+}
+@media (max-width: 767px) {
+  .order-item-product-link {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+  }
+}
+.order-item-product-text-block {
+  display: flex;
   flex-direction: column;
+  gap: 10px;
 }
 .order-item-product-name {
-  font-weight: 400;
+  font-weight: 600;
   font-size: 14px;
   line-height: 22px;
   color: var(--gray-dark-sevendary);
@@ -167,6 +212,8 @@ import AddressCard from '@/components/profile/AddressCard.vue'
   color: var(--blue-primary);
 }
 .order-item-product-details {
+  display: flex;
+  flex-direction: column;
   font-weight: 400;
   font-size: 14px;
   line-height: 20px;
@@ -174,10 +221,14 @@ import AddressCard from '@/components/profile/AddressCard.vue'
   vertical-align: middle;
   color: var(--gray-semi-fivedary);
 }
+/* @media (max-width: 767px) {
+  .order-item-product-details {
+    flex-direction: column;
+  }
+} */
 .order-item-product-details-accent {
   font-weight: 600;
   font-size: 14px;
-  /* line-height: 24px; */
   color: var(--black-thirdary);
 }
 .order-item-product-price {

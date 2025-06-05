@@ -24,17 +24,15 @@ export const useOrderStore = defineStore('orderStore', () => {
     }
   }
 
-  console.log(orderItems.value)
-
   // const totalCountCartItems = computed(() => cartItems.value.length)
 
-  // const totalCartSum = computed(() => {
-  //   let data = null
-  //   if (cartItems.value.length) {
-  //     data = cartItems.value.map((item) => Number(item.price)).reduce((a, b) => a + b)
-  //   }
-  //   return data
-  // })
+  const totalOrderSum = computed(() => {
+    let data = null
+    if (orderItems.value.length) {
+      data = orderItems.value.map((item) => Number(item.price)).reduce((a, b) => a + b)
+    }
+    return data
+  })
 
   // // Используется для составления массива товаров с уникальными ID
   // const getCurrentItem = (item) => {
@@ -65,7 +63,7 @@ export const useOrderStore = defineStore('orderStore', () => {
   //   cartItems.value = cartItems.value.filter((item) => item !== currentItem)
   // }
 
-  // const deleteAllItems = () => (cartItems.value = [])
+  const deleteAllItems = () => (orderItems.value = [])
 
   // Следим за изменениями в заказе и обновляем данные в LocalStorage
   watch(
@@ -79,6 +77,8 @@ export const useOrderStore = defineStore('orderStore', () => {
   return {
     orderItems,
     addOrderItem,
+    totalOrderSum,
+    deleteAllItems,
     // totalCountCartItems,
     // totalCartSum,
     // getCurrentItem,

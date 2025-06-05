@@ -5,7 +5,7 @@
   <AppProfileHeading title="Заказы в пути" />
   <ul class="profile-orders">
     <li>
-      <OrderCard />
+      <AppOrderCard />
     </li>
   </ul>
 </template>
@@ -13,7 +13,7 @@
 <script setup>
 import AppProfileHeading from '@/components/profile/AppProfileHeading.vue'
 import AppProfileButton from '@/components/profile/AppProfileButton.vue'
-import OrderCard from '@/components/profile/OrderCard.vue'
+import AppOrderCard from '@/components/order/AppOrderCard.vue'
 import { useResizeLarge } from '@/use/useResizeLarge'
 
 // Брейкпоинты ширины экрана

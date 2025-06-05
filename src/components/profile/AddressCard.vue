@@ -17,10 +17,10 @@
         <img src="/icons/icon-pencil-dark.png" alt="Иконка редактирования" />
         <span class="address-card-badge-bottom-button-text">Редактировать</span>
       </button>
-      <button class="address-card-badge-bottom-button">
+      <!-- <button class="address-card-badge-bottom-button">
         <img src="/icons/icon-delete-address.png" alt="Иконка удаления" />
         <span class="address-card-badge-bottom-button-text">Удалить</span>
-      </button>
+      </button> -->
     </div>
   </div>
 </template>
@@ -36,6 +36,7 @@ const props = defineProps(['number'])
   flex-direction: column;
   width: 100%;
   max-width: 491px;
+  height: fit-content;
   border-radius: 5px;
   border: 1px solid var(--white-sixdary);
   padding: 60px 35px;

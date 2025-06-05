@@ -11,9 +11,9 @@ import {
   PATH_CALCULATION,
   PATH_INFORMATION,
   PATH_SEARCH,
-  // PATH_FAVORITE,
   PATH_PROFILE,
   PATH_CART,
+  PATH_ORDER,
   PATH_ADMIN,
   PATH_BLOG,
   PATH_CONTACTS,
@@ -132,12 +132,6 @@ const routes = [
     component: () => import('../views/SearchView.vue'),
     meta: { layout: 'main' },
   },
-  // {
-  //   path: PATH_FAVORITE,
-  //   name: 'FavoriteView',
-  //   component: () => import('../views/FavoriteView.vue'),
-  //   meta: { layout: 'main' },
-  // },
   {
     path: PATH_PROFILE,
     name: 'ProfileView',
@@ -148,6 +142,12 @@ const routes = [
     path: PATH_CART,
     name: 'CartView',
     component: () => import('../views/CartView.vue'),
+    meta: { layout: 'main' },
+  },
+  {
+    path: PATH_ORDER,
+    name: 'OrderView',
+    component: () => import('../views/OrderView.vue'),
     meta: { layout: 'main' },
   },
   {

@@ -18,8 +18,8 @@ export const PATH_FAQ = '/faq'
 export const PATH_PRIVACY = '/privacy'
 
 export const PATH_SEARCH = '/search'
-// export const PATH_FAVORITE = '/favorite'
 export const PATH_PROFILE = '/profile'
 export const PATH_CART = '/cart'
+export const PATH_ORDER = '/order'
 
 export const PATH_ADMIN = '/admin'

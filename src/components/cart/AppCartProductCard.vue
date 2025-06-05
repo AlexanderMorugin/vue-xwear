@@ -56,16 +56,18 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import AppCartDeleteButton from '@/components/cart/AppCartDeleteButton.vue'
 import { currencyFormater } from '@/utils/currency-formater'
 import { categoryNameFormater } from '@/utils/category-name-formater'
-import { PATH_SHOES } from '@/mock/routes'
+import { PATH_SHOES, PATH_ORDER } from '@/mock/routes'
 import { useCartStore } from '@/stores/cart-store'
 import { useOrderStore } from '@/stores/order-store'
 import AppCartDeleteModal from './AppCartDeleteModal.vue'
 
 const cartStore = useCartStore()
 const orderStore = useOrderStore()
+const router = useRouter()
 
 const props = defineProps(['item', 'fromPage'])
 
@@ -79,8 +81,7 @@ const deleteItem = () => {
 }
 
 const buyOneProduct = (index) => {
-  // console.log(index)
-
+  router.push(PATH_ORDER)
   orderStore.addOrderItem(index)
   cartStore.deleteItem(index.id, index.size)
 }
