@@ -1,7 +1,12 @@
 <template>
   <div class="address-card">
     <h3 class="address-card-owner-name">Василий Иванов</h3>
-    <p class="address-card-owner-address">056734, Mосква, Poccия, улица Варшавская, 37/5, кв.574</p>
+    <p class="address-card-owner-address">
+      {{ props.userStore.currentAdress.index }}, {{ props.userStore.currentAdress.country }},
+      {{ props.userStore.currentAdress.city }}, {{ props.userStore.currentAdress.street }}, д.{{
+        props.userStore.currentAdress.building
+      }}, кв.{{ props.userStore.currentAdress.flat }}
+    </p>
     <div class="address-card-text-box">
       <span class="address-card-text-title">Телефон</span>
       <span class="address-card-text">+7 (956) 373-46-33</span>
@@ -11,9 +16,9 @@
       <span class="address-card-text">yavasyaivanov@gmail.com</span>
     </div>
 
-    <div class="address-card-badge-top">Адрес доставки #{{ props.number }}</div>
+    <div class="address-card-badge-top">Адрес доставки #1</div>
     <div class="address-card-badge-bottom">
-      <button class="address-card-badge-bottom-button">
+      <button class="address-card-badge-bottom-button" @click="openUserAddressModal">
         <img src="/icons/icon-pencil-dark.png" alt="Иконка редактирования" />
         <span class="address-card-badge-bottom-button-text">Редактировать</span>
       </button>
@@ -22,11 +27,24 @@
         <span class="address-card-badge-bottom-button-text">Удалить</span>
       </button> -->
     </div>
+
+    <AppUserAddressModal
+      v-if="isAddressModalOpen"
+      @closeUserAddressModal="closeUserAddressModal"
+      :userStore="userStore"
+    />
   </div>
 </template>
 
 <script setup>
-const props = defineProps(['number'])
+import { ref } from 'vue'
+import AppUserAddressModal from './AppUserAddressModal.vue'
+const props = defineProps(['number', 'userStore'])
+
+const isAddressModalOpen = ref(false)
+
+const openUserAddressModal = () => (isAddressModalOpen.value = true)
+const closeUserAddressModal = () => (isAddressModalOpen.value = false)
 </script>
 
 <style scoped>

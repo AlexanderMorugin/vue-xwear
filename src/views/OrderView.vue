@@ -13,8 +13,10 @@
           :totalSum="totalSum"
         />
         <div class="order-view-address">
-          <AddressCard number="1" />
+          <!-- Адреса доставки -->
+          <AddressCard :userStore="userStore" />
 
+          <!-- Комментарий к заказу и чекбокс правильности заказа и адреса доставки -->
           <form class="order-view-comment">
             <div class="form-field">
               <label for="commentField" class="form-label">Комментарий:</label>
@@ -27,10 +29,26 @@
                 class="form-input"
               />
             </div>
+            <div class="order-view-checkbox">
+              <input
+                type="checkbox"
+                id="checkboxAgree"
+                value="checkboxAgree"
+                v-model="checkboxAgree"
+                class="checkbox-input"
+              />
+              <label :for="item" class="order-view-checkbox-label"
+                >Подтвердите заказ и адрес доставки.</label
+              >
+            </div>
           </form>
 
+          <!-- Кнопки Подтверждения или отмены заказа -->
           <div class="order-view-buttons">
-            <button class="order-view-button order-view-button-submit" @click="submitOrder">
+            <button
+              :class="['order-view-button', { 'order-view-button-submit': checkboxAgree }]"
+              @click="submitOrder"
+            >
               Оформить
             </button>
             <button class="order-view-button order-view-button-cancel" @click="cancelOrder">
@@ -58,15 +76,18 @@ import { orderBreadcrumbs } from '@/components/breadcrumbs/breadcrumbs-pages/ord
 import AddressCard from '@/components/profile/AddressCard.vue'
 import { useOrderStore } from '@/stores/order-store'
 import { useCartStore } from '@/stores/cart-store'
+import { useUserStore } from '@/stores/user-store'
 import { PATH_CART } from '@/mock/routes'
 import AppOrderSubmitModal from '@/components/order/AppOrderSubmitModal.vue'
 
 const orderStore = useOrderStore()
 const cartStore = useCartStore()
+const userStore = useUserStore()
 const router = useRouter()
 
 const isLoading = ref(false)
 const isSubmitModalOpen = ref(false)
+const checkboxAgree = ref(false)
 const commentField = ref(null)
 
 const discount = ref(20)
@@ -78,6 +99,8 @@ const totalSum = computed(() => {
 })
 
 const closeSubmitModal = () => (isSubmitModalOpen.value = false)
+
+// const currentAdress =
 
 const submitOrder = () => {
   const order = {
@@ -151,17 +174,18 @@ const cancelOrder = () => {
   width: 100%;
   height: 56px;
   border-radius: 5px;
+  border: 1px solid var(--gray-light-sixdary);
   font-size: 14px;
   font-weight: 600;
   letter-spacing: 1.2px;
   text-transform: uppercase;
-  cursor: pointer;
   transition: 0.3s ease all;
 }
 .order-view-button-submit {
   background: var(--black-primary);
   color: var(--white-primary);
   border: 1px solid transparent;
+  cursor: pointer;
 }
 .order-view-button-submit:hover {
   background: var(--blue-primary);
@@ -169,8 +193,20 @@ const cancelOrder = () => {
 .order-view-button-cancel {
   color: var(--black-primary);
   border: 1px solid var(--gray-light-sixdary);
+  cursor: pointer;
 }
 .order-view-button-cancel:hover {
   background: var(--gray-normal-primary);
+}
+.order-view-checkbox {
+  display: flex;
+  gap: 20px;
+  padding-top: 20px;
+}
+.order-view-checkbox-label {
+  line-height: 20px;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--black-fourdary);
 }
 </style>
