@@ -14,16 +14,48 @@
       Всего товаров <span>{{ props.cartStore.totalCountCartItems }}</span> на сумму:
       <span>{{ currencyFormater(props.cartStore.totalCartSum) }}</span>
     </div>
-    <button class="cart-total-button">Купить&nbsp;все</button>
+    <button class="cart-total-button" @click="buyAll">Купить&nbsp;все</button>
   </div>
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router'
 import AppProductCard from '@/components/product/AppProductCard.vue'
 import AppCartProductCard from '@/components/cart/AppCartProductCard.vue'
 import { currencyFormater } from '@/utils/currency-formater'
+import { useOrderStore } from '@/stores/order-store'
+import { PATH_ORDER } from '@/mock/routes'
+
+const orderStore = useOrderStore()
+const router = useRouter()
 
 const props = defineProps(['products', 'fromPage', 'cartStore'])
+
+const buyAll = () => {
+  orderStore.addAllCartItemsToOrder(props.cartStore.cartItems)
+  props.cartStore.deleteAllItems()
+  router.push(PATH_ORDER)
+  // const data = {
+  //   id: props.id,
+  //   category: props.product.category,
+  //   brand: props.product.brand,
+  //   name: props.product.name,
+  //   size: chooseSize.value ? chooseSize.value : '36',
+  //   price: submitPrice.value,
+  //   // description: props.product.description,
+  //   color: props.product.color,
+  //   imageOneSmall: props.product.imageOneSmall,
+  //   count: 1,
+  // imageOneBig: props.product.imageOneBig,
+  // imageTwoSmall: props.product.imageTwoSmall,
+  // imageTwoBig: props.product.imageTwoBig,
+  // imageThreeSmall: props.product.imageThreeSmall,
+  // imageThreeBig: props.product.imageThreeBig,
+  // isFavorite: props.product.isFavorite,
+  // }
+
+  // props.cartStore.addALLCartItems(data)
+}
 </script>
 
 <style scoped>

@@ -7,6 +7,7 @@
           <span class="order-submit-modal-title"
             >Благодарим за покупку! Скоро мы свяжемся с вами.</span
           >
+          <img src="/logo/logo.png" alt="Логотип" />
           <ul class="order-submit-modal-buttons">
             <li class="order-submit-modal-button">
               <router-link
@@ -45,7 +46,7 @@
 </template>
 
 <script setup>
-import { PATH_CART, PATH_PROFILE, PATH_SHOES } from '../../mock/routes'
+import { PATH_CART, PATH_PROFILE, PATH_SHOES } from '@/mock/routes'
 
 // eslint-disable-next-line no-unused-vars
 const emit = defineEmits(['closeSubmitModal'])

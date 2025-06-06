@@ -24,6 +24,10 @@ export const useOrderStore = defineStore('orderStore', () => {
     }
   }
 
+  const addAllCartItemsToOrder = (items) => {
+    orderItems.value = items
+  }
+
   // const totalCountCartItems = computed(() => cartItems.value.length)
 
   const totalOrderSum = computed(() => {
@@ -79,6 +83,7 @@ export const useOrderStore = defineStore('orderStore', () => {
     addOrderItem,
     totalOrderSum,
     deleteAllItems,
+    addAllCartItemsToOrder,
     // totalCountCartItems,
     // totalCartSum,
     // getCurrentItem,

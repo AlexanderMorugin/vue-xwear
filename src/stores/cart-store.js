@@ -44,6 +44,10 @@ export const useCartStore = defineStore('cartStore', () => {
     }
   }
 
+  // const addALLCartItems = (items) => {
+  //   cartItems.value = items
+  // }
+
   const increment = (id, size) => {
     const currentItem = cartItems.value.find((item) => item.id === id && item.size === size)
     currentItem.count++
@@ -81,6 +85,7 @@ export const useCartStore = defineStore('cartStore', () => {
     getCurrentItem,
     getCurrentItemById,
     addCartItem,
+    // addALLCartItems,
     increment,
     decrement,
     deleteItem,
