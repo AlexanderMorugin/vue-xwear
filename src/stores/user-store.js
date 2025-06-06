@@ -23,12 +23,15 @@ export const useUserStore = defineStore('userStore', () => {
     },
   ])
 
-  const currentAdress = ref(null)
+  const currentAdress = ref(userAddress.value[0])
 
   const setCurrentAdress = (item) => {
-    const adress = userAddress.value.find((el) => el.id === item.id)
-
-    currentAdress.value = adress
+    if (item) {
+      const adress = userAddress.value.find((el) => el.id === item.id)
+      currentAdress.value = adress
+    } else {
+      currentAdress.value = userAddress.value[0]
+    }
   }
 
   // console.log('currentAdress - ', currentAdress.value)

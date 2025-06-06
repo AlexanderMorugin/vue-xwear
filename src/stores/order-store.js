@@ -32,7 +32,24 @@ export const useOrderStore = defineStore('orderStore', () => {
     }
   }
 
-  // const totalCountCartItems = computed(() => cartItems.value.length)
+  const increment = (id, size) => {
+    const currentItem = orderItems.value.find((item) => item.id === id && item.size === size)
+    currentItem.count++
+    currentItem.price = Number(currentItem.price) * 2
+  }
+
+  const decrement = (id, size) => {
+    const currentItem = orderItems.value.find((item) => item.id === id && item.size === size)
+    if (currentItem.count > 1) {
+      currentItem.count--
+      currentItem.price = Number(currentItem.price) / 2
+    }
+  }
+
+  const deleteItem = (id, size) => {
+    const currentItem = orderItems.value.find((item) => item.id === id && item.size === size)
+    orderItems.value = orderItems.value.filter((item) => item !== currentItem)
+  }
 
   const totalOrderSum = computed(() => {
     let data = null
@@ -41,35 +58,6 @@ export const useOrderStore = defineStore('orderStore', () => {
     }
     return data
   })
-
-  // // Используется для составления массива товаров с уникальными ID
-  // const getCurrentItem = (item) => {
-  //   return cartItems.value.filter((el) => el.id === item.id)
-  // }
-
-  // // Используется для составления массива товаров с уникальными ID
-  // const getCurrentItemById = (id) => {
-  //   return cartItems.value.filter((el) => el.id === id)
-  // }
-
-  // const increment = (id, size) => {
-  //   const currentItem = cartItems.value.find((item) => item.id === id && item.size === size)
-  //   currentItem.count++
-  //   currentItem.price = Number(currentItem.price) * 2
-  // }
-
-  // const decrement = (id, size) => {
-  //   const currentItem = cartItems.value.find((item) => item.id === id && item.size === size)
-  //   if (currentItem.count > 1) {
-  //     currentItem.count--
-  //     currentItem.price = Number(currentItem.price) / 2
-  //   }
-  // }
-
-  // const deleteItem = (id, size) => {
-  //   const currentItem = cartItems.value.find((item) => item.id === id && item.size === size)
-  //   cartItems.value = cartItems.value.filter((item) => item !== currentItem)
-  // }
 
   const deleteAllItems = () => (orderItems.value = [])
 
@@ -88,14 +76,8 @@ export const useOrderStore = defineStore('orderStore', () => {
     totalOrderSum,
     deleteAllItems,
     addAllCartItemsToOrder,
-    // totalCountCartItems,
-    // totalCartSum,
-    // getCurrentItem,
-    // getCurrentItemById,
-    // addCartItem,
-    // increment,
-    // decrement,
-    // deleteItem,
-    // deleteAllItems,
+    increment,
+    decrement,
+    deleteItem,
   }
 })

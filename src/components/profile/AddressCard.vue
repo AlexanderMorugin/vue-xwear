@@ -16,7 +16,7 @@
       <span class="address-card-text">yavasyaivanov@gmail.com</span>
     </div>
 
-    <div class="address-card-badge-top">Адрес доставки #1</div>
+    <div class="address-card-badge-top">Адрес доставки #{{ props.userStore.currentAdress.id }}</div>
     <div class="address-card-badge-bottom">
       <button class="address-card-badge-bottom-button" @click="openUserAddressModal">
         <img src="/icons/icon-pencil-dark.png" alt="Иконка редактирования" />

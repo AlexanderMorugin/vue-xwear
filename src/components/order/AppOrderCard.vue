@@ -1,6 +1,6 @@
 <template>
   <div class="order">
-    <div v-if="props.fromPage">
+    <!-- <div v-if="props.fromPage">
       <h3 class="order-title">Заказ #4353</h3>
       <div class="order-subtitle">
         Был оформлен&nbsp;
@@ -8,7 +8,7 @@
         &nbsp;- статус заказа
         <span class="order-subtitle-status">Отправлен</span>
       </div>
-    </div>
+    </div> -->
 
     <!-- Таблица -->
     <div class="order-items">
@@ -42,6 +42,7 @@
                 <div>
                   Размер: <span class="order-item-product-details-accent">{{ item.size }}</span>
                 </div>
+
                 <div>
                   Количество:
                   <span class="order-item-product-details-accent">{{ item.count }}</span>
@@ -49,7 +50,26 @@
               </div>
             </div>
           </router-link>
-          <span class="order-item-product-price">{{ currencyFormater(item.price) }}</span>
+
+          <div class="order-item-product-price-box">
+            <!-- Счетчик увеличинения и уменьшения товара -->
+            <AppCounter
+              :item="item"
+              @decrement="props.orderStore.decrement(item.id, item.size)"
+              @increment="props.orderStore.increment(item.id, item.size)"
+            />
+            <span class="order-item-product-price">{{ currencyFormater(item.price) }}</span>
+          </div>
+
+          <!-- Кнопка "Удалить" в верхнем правом углу карточки товара -->
+          <AppCartDeleteButton @openDeleteModal="openDeleteModal" isPage="order" />
+          <!-- Модалка удаления -->
+          <AppCartDeleteModal
+            v-if="isDeleteModalOpen"
+            title="Удалить товар из заказа?"
+            @closeDeleteModal="closeDeleteModal"
+            @deleteItem="deleteItem(item.id, item.size)"
+          />
         </li>
       </ul>
       <ul>
@@ -74,27 +94,28 @@
       </div>
     </div>
   </div>
-
-  <!-- <AddressCard number="1" /> -->
 </template>
 
 <script setup>
-// import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { PATH_SHOES } from '@/mock/routes'
-// import AddressCard from '@/components/profile/AddressCard.vue'
 import { categoryNameFormater } from '@/utils/category-name-formater'
 import { colorNameFormater } from '@/utils/color-name-formater'
 import { currencyFormater } from '@/utils/currency-formater'
+import AppCounter from '@/components/counter/AppCounter.vue'
+import AppCartDeleteButton from '@/components/cart/AppCartDeleteButton.vue'
+import AppCartDeleteModal from '@/components/cart/AppCartDeleteModal.vue'
 
 const props = defineProps(['orderStore', 'discount', 'delivery', 'totalSum', 'fromPage'])
 
-// const discount = ref(20)
-// const delivery = ref(500)
+const isDeleteModalOpen = ref(false)
 
-// const totalSum = computed(() => {
-//   const discountSum = (props.orderStore.totalOrderSum * discount.value) / 100
-//   return props.orderStore.totalOrderSum - discountSum + delivery.value
-// })
+const openDeleteModal = () => (isDeleteModalOpen.value = true)
+const closeDeleteModal = () => (isDeleteModalOpen.value = false)
+const deleteItem = (id, size) => {
+  props.orderStore.deleteItem(id, size)
+  closeDeleteModal()
+}
 </script>
 
 <style scoped>
@@ -143,7 +164,7 @@ const props = defineProps(['orderStore', 'discount', 'delivery', 'totalSum', 'fr
 }
 .order-item {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: 1fr 98px auto 5px;
   align-items: center;
   column-gap: 16px;
   width: 100%;
@@ -151,7 +172,7 @@ const props = defineProps(['orderStore', 'discount', 'delivery', 'totalSum', 'fr
 }
 @media (max-width: 767px) {
   .order-item {
-    align-items: flex-start;
+    grid-template-columns: 1fr 98px auto;
   }
 }
 .order-item:last-child {
@@ -161,6 +182,7 @@ const props = defineProps(['orderStore', 'discount', 'delivery', 'totalSum', 'fr
   height: 44px;
 }
 .order-item-product {
+  position: relative;
   padding-top: 20px;
   padding-bottom: 20px;
 }
@@ -169,12 +191,6 @@ const props = defineProps(['orderStore', 'discount', 'delivery', 'totalSum', 'fr
   height: 100px;
   object-fit: cover;
 }
-/* @media (max-width: 767px) {
-  .order-item-product-image {
-    width: 50px;
-    height: 50px;
-  }
-} */
 .order-item-top-name {
   font-weight: 700;
   font-size: 14px;
@@ -221,15 +237,16 @@ const props = defineProps(['orderStore', 'discount', 'delivery', 'totalSum', 'fr
   vertical-align: middle;
   color: var(--gray-semi-fivedary);
 }
-/* @media (max-width: 767px) {
-  .order-item-product-details {
-    flex-direction: column;
-  }
-} */
 .order-item-product-details-accent {
   font-weight: 600;
   font-size: 14px;
   color: var(--black-thirdary);
+}
+.order-item-product-price-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
 }
 .order-item-product-price {
   font-weight: 400;

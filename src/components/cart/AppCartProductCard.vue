@@ -33,21 +33,11 @@
 
   <!-- Счетчик увеличинения и уменьшения товара -->
   <div class="cart-product-counter-box">
-    <div class="cart-product-counter">
-      <button
-        :class="['cart-product-count', { 'cart-product-count-disabled': props.item.count <= 1 }]"
-        @click="cartStore.decrement(props.item.id, props.item.size)"
-      >
-        &#8722;
-      </button>
-      <span class="cart-product-quantity">{{ props.item.count }}</span>
-      <button
-        class="cart-product-count"
-        @click="cartStore.increment(props.item.id, props.item.size)"
-      >
-        &#43;
-      </button>
-    </div>
+    <AppCounter
+      :item="props.item"
+      @decrement="cartStore.decrement(props.item.id, props.item.size)"
+      @increment="cartStore.increment(props.item.id, props.item.size)"
+    />
 
     <!-- Кнопка купить один товар -->
     <button class="cart-product-button" @click="buyOneProduct(props.item)">Купить</button>
@@ -64,6 +54,7 @@ import { PATH_SHOES, PATH_ORDER } from '@/mock/routes'
 import { useCartStore } from '@/stores/cart-store'
 import { useOrderStore } from '@/stores/order-store'
 import AppCartDeleteModal from './AppCartDeleteModal.vue'
+import AppCounter from '../counter/AppCounter.vue'
 
 const cartStore = useCartStore()
 const orderStore = useOrderStore()
@@ -159,7 +150,6 @@ const buyOneProduct = (index) => {
 }
 @media (max-width: 767px) {
   .cart-product-name {
-    /* height: 36px; */
     line-height: 18px;
     font-size: 14px;
   }
@@ -171,68 +161,6 @@ const buyOneProduct = (index) => {
   flex-wrap: wrap;
   gap: 20px;
   width: 100%;
-  /* margin-top: 20px; */
-}
-.cart-product-counter {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 5px;
-  /* width: fit-content; */
-}
-.cart-product-count {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: var(--white-primary);
-  border-radius: 50%;
-  border: 1px solid var(--gray-semi-fourdary);
-  width: 28px;
-  height: 28px;
-  line-height: 18px;
-  font-size: 18px;
-  font-weight: 500;
-  color: var(--black-thirdary);
-  cursor: pointer;
-  transition: 0.3s ease all;
-}
-@media (max-width: 767px) {
-  .cart-product-count {
-    width: 22px;
-    height: 22px;
-  }
-}
-.cart-product-count:hover {
-  border: 1px solid var(--blue-primary);
-}
-.cart-product-count-disabled {
-  color: var(--gray-light-fourdary);
-  cursor: default;
-}
-.cart-product-count-disabled:hover {
-  border: 1px solid var(--gray-semi-fourdary);
-}
-.cart-product-quantity {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  /* background: var(--blue-primary); */
-  border-radius: 5px;
-  border: 1px solid transparent;
-  width: 32px;
-  height: 28px;
-  line-height: 16px;
-  font-size: 16px;
-  font-weight: 500;
-  color: var(--black-thirdary);
-}
-@media (max-width: 767px) {
-  .cart-product-quantity {
-    width: 32px;
-    height: 22px;
-    line-height: 14px;
-    font-size: 14px;
-  }
 }
 .cart-product-link {
   position: absolute;
@@ -251,7 +179,6 @@ const buyOneProduct = (index) => {
   display: flex;
   justify-content: center;
   align-items: center;
-  /* background: var(--black-primary); */
   border: 1px solid var(--gray-dark-fourdary);
   border-radius: 5px;
   width: fit-content;
@@ -260,7 +187,6 @@ const buyOneProduct = (index) => {
   font-size: 16px;
   font-weight: 600;
   letter-spacing: 1px;
-  /* color: var(--white-primary); */
   color: var(--black-primary);
   padding-left: 20px;
   padding-right: 20px;
