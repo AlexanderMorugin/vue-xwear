@@ -9,7 +9,8 @@
           >
           <img src="/logo/logo.png" alt="Логотип" />
           <ul class="order-submit-modal-buttons">
-            <li class="order-submit-modal-button">
+            <!-- Эту кнопку показываем, если корзина не пуста -->
+            <li class="order-submit-modal-button" v-if="cartStore.cartItems.length">
               <router-link
                 class="order-submit-modal-link"
                 :to="PATH_CART"
@@ -17,6 +18,8 @@
                 >Назад в корзину</router-link
               >
             </li>
+
+            <!-- Остальные кнопки показываются по умолчанию -->
             <li class="order-submit-modal-button">
               <router-link
                 class="order-submit-modal-link"
@@ -47,6 +50,9 @@
 
 <script setup>
 import { PATH_CART, PATH_PROFILE, PATH_SHOES } from '@/mock/routes'
+import { useCartStore } from '@/stores/cart-store'
+
+const cartStore = useCartStore()
 
 // eslint-disable-next-line no-unused-vars
 const emit = defineEmits(['closeSubmitModal'])

@@ -25,7 +25,11 @@ export const useOrderStore = defineStore('orderStore', () => {
   }
 
   const addAllCartItemsToOrder = (items) => {
-    orderItems.value = items
+    if (orderItems.value.length) {
+      orderItems.value = orderItems.value.concat(items)
+    } else {
+      orderItems.value = items
+    }
   }
 
   // const totalCountCartItems = computed(() => cartItems.value.length)
