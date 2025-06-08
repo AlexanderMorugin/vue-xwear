@@ -2,6 +2,9 @@
   <Teleport to="body">
     <div class="profile-modal-overlay" @click="$emit('closeProfileModal')">
       <div @click.stop class="profile-modal">
+        <div v-if="userStore.error" class="modal-error">
+          {{ userStore.error }}
+        </div>
         <!-- Кнопка крестик -->
         <button class="modal-close" @click="$emit('closeProfileModal')">
           <img src="/icons/icon-close-gray.svg" alt="Закрыть" />
@@ -31,8 +34,11 @@ import { ref } from 'vue'
 import FormLogin from './FormLogin.vue'
 import FormRegistration from './FormRegistration.vue'
 import FormAdmin from './FormAdmin.vue'
+import { useUserStore } from '@/stores/user-store'
 // eslint-disable-next-line no-unused-vars
 const emit = defineEmits(['closeProfileModal'])
+
+const userStore = useUserStore()
 
 const isLoginForm = ref(true)
 const isRegisterForm = ref(false)
@@ -73,6 +79,7 @@ const openAdminForm = () => {
   padding-left: 20px;
 }
 .profile-modal {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -80,6 +87,19 @@ const openAdminForm = () => {
   width: 100%;
   max-width: 494px;
   animation: slide-in 300ms ease-in-out;
+}
+.modal-error {
+  position: absolute;
+  top: -100px;
+  left: 0;
+  width: 80%;
+  height: 100px;
+  line-height: 24px;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--white-primary);
+  padding: 35px 40px;
+  animation: slide-down 300ms ease-in-out;
 }
 .modal-close {
   cursor: pointer;
@@ -106,6 +126,18 @@ const openAdminForm = () => {
   to {
     opacity: 1;
     transform: translateX(0);
+  }
+}
+
+@keyframes slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 </style>

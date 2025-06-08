@@ -46,7 +46,7 @@
       </button>
 
       <button class="profile-modal-form-bottom-button" @click="$emit('openRegisterForm')">
-        Забыли пароль?
+        Зарегистрироваться?
       </button>
     </div>
     <button :class="['form-button', { 'form-button-active': isValid }]">Войти</button>

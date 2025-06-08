@@ -1,6 +1,6 @@
 <template>
   <AppProfileHeading title="Регистрация" />
-  <form class="profile-modal-form" @submit.prevent="submitProfileEditForm">
+  <form class="profile-modal-form" @submit.prevent="submitSignUpForm">
     <div class="form-field">
       <label for="emailField" class="form-label">Email адрес:</label>
       <input
@@ -63,10 +63,12 @@ import { useVuelidate } from '@vuelidate/core'
 import { helpers, required, email, minLength, sameAs } from '@vuelidate/validators'
 import AppProfileHeading from '@/components/profile/AppProfileHeading.vue'
 import { PATH_PROFILE } from '@/mock/routes'
+import { useUserStore } from '@/stores/user-store'
 
 const emit = defineEmits(['closeProfileModal', 'openLoginForm'])
 
 const router = useRouter()
+const userStore = useUserStore()
 
 const emailField = ref(null)
 const passwordField = ref(null)
@@ -101,10 +103,18 @@ const isValid = computed(
     !v$.$errors,
 )
 
-const submitProfileEditForm = () => {
-  console.log('submitProfileEditForm')
-  router.push(PATH_PROFILE)
-  emit('closeProfileModal')
+const submitSignUpForm = async () => {
+  await userStore.signUp({
+    email: emailField.value,
+    password: passwordField.value,
+  })
+
+  if (!userStore.error) {
+    router.push(PATH_PROFILE)
+    emit('closeProfileModal')
+  } else {
+    return
+  }
 }
 </script>
 
