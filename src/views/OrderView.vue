@@ -100,8 +100,6 @@ const totalSum = computed(() => {
 
 const closeSubmitModal = () => (isSubmitModalOpen.value = false)
 
-// const currentAdress =
-
 const submitOrder = () => {
   const order = {
     date: new Date().toLocaleString(),
@@ -110,7 +108,7 @@ const submitOrder = () => {
     delivery: delivery.value,
     totalSum: totalSum.value,
     customer: 'Василий Иванов',
-    address: '056734, Mосква, Poccия, улица Варшавская, 37/5, кв.574',
+    address: userStore.currentAdress,
     phone: '+7 (956) 373-46-33',
     email: 'yavasyaivanov@gmail.com',
     comment: commentField.value,
