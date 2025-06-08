@@ -1,8 +1,11 @@
 import { ref, computed, watch } from 'vue'
 import { defineStore } from 'pinia'
+import { useRouter } from 'vue-router'
 
 export const useOrderStore = defineStore('orderStore', () => {
   const orderItems = ref([])
+
+  const router = useRouter()
 
   // Подтягиваем данные заказа из LocalStorage
   const orderItemsinLocalStorage = localStorage.getItem('orderItems')
@@ -49,6 +52,10 @@ export const useOrderStore = defineStore('orderStore', () => {
   const deleteItem = (id, size) => {
     const currentItem = orderItems.value.find((item) => item.id === id && item.size === size)
     orderItems.value = orderItems.value.filter((item) => item !== currentItem)
+
+    if (!orderItems.value.length) {
+      router.push('/')
+    }
   }
 
   const totalOrderSum = computed(() => {

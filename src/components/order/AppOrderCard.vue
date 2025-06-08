@@ -62,14 +62,7 @@
           </div>
 
           <!-- Кнопка "Удалить" в верхнем правом углу карточки товара -->
-          <AppCartDeleteButton @openDeleteModal="openDeleteModal" isPage="order" />
-          <!-- Модалка удаления -->
-          <AppCartDeleteModal
-            v-if="isDeleteModalOpen"
-            title="Удалить товар из заказа?"
-            @closeDeleteModal="closeDeleteModal"
-            @deleteItem="deleteItem(item.id, item.size)"
-          />
+          <AppCartDeleteButton @click="deleteItem(item.id, item.size)" isPage="order" />
         </li>
       </ul>
       <ul>
@@ -97,24 +90,17 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
 import { PATH_SHOES } from '@/mock/routes'
 import { categoryNameFormater } from '@/utils/category-name-formater'
 import { colorNameFormater } from '@/utils/color-name-formater'
 import { currencyFormater } from '@/utils/currency-formater'
 import AppCounter from '@/components/counter/AppCounter.vue'
 import AppCartDeleteButton from '@/components/cart/AppCartDeleteButton.vue'
-import AppCartDeleteModal from '@/components/cart/AppCartDeleteModal.vue'
 
 const props = defineProps(['orderStore', 'discount', 'delivery', 'totalSum', 'fromPage'])
 
-const isDeleteModalOpen = ref(false)
-
-const openDeleteModal = () => (isDeleteModalOpen.value = true)
-const closeDeleteModal = () => (isDeleteModalOpen.value = false)
 const deleteItem = (id, size) => {
   props.orderStore.deleteItem(id, size)
-  closeDeleteModal()
 }
 </script>
 

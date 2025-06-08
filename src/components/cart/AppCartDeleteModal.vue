@@ -23,9 +23,20 @@
 </template>
 
 <script setup>
+import { onMounted, onUnmounted } from 'vue'
+
 const props = defineProps(['title'])
-// eslint-disable-next-line no-unused-vars
+
 const emit = defineEmits(['closeDeleteModal', 'deleteItem'])
+
+onMounted(() => window.addEventListener('keydown', escCloseModal))
+onUnmounted(() => window.removeEventListener('keydown', escCloseModal))
+
+const escCloseModal = (e) => {
+  if (e.key === 'Escape') {
+    emit('closeDeleteModal')
+  }
+}
 </script>
 
 <style scoped>
