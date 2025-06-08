@@ -68,13 +68,14 @@ const icons = () => {
   align-items: center;
   gap: 12px;
   width: 100%;
-  max-width: 104px;
+  /* max-width: 104px; */
+  max-width: 52px;
 }
-@media (max-width: 767px) {
+/* @media (max-width: 767px) {
   .list {
     max-width: 52px;
   }
-}
+} */
 .list-item {
   height: 20px;
 }

@@ -1,191 +1,73 @@
 <template>
-  <div class="order">
-    <!-- <div v-if="props.fromPage">
-      <h3 class="order-title">Заказ #4353</h3>
-      <div class="order-subtitle">
-        Был оформлен&nbsp;
-        <span class="order-subtitle-span">27 Июня в 12:34</span>
-        &nbsp;- статус заказа
-        <span class="order-subtitle-status">Отправлен</span>
-      </div>
-    </div> -->
+  <router-link :to="`${PATH_SHOES}/${item.category}/${item.id}`" class="order-item-product-link">
+    <img :src="item.imageOneSmall" :alt="item.name" class="order-item-product-image" />
 
-    <!-- Таблица -->
-    <div class="order-items">
-      <div class="order-item order-item-top">
-        <span class="order-item-top-name">Товар</span>
-        <span class="order-item-top-name">Итого</span>
-      </div>
-      <ul>
-        <li
-          v-for="(item, index) in props.orderStore.orderItems"
-          :key="index"
-          class="order-item order-item-product"
-        >
-          <router-link
-            :to="`${PATH_SHOES}/${item.category}/${item.id}`"
-            class="order-item-product-link"
-          >
-            <img :src="item.imageOneSmall" :alt="item.name" class="order-item-product-image" />
+    <div class="order-item-product-text-block">
+      <span class="order-item-product-name"
+        >{{ categoryNameFormater(item.category) }} {{ item.name }}</span
+      >
+      <div class="order-item-product-details">
+        <div>
+          Цвет:
+          <span class="order-item-product-details-accent">{{ colorNameFormater(item.color) }}</span>
+        </div>
+        <div>
+          Размер: <span class="order-item-product-details-accent">{{ item.size }}</span>
+        </div>
 
-            <div class="order-item-product-text-block">
-              <span class="order-item-product-name"
-                >{{ categoryNameFormater(item.category) }} {{ item.name }}</span
-              >
-              <div class="order-item-product-details">
-                <div>
-                  Цвет:
-                  <span class="order-item-product-details-accent">{{
-                    colorNameFormater(item.color)
-                  }}</span>
-                </div>
-                <div>
-                  Размер: <span class="order-item-product-details-accent">{{ item.size }}</span>
-                </div>
-
-                <div>
-                  Количество:
-                  <span class="order-item-product-details-accent">{{ item.count }}</span>
-                </div>
-              </div>
-            </div>
-          </router-link>
-
-          <div class="order-item-product-price-box">
-            <!-- Счетчик увеличинения и уменьшения товара -->
-            <AppCounter
-              :item="item"
-              @decrement="props.orderStore.decrement(item.id, item.size)"
-              @increment="props.orderStore.increment(item.id, item.size)"
-            />
-            <span class="order-item-product-price">{{ currencyFormater(item.price) }}</span>
-          </div>
-
-          <!-- Кнопка "Удалить" в верхнем правом углу карточки товара -->
-          <AppCartDeleteButton @click="deleteItem(item.id, item.size)" isPage="order" />
-        </li>
-      </ul>
-      <ul>
-        <li class="order-item order-item-product">
-          <span class="order-item-bottom-name">Всего</span>
-          <span class="order-item-bottom-price">{{
-            currencyFormater(orderStore.totalOrderSum)
-          }}</span>
-        </li>
-        <li class="order-item order-item-product">
-          <span class="order-item-bottom-name">Скидка</span>
-          <span class="order-item-bottom-price">{{ props.discount }} %</span>
-        </li>
-        <li class="order-item order-item-product">
-          <span class="order-item-bottom-name">Доставка</span>
-          <span class="order-item-bottom-price">{{ currencyFormater(props.delivery) }}</span>
-        </li>
-      </ul>
-      <div class="order-item order-item-product">
-        <span class="order-item-total-name">Итого</span>
-        <span class="order-item-total-price">{{ currencyFormater(props.totalSum) }}</span>
+        <div>
+          Количество:
+          <span class="order-item-product-details-accent">{{ item.count }}</span>
+        </div>
       </div>
     </div>
+  </router-link>
+
+  <div class="order-item-product-price-box">
+    <!-- Счетчик увеличинения и уменьшения товара -->
+    <AppCounter
+      :item="item"
+      @decrement="props.orderStore.decrement(item.id, item.size)"
+      @increment="props.orderStore.increment(item.id, item.size)"
+    />
+    <span class="order-item-product-price">{{ currencyFormater(item.price) }}</span>
   </div>
+
+  <!-- Кнопка "Удалить" в верхнем правом углу карточки товара -->
+  <AppOrderDeleteButton @openOrderDeleteModal="openOrderDeleteModal" />
+  <!-- Модалка удаления -->
+  <AppOrderDeleteModal
+    v-if="isOrderDeleteModalOpen"
+    title="Удалить товар из заказа?"
+    @closeOrderDeleteModal="closeOrderDeleteModal"
+    @deleteOrderItem="deleteOrderItem(item.id, item.size)"
+  />
 </template>
 
 <script setup>
+import { ref } from 'vue'
 import { PATH_SHOES } from '@/mock/routes'
 import { categoryNameFormater } from '@/utils/category-name-formater'
 import { colorNameFormater } from '@/utils/color-name-formater'
 import { currencyFormater } from '@/utils/currency-formater'
 import AppCounter from '@/components/counter/AppCounter.vue'
-import AppCartDeleteButton from '@/components/cart/AppCartDeleteButton.vue'
+import AppOrderDeleteButton from '@/components/order/AppOrderDeleteButton.vue'
+import AppOrderDeleteModal from './AppOrderDeleteModal.vue'
 
-const props = defineProps(['orderStore', 'discount', 'delivery', 'totalSum', 'fromPage'])
+const props = defineProps(['item', 'orderStore'])
 
-const deleteItem = (id, size) => {
-  props.orderStore.deleteItem(id, size)
+const isOrderDeleteModalOpen = ref(false)
+
+const openOrderDeleteModal = () => (isOrderDeleteModalOpen.value = true)
+const closeOrderDeleteModal = () => (isOrderDeleteModalOpen.value = false)
+
+const deleteOrderItem = (id, size) => {
+  props.orderStore.deleteOrderItem(id, size)
+  closeOrderDeleteModal()
 }
 </script>
 
 <style scoped>
-.order {
-  border: 1px solid var(--white-sixdary);
-  border-radius: 5px;
-  padding: 30px;
-  margin-bottom: 36px;
-}
-@media (max-width: 767px) {
-  .order {
-    padding: 10px;
-  }
-}
-.order-title {
-  font-weight: 700;
-  font-size: 17px;
-  line-height: 30px;
-  color: var(--black-primary);
-}
-.order-subtitle {
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 30px;
-  color: var(--gray-semi-secondary);
-}
-.order-subtitle-span {
-  font-weight: 700;
-  color: var(--black-sixdary);
-}
-.order-subtitle-status {
-  width: fit-content;
-  border-radius: 5px;
-  border: 1px solid var(--gray-semi-thirdary);
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 21px;
-  color: var(--green-secondary);
-  padding: 10px 13px;
-  margin-left: 10px;
-}
-.order-items {
-  display: flex;
-  flex-direction: column;
-  padding-top: 22px;
-}
-.order-item {
-  display: grid;
-  grid-template-columns: 1fr 98px auto 5px;
-  align-items: center;
-  column-gap: 16px;
-  width: 100%;
-  border-bottom: 1px solid var(--gray-semi-fourdary);
-}
-@media (max-width: 767px) {
-  .order-item {
-    grid-template-columns: 1fr 98px auto;
-  }
-}
-.order-item:last-child {
-  border-bottom: none;
-}
-.order-item-top {
-  height: 44px;
-}
-.order-item-product {
-  position: relative;
-  padding-top: 20px;
-  padding-bottom: 20px;
-}
-.order-item-product-image {
-  width: 100px;
-  height: 100px;
-  object-fit: cover;
-}
-.order-item-top-name {
-  font-weight: 700;
-  font-size: 14px;
-  line-height: 30px;
-  letter-spacing: 1%;
-  vertical-align: middle;
-  text-transform: uppercase;
-  color: var(--gray-dark-sevendary);
-}
 .order-item-product-link {
   display: flex;
   align-items: center;
@@ -197,6 +79,11 @@ const deleteItem = (id, size) => {
     align-items: flex-start;
     gap: 0;
   }
+}
+.order-item-product-image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
 }
 .order-item-product-text-block {
   display: flex;
@@ -238,40 +125,6 @@ const deleteItem = (id, size) => {
   font-weight: 400;
   font-size: 15px;
   line-height: 24px;
-  vertical-align: middle;
-  text-transform: uppercase;
-  color: var(--black-primary);
-}
-.order-item-bottom-name {
-  font-weight: 700;
-  font-size: 14px;
-  line-height: 30px;
-  letter-spacing: 1%;
-  vertical-align: middle;
-  color: var(--gray-dark-sevendary);
-}
-.order-item-bottom-price {
-  font-weight: 600;
-  font-size: 15px;
-  line-height: 24px;
-  letter-spacing: 0%;
-  vertical-align: middle;
-  text-transform: uppercase;
-  color: var(--black-primary);
-}
-.order-item-total-name {
-  font-weight: 700;
-  font-size: 19px;
-  line-height: 30px;
-  letter-spacing: 1%;
-  vertical-align: middle;
-  color: var(--gray-dark-sevendary);
-}
-.order-item-total-price {
-  font-weight: 600;
-  font-size: 22px;
-  line-height: 24px;
-  letter-spacing: 0%;
   vertical-align: middle;
   text-transform: uppercase;
   color: var(--black-primary);

@@ -1,11 +1,15 @@
-import { PATH_SEARCH, PATH_PROFILE, PATH_CART } from './routes'
+import {
+  // PATH_SEARCH,
+  PATH_PROFILE,
+  PATH_CART,
+} from './routes'
 
 export const iconsDesktop = [
-  {
-    name: 'Поиск',
-    path: PATH_SEARCH,
-    icon: '/icons/icon-search.svg',
-  },
+  // {
+  //   name: 'Поиск',
+  //   path: PATH_SEARCH,
+  //   icon: '/icons/icon-search.svg',
+  // },
   // {
   //   name: 'Избранные',
   //   path: PATH_PROFILE,

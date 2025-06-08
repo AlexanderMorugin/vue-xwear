@@ -15,7 +15,6 @@ export const useOrderStore = defineStore('orderStore', () => {
   }
 
   const orderItemsId = computed(() => orderItems.value.map((item) => item.id))
-  // const cartItemsSize = computed(() => cartItems.value.map((item) => item.size))
 
   const addOrderItem = (item) => {
     if (orderItems.value.find((el) => el.size === item.size && el.id === item.id)) {
@@ -49,7 +48,7 @@ export const useOrderStore = defineStore('orderStore', () => {
     }
   }
 
-  const deleteItem = (id, size) => {
+  const deleteOrderItem = (id, size) => {
     const currentItem = orderItems.value.find((item) => item.id === id && item.size === size)
     orderItems.value = orderItems.value.filter((item) => item !== currentItem)
 
@@ -79,12 +78,12 @@ export const useOrderStore = defineStore('orderStore', () => {
 
   return {
     orderItems,
-    addOrderItem,
     totalOrderSum,
+    addOrderItem,
     deleteAllItems,
     addAllCartItemsToOrder,
     increment,
     decrement,
-    deleteItem,
+    deleteOrderItem,
   }
 })

@@ -6,7 +6,7 @@
     <app-page tag="main" class="container">
       <AppHeading title="Оформление заказа" />
       <div class="order-view">
-        <AppOrderCard
+        <AppOrderList
           :orderStore="orderStore"
           :discount="discount"
           :delivery="delivery"
@@ -70,7 +70,7 @@ import { useRouter } from 'vue-router'
 import AppPage from '@/layouts/AppPage.vue'
 import AppBreadcrumbs from '@/components/breadcrumbs/AppBreadcrumbs.vue'
 import AppHeading from '@/components/AppHeading.vue'
-import AppOrderCard from '@/components/order/AppOrderCard.vue'
+import AppOrderList from '@/components/order/AppOrderList.vue'
 import AppLoader from '@/components/AppLoader.vue'
 import { orderBreadcrumbs } from '@/components/breadcrumbs/breadcrumbs-pages/order-breadcrumbs'
 import AddressCard from '@/components/profile/AddressCard.vue'
