@@ -27,15 +27,17 @@ import { useResizeMedium } from '@/use/useResizeMedium'
 import { iconsMobile, iconsDesktop } from '@/mock/header-profile-icons'
 import AppProfileModal from '@/components/profile/AppProfileModal.vue'
 import { useCartStore } from '@/stores/cart-store'
+import { useUserStore } from '@/stores/user-store'
 import { currencyFormater } from '@/utils/currency-formater'
 
 const cartStore = useCartStore()
+const userStore = useUserStore()
 const { isScreenMedium } = useResizeMedium()
 const router = useRouter()
 const isLoginModal = ref(false)
 
 const handleClickIcon = (args) => {
-  if (args.name === 'Профиль') {
+  if (args.name === 'Профиль' && !userStore.user.id) {
     isLoginModal.value = true
   } else {
     router.push(args.path)

@@ -27,7 +27,7 @@ import AppBreadcrumbs from '@/components/breadcrumbs/AppBreadcrumbs.vue'
 import AppHeading from '@/components/AppHeading.vue'
 import AppCartIsEmpty from '@/components/cart/AppCartIsEmpty.vue'
 import AppProductList from '@/components/product/AppProductList.vue'
-import AppLoader from '@/components/AppLoader.vue'
+import AppLoader from '@/components/loader/AppLoader.vue'
 import { cartBreadcrumbs } from '@/components/breadcrumbs/breadcrumbs-pages/cart-breadcrumbs'
 import { useCartStore } from '@/stores/cart-store'
 

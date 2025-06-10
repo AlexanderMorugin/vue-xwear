@@ -1,6 +1,6 @@
 <template>
   <AppProfileHeading title="Войти" />
-  <form class="profile-modal-form" @submit.prevent="submitProfileEditForm">
+  <form class="profile-modal-form" @submit.prevent="submitSignInForm">
     <div class="form-field">
       <label for="emailField" class="form-label">Email адрес:</label>
       <input
@@ -49,7 +49,10 @@
         Зарегистрироваться?
       </button>
     </div>
-    <button :class="['form-button', { 'form-button-active': isValid }]">Войти</button>
+    <button :class="['form-button', { 'form-button-active': isValid }]">
+      <AppButtonLoader v-if="userStore.isLoading" />
+      <span v-else>Войти</span>
+    </button>
   </form>
 </template>
 
@@ -60,10 +63,13 @@ import { useVuelidate } from '@vuelidate/core'
 import { helpers, required, email, minLength } from '@vuelidate/validators'
 import AppProfileHeading from '@/components/profile/AppProfileHeading.vue'
 import { PATH_PROFILE } from '@/mock/routes'
+import { useUserStore } from '@/stores/user-store'
+import AppButtonLoader from '@/components/loader/AppButtonLoader.vue'
 
 const emit = defineEmits(['closeProfileModal', 'openRegisterForm', 'openAdminForm'])
 
 const router = useRouter()
+const userStore = useUserStore()
 
 const emailField = ref(null)
 const passwordField = ref(null)
@@ -86,11 +92,34 @@ const v$ = useVuelidate(rules, {
 
 const isValid = computed(() => emailField.value && passwordField.value && !v$.$errors)
 
-const submitProfileEditForm = () => {
-  console.log('submitProfileEditForm')
-  router.push(PATH_PROFILE)
-  emit('closeProfileModal')
+const submitSignInForm = async () => {
+  await userStore.signIn(emailField.value, passwordField.value)
+
+  if (!userStore.error) {
+    router.push(PATH_PROFILE)
+    emit('closeProfileModal')
+  } else {
+    emailField.value = ''
+    passwordField.value = ''
+  }
 }
+// const submitSignInForm = async () => {
+//   await userStore.auth(
+//     {
+//       email: emailField.value,
+//       password: passwordField.value,
+//     },
+//     'signIn',
+//   )
+
+//   if (!userStore.error) {
+//     router.push(PATH_PROFILE)
+//     emit('closeProfileModal')
+//   } else {
+//     emailField.value = ''
+//     passwordField.value = ''
+//   }
+// }
 </script>
 
 <style scoped></style>

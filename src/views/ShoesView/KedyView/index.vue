@@ -2,6 +2,7 @@
 <!-- KedyView -->
 <template>
   <AppLoader v-if="isLoading" />
+
   <div v-else>
     <AppBreadcrumbs :breadcrumbs="allKedyBreadcrumbs" />
     <app-page tag="main" class="container split">
@@ -64,7 +65,7 @@ import AppHeading from '@/components/AppHeading.vue'
 import AppBreadcrumbs from '@/components/breadcrumbs/AppBreadcrumbs.vue'
 import AppProductList from '@/components/product/AppProductList.vue'
 import AppProductNotFound from '@/components/product/AppProductNotFound.vue'
-import AppLoader from '@/components/AppLoader.vue'
+import AppLoader from '@/components/loader/AppLoader.vue'
 import AppFilterBrands from '@/components/filters/AppFilterBrands.vue'
 import AppFilterColors from '@/components/filters/AppFilterColors.vue'
 import AppFilterReset from '@/components/filters/AppFilterReset.vue'
@@ -114,9 +115,10 @@ onMounted(async () => {
         })
         .filter((item) => item.category === 'kedy')
     }
-    isLoading.value = false
   } catch (error) {
     console.log(error)
+  } finally {
+    isLoading.value = false
   }
 })
 

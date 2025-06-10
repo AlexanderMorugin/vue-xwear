@@ -1,7 +1,6 @@
 <!-- OrderView -->
 <template>
-  <AppLoader v-if="isLoading" />
-  <div v-else>
+  <div>
     <AppBreadcrumbs :breadcrumbs="orderBreadcrumbs" />
     <app-page tag="main" class="container">
       <AppHeading title="Оформление заказа" />
@@ -49,7 +48,8 @@
               :class="['order-view-button', { 'order-view-button-submit': checkboxAgree }]"
               @click="submitOrder"
             >
-              Оформить
+              <AppButtonLoader v-if="isLoading" />
+              <span v-else>Оформить</span>
             </button>
             <button class="order-view-button order-view-button-cancel" @click="cancelOrder">
               Отменить
@@ -67,11 +67,11 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
+import { getFirestore, setDoc, doc } from 'firebase/firestore'
 import AppPage from '@/layouts/AppPage.vue'
 import AppBreadcrumbs from '@/components/breadcrumbs/AppBreadcrumbs.vue'
 import AppHeading from '@/components/AppHeading.vue'
 import AppOrderList from '@/components/order/AppOrderList.vue'
-import AppLoader from '@/components/AppLoader.vue'
 import { orderBreadcrumbs } from '@/components/breadcrumbs/breadcrumbs-pages/order-breadcrumbs'
 import AddressCard from '@/components/profile/AddressCard.vue'
 import { useOrderStore } from '@/stores/order-store'
@@ -79,11 +79,13 @@ import { useCartStore } from '@/stores/cart-store'
 import { useUserStore } from '@/stores/user-store'
 import { PATH_CART } from '@/mock/routes'
 import AppOrderSubmitModal from '@/components/order/AppOrderSubmitModal.vue'
+import AppButtonLoader from '@/components/loader/AppButtonLoader.vue'
 
 const orderStore = useOrderStore()
 const cartStore = useCartStore()
 const userStore = useUserStore()
 const router = useRouter()
+const db = getFirestore()
 
 const isLoading = ref(false)
 const isSubmitModalOpen = ref(false)
@@ -100,8 +102,11 @@ const totalSum = computed(() => {
 
 const closeSubmitModal = () => (isSubmitModalOpen.value = false)
 
-const submitOrder = () => {
-  const order = {
+const submitOrder = async () => {
+  isLoading.value = true
+
+  const payload = {
+    id: '3',
     date: new Date().toLocaleString(),
     items: orderStore.orderItems,
     discount: discount.value,
@@ -110,13 +115,53 @@ const submitOrder = () => {
     customer: 'Василий Иванов',
     address: userStore.currentAdress,
     phone: '+7 (956) 373-46-33',
-    email: 'yavasyaivanov@gmail.com',
+    email: userStore.user.email,
     comment: commentField.value,
   }
-  console.log(order)
-  isSubmitModalOpen.value = true
-  orderStore.deleteAllItems()
+
+  // try {
+  await setDoc(doc(db, `users/${userStore.user.id}/orders`, payload.id), payload).then(() => {
+    console.log(payload)
+    isSubmitModalOpen.value = true
+    orderStore.deleteAllItems()
+  })
+  // } catch (err) {
+  //   console.log(err)
+  // } finally {
+  isLoading.value = false
+  // }
 }
+
+// const submitOrder = async () => {
+//   isLoading.value = true
+
+//   const payload = {
+//     id: 1,
+//     date: new Date().toLocaleString(),
+//     items: orderStore.orderItems,
+//     discount: discount.value,
+//     delivery: delivery.value,
+//     totalSum: totalSum.value,
+//     customer: 'Василий Иванов',
+//     address: userStore.currentAdress,
+//     phone: '+7 (956) 373-46-33',
+//     email: 'yavasyaivanov@gmail.com',
+//     comment: commentField.value,
+//   }
+
+//   // try {
+//   await setDoc(doc(db, `users/${userStore.user.id}/orders`, payload.id), payload).then(() => {
+//     isSubmitModalOpen.value = true
+//     orderStore.deleteAllItems()
+//   })
+//   // } catch (err) {
+//   //   console.log(err)
+//   // } finally {
+//   isLoading.value = false
+//   // }
+
+//   console.log(payload)
+// }
 
 const cancelOrder = () => {
   if (!cartStore.cartItems.length) {

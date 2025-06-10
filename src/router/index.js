@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import {
   PATH_CLOTHES,
   PATH_SHOES,
@@ -22,6 +23,20 @@ import {
   PATH_FAQ,
   PATH_PRIVACY,
 } from '@/mock/routes'
+
+const checkAuth = (to, from, next) => {
+  let isAuth = false
+
+  onAuthStateChanged(getAuth(), (user) => {
+    if (user && !isAuth) {
+      isAuth = true
+      next()
+    } else if (!user && !isAuth) {
+      isAuth = true
+      next('/')
+    }
+  })
+}
 
 const routes = [
   {
@@ -137,6 +152,7 @@ const routes = [
     name: 'ProfileView',
     component: () => import('../views/ProfileView.vue'),
     meta: { layout: 'main' },
+    beforeEnter: checkAuth,
   },
   {
     path: PATH_CART,
@@ -149,6 +165,7 @@ const routes = [
     name: 'OrderView',
     component: () => import('../views/OrderView.vue'),
     meta: { layout: 'main' },
+    beforeEnter: checkAuth,
   },
   {
     path: PATH_ADMIN,

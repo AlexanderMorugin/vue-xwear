@@ -23,7 +23,7 @@ import AppFavoriteIsEmpty from '@/components/favorite/AppFavoriteIsEmpty.vue'
 import AppProfileHeading from '@/components/profile/AppProfileHeading.vue'
 import AppProfileButton from '@/components/profile/AppProfileButton.vue'
 import AppProductList from '@/components/product/AppProductList.vue'
-import AppLoader from '@/components/AppLoader.vue'
+import AppLoader from '@/components/loader/AppLoader.vue'
 import { useResizeLarge } from '@/use/useResizeLarge'
 
 // Брейкпоинты ширины экрана

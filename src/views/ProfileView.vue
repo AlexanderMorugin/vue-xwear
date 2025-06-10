@@ -45,6 +45,9 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { getAuth, signOut } from 'firebase/auth'
+import AppLoader from '@/components/loader/AppLoader.vue'
 import AppPage from '@/layouts/AppPage.vue'
 import AppLeft from '@/layouts/AppLeft.vue'
 import AppRight from '@/layouts/AppRight.vue'
@@ -65,13 +68,19 @@ import { useResizeLarge } from '@/use/useResizeLarge'
 
 // Брейкпоинты ширины экрана
 const { isScreenLarge } = useResizeLarge()
+const router = useRouter()
 
 const hasChoiseBlock = ref(1)
 const isProfileMenuMobileOpen = ref(false)
 
-const handleChoiseBlock = (index) => {
-  hasChoiseBlock.value = index.id
-  isProfileMenuMobileOpen.value = false
+const handleChoiseBlock = async (index) => {
+  if (index.name === 'Выход') {
+    await signOut(getAuth())
+    router.push('/')
+  } else {
+    hasChoiseBlock.value = index.id
+    isProfileMenuMobileOpen.value = false
+  }
 }
 
 const openProfileMenu = () => (isProfileMenuMobileOpen.value = true)

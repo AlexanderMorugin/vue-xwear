@@ -12,6 +12,7 @@
 
 <script setup>
 import { ref } from 'vue'
+import AppLoader from '@/components/loader/AppLoader.vue'
 import AppPage from '@/layouts/AppPage.vue'
 import AppBreadcrumbs from '@/components/breadcrumbs/AppBreadcrumbs.vue'
 import AppHeading from '@/components/AppHeading.vue'

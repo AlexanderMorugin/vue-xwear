@@ -52,7 +52,10 @@
       </button>
     </div>
 
-    <button :class="['form-button', { 'form-button-active': isValid }]">Зарегистрироваться</button>
+    <button :class="['form-button', { 'form-button-active': isValid }]">
+      <AppButtonLoader v-if="userStore.isLoading" />
+      <span v-else>Зарегистрироваться</span>
+    </button>
   </form>
 </template>
 
@@ -64,6 +67,7 @@ import { helpers, required, email, minLength, sameAs } from '@vuelidate/validato
 import AppProfileHeading from '@/components/profile/AppProfileHeading.vue'
 import { PATH_PROFILE } from '@/mock/routes'
 import { useUserStore } from '@/stores/user-store'
+import AppButtonLoader from '@/components/loader/AppButtonLoader.vue'
 
 const emit = defineEmits(['closeProfileModal', 'openLoginForm'])
 
@@ -73,6 +77,9 @@ const userStore = useUserStore()
 const emailField = ref(null)
 const passwordField = ref(null)
 const confirmPasswordField = ref(null)
+// const firstName = ref(null)
+// const lastName = ref(null)
+// const phone = ref(null)
 
 const rules = computed(() => ({
   emailField: {
@@ -104,18 +111,36 @@ const isValid = computed(
 )
 
 const submitSignUpForm = async () => {
-  await userStore.signUp({
-    email: emailField.value,
-    password: passwordField.value,
-  })
+  await userStore.signUp(emailField.value, passwordField.value)
 
   if (!userStore.error) {
     router.push(PATH_PROFILE)
     emit('closeProfileModal')
   } else {
-    return
+    emailField.value = ''
+    passwordField.value = ''
+    confirmPasswordField.value = ''
   }
 }
+
+// const submitSignUpForm = async () => {
+//   await userStore.auth(
+//     {
+//       email: emailField.value,
+//       password: passwordField.value,
+//     },
+//     'signUp',
+//   )
+
+//   if (!userStore.error) {
+//     router.push(PATH_PROFILE)
+//     emit('closeProfileModal')
+//   } else {
+//     emailField.value = ''
+//     passwordField.value = ''
+//     confirmPasswordField.value = ''
+//   }
+// }
 </script>
 
 <style scoped></style>

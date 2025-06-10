@@ -60,7 +60,10 @@
         item.$message
       }}</span>
     </div>
-    <button :class="['form-button', { 'form-button-active': isValid }]">Сохранить</button>
+    <button :class="['form-button', { 'form-button-active': isValid }]">
+      <AppButtonLoader v-if="userStore.isLoading" />
+      <span v-else>Сохранить</span>
+    </button>
   </form>
 </template>
 
@@ -68,9 +71,12 @@
 import { ref, computed } from 'vue'
 import { useVuelidate } from '@vuelidate/core'
 import { helpers, required, email, minLength, numeric } from '@vuelidate/validators'
+import { getFirestore, setDoc, doc } from 'firebase/firestore'
+import AppButtonLoader from '@/components/loader/AppButtonLoader.vue'
 import AppProfileHeading from '@/components/profile/AppProfileHeading.vue'
 import AppProfileButton from '@/components/profile/AppProfileButton.vue'
 import { useResizeLarge } from '@/use/useResizeLarge'
+import { useUserStore } from '@/stores/user-store'
 
 // Брейкпоинты ширины экрана
 const { isScreenLarge } = useResizeLarge()
@@ -78,10 +84,17 @@ const { isScreenLarge } = useResizeLarge()
 // eslint-disable-next-line no-unused-vars
 const emit = defineEmits(['openProfileMenu'])
 
+const userStore = useUserStore()
+const db = getFirestore()
+
+// console.log(userStore.user.email)
+
 const firstNameField = ref(null)
 const lastNameField = ref(null)
-const emailField = ref(null)
+const emailField = ref(userStore.user.email || null)
 const phoneField = ref(null)
+
+const isLoading = ref(false)
 
 const rules = computed(() => ({
   firstNameField: {
@@ -118,8 +131,27 @@ const isValid = computed(
     !v$.$errors,
 )
 
-const submitProfileEditForm = () => {
-  console.log('submitProfileEditForm')
+const submitProfileEditForm = async () => {
+  isLoading.value = true
+
+  const payload = {
+    id: userStore.user.id,
+    // displayName: firstNameField.value + lastNameField.value,
+    firstName: firstNameField.value,
+    lastName: lastNameField.value,
+    email: emailField.value,
+    phone: phoneField.value,
+  }
+
+  try {
+    await setDoc(doc(db, `users/${userStore.user.id}/profile`, payload.id), payload).then(() => {
+      console.log(payload)
+    })
+  } catch (err) {
+    console.log(err)
+  } finally {
+    isLoading.value = false
+  }
 }
 </script>
 
