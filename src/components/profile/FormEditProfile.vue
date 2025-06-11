@@ -61,7 +61,7 @@
       }}</span>
     </div>
     <button :class="['form-button', { 'form-button-active': isValid }]">
-      <AppButtonLoader v-if="userStore.isLoading" />
+      <AppButtonLoader v-if="isLoading" />
       <span v-else>Сохранить</span>
     </button>
   </form>
@@ -136,7 +136,6 @@ const submitProfileEditForm = async () => {
 
   const payload = {
     id: userStore.user.id,
-    // displayName: firstNameField.value + lastNameField.value,
     firstName: firstNameField.value,
     lastName: lastNameField.value,
     email: emailField.value,
