@@ -1,14 +1,42 @@
 <template>
-  <div class="order">
-    <!-- <div v-if="props.fromPage">
-      <h3 class="order-title">Заказ #4353</h3>
-      <div class="order-subtitle">
-        Был оформлен&nbsp;
-        <span class="order-subtitle-span">27 Июня в 12:34</span>
-        &nbsp;- статус заказа
-        <span class="order-subtitle-status">Отправлен</span>
-      </div>
-    </div> -->
+  <div class="server-order">
+    <h3 class="order-title">Заказ #{{ props.order.id }}</h3>
+    <div class="order-subtitle">
+      Оформлен: &nbsp;
+      <span class="order-subtitle-span">{{ props.order.date }}</span>
+    </div>
+    <div class="order-subtitle">
+      Cтатус заказа: &nbsp;
+      <span class="order-subtitle-status">Отправлен</span>
+    </div>
+
+    <div class="order-subtitle">
+      Заказчик:&nbsp;
+      <span class="order-subtitle-span">{{ props.order.customer }}</span>
+    </div>
+
+    <div class="order-subtitle">
+      Телефон:&nbsp; <span class="order-subtitle-span">{{ props.order.phone }}</span>
+    </div>
+    <div class="order-subtitle">
+      Email:&nbsp;
+      <span class="order-subtitle-span">{{ props.order.email }}</span>
+    </div>
+
+    <div class="order-subtitle">
+      Адрес доставки:&nbsp;
+      <span class="order-subtitle-span"
+        >{{ props.order.address.index }}, {{ props.order.address.country }},
+        {{ props.order.address.city }}, {{ props.order.address.street }}, д.{{
+          props.order.address.building
+        }}, кв.{{ props.order.address.flat }}</span
+      >
+    </div>
+
+    <div v-if="props.order.comment" class="order-subtitle">
+      Комментарий:&nbsp;
+      <span class="order-subtitle-span">{{ props.order.comment }}</span>
+    </div>
 
     <!-- Таблица -->
     <div class="order-items">
@@ -16,34 +44,29 @@
         <span class="order-item-top-name">Товар</span>
         <span class="order-item-top-name">Итого</span>
       </div>
+
       <ul>
         <li
-          v-for="(item, index) in props.orderStore.orderItems"
+          v-for="(item, index) in props.order.items"
           :key="index"
           class="order-item order-item-product"
         >
-          <AppOrderCard :item="item" :orderStore="orderStore" />
+          <AppOrderCard :item="item" fromPage="profileServerOrder" />
         </li>
       </ul>
       <ul>
         <li class="order-item order-item-product">
-          <span class="order-item-bottom-name">Всего</span>
-          <span class="order-item-bottom-price">{{
-            currencyFormater(orderStore.totalOrderSum)
-          }}</span>
-        </li>
-        <li class="order-item order-item-product">
           <span class="order-item-bottom-name">Скидка</span>
-          <span class="order-item-bottom-price">{{ props.discount }} %</span>
+          <span class="order-item-bottom-price">{{ props.order.discount }} %</span>
         </li>
         <li class="order-item order-item-product">
           <span class="order-item-bottom-name">Доставка</span>
-          <span class="order-item-bottom-price">{{ currencyFormater(props.delivery) }}</span>
+          <span class="order-item-bottom-price">{{ currencyFormater(props.order.delivery) }}</span>
         </li>
       </ul>
       <div class="order-item order-item-product">
         <span class="order-item-total-name">Итого</span>
-        <span class="order-item-total-price">{{ currencyFormater(props.totalSum) }}</span>
+        <span class="order-item-total-price">{{ currencyFormater(props.order.totalSum) }}</span>
       </div>
     </div>
   </div>
@@ -51,40 +74,40 @@
 
 <script setup>
 import { currencyFormater } from '@/utils/currency-formater'
-import AppOrderCard from './AppOrderCard.vue'
+import AppOrderCard from '@/components/order/AppOrderCard.vue'
 
-const props = defineProps(['orderStore', 'discount', 'delivery', 'totalSum', 'fromPage'])
+const props = defineProps(['order'])
 </script>
 
 <style scoped>
-.order {
+.server-order {
   border: 1px solid var(--white-sixdary);
   border-radius: 5px;
   padding: 30px;
   margin-bottom: 36px;
 }
 @media (max-width: 767px) {
-  .order {
+  .server-order {
     padding: 10px;
   }
 }
-/* .order-title {
+.order-title {
   font-weight: 700;
   font-size: 17px;
   line-height: 30px;
   color: var(--black-primary);
-} */
-/* .order-subtitle {
+}
+.order-subtitle {
   font-weight: 400;
   font-size: 14px;
   line-height: 30px;
   color: var(--gray-semi-secondary);
-} */
-/* .order-subtitle-span {
-  font-weight: 700;
+}
+.order-subtitle-span {
+  font-weight: 500;
   color: var(--black-sixdary);
-} */
-/* .order-subtitle-status {
+}
+.order-subtitle-status {
   width: fit-content;
   border-radius: 5px;
   border: 1px solid var(--gray-semi-thirdary);
@@ -94,7 +117,7 @@ const props = defineProps(['orderStore', 'discount', 'delivery', 'totalSum', 'fr
   color: var(--green-secondary);
   padding: 10px 13px;
   margin-left: 10px;
-} */
+}
 .order-items {
   display: flex;
   flex-direction: column;
@@ -102,16 +125,11 @@ const props = defineProps(['orderStore', 'discount', 'delivery', 'totalSum', 'fr
 }
 .order-item {
   display: grid;
-  grid-template-columns: 1fr 98px auto 5px;
+  grid-template-columns: 1fr auto 5px;
   align-items: center;
   column-gap: 16px;
   width: 100%;
   border-bottom: 1px solid var(--gray-semi-fourdary);
-}
-@media (max-width: 767px) {
-  .order-item {
-    grid-template-columns: 1fr 98px auto;
-  }
 }
 .order-item:last-child {
   border-bottom: none;

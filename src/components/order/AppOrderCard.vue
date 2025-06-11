@@ -26,6 +26,7 @@
   <div class="order-item-product-price-box">
     <!-- Счетчик увеличинения и уменьшения товара -->
     <AppCounter
+      v-if="props.fromPage !== 'profileServerOrder'"
       :item="item"
       @decrement="props.orderStore.decrement(item.id, item.size)"
       @increment="props.orderStore.increment(item.id, item.size)"
@@ -33,15 +34,17 @@
     <span class="order-item-product-price">{{ currencyFormater(item.price) }}</span>
   </div>
 
-  <!-- Кнопка "Удалить" в верхнем правом углу карточки товара -->
-  <AppOrderDeleteButton @openOrderDeleteModal="openOrderDeleteModal" />
-  <!-- Модалка удаления -->
-  <AppOrderDeleteModal
-    v-if="isOrderDeleteModalOpen"
-    title="Удалить товар из заказа?"
-    @closeOrderDeleteModal="closeOrderDeleteModal"
-    @deleteOrderItem="deleteOrderItem(item.id, item.size)"
-  />
+  <div v-if="props.fromPage !== 'profileServerOrder'">
+    <!-- Кнопка "Удалить" в верхнем правом углу карточки товара -->
+    <AppOrderDeleteButton @openOrderDeleteModal="openOrderDeleteModal" />
+    <!-- Модалка удаления -->
+    <AppOrderDeleteModal
+      v-if="isOrderDeleteModalOpen"
+      title="Удалить товар из заказа?"
+      @closeOrderDeleteModal="closeOrderDeleteModal"
+      @deleteOrderItem="deleteOrderItem(item.id, item.size)"
+    />
+  </div>
 </template>
 
 <script setup>
@@ -54,7 +57,7 @@ import AppCounter from '@/components/counter/AppCounter.vue'
 import AppOrderDeleteButton from '@/components/order/AppOrderDeleteButton.vue'
 import AppOrderDeleteModal from './AppOrderDeleteModal.vue'
 
-const props = defineProps(['item', 'orderStore'])
+const props = defineProps(['item', 'orderStore', 'fromPage'])
 
 const isOrderDeleteModalOpen = ref(false)
 

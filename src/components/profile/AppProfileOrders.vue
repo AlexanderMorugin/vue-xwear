@@ -6,31 +6,35 @@
     <AppProfileButton v-if="isScreenLarge" @openProfileMenu="$emit('openProfileMenu')" />
 
     <AppProfileHeading title="Заказы в пути" />
-    <!-- <ul class="profile-orders">
-    <li>
-      <AppOrderCard />
-    </li>
-  </ul> -->
+    <ul class="profile-orders">
+      <li v-for="order in orders" :key="order.id">
+        <AppProfileServerOrder :order="order" />
+      </li>
+    </ul>
 
-    {{ orders }}
+    <!-- {{ orders }} -->
   </div>
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from 'vue'
+import {
+  // computed,
+  onMounted,
+  ref,
+} from 'vue'
 import {
   getFirestore,
   collection,
   query,
   orderBy,
   getDocs,
-  deleteDoc,
-  doc,
+  // deleteDoc,
+  // doc,
 } from 'firebase/firestore'
 import AppLoader from '@/components/loader/AppLoader.vue'
 import AppProfileHeading from '@/components/profile/AppProfileHeading.vue'
 import AppProfileButton from '@/components/profile/AppProfileButton.vue'
-// import AppOrderCard from '@/components/order/AppOrderCard.vue'
+import AppProfileServerOrder from './AppProfileServerOrder.vue'
 import { useResizeLarge } from '@/use/useResizeLarge'
 import { useUserStore } from '@/stores/user-store'
 
@@ -58,17 +62,7 @@ const getOrders = async () => {
   isLoading.value = false
 
   return listDocs.docs.map((doc) => doc.data())
-
-  // return listDocs
 }
-
-// onMounted(async () => {
-//   const getData = query(collection(db, `users/${userStore.user.id}/orders`))
-
-//   const listDocs = await getDocs(getData)
-
-//   console.log(listDocs.docs.map((doc) => doc.data()))
-// })
 
 onMounted(async () => {
   const orderList = await getOrders()
