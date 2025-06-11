@@ -1,6 +1,13 @@
 <template>
   <div class="server-order">
     <h3 class="order-title">Заказ #{{ props.order.id }}</h3>
+
+    <!-- Кнопка "Удалить" в верхнем правом углу карточки товара -->
+    <AppOrderDeleteButton
+      @openOrderDeleteModal="$emit('openServerOrderDeleteModal')"
+      fromPage="profileServerOrder"
+    />
+
     <div class="order-subtitle">
       Оформлен: &nbsp;
       <span class="order-subtitle-span">{{ props.order.date }}</span>
@@ -75,12 +82,16 @@
 <script setup>
 import { currencyFormater } from '@/utils/currency-formater'
 import AppOrderCard from '@/components/order/AppOrderCard.vue'
+import AppOrderDeleteButton from '@/components/order/AppOrderDeleteButton.vue'
 
+// eslint-disable-next-line no-unused-vars
+const emit = defineEmits(['openServerOrderDeleteModal'])
 const props = defineProps(['order'])
 </script>
 
 <style scoped>
 .server-order {
+  position: relative;
   border: 1px solid var(--white-sixdary);
   border-radius: 5px;
   padding: 30px;
