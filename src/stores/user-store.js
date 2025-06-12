@@ -1,17 +1,6 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-// import axios from 'axios'
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  // createUser,
-} from 'firebase/auth'
-
-// https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=[API_KEY]
-
-// const API_KEY = 'AIzaSyB-0doWEXiJdzBes0_CF20yOMD8Rm99LaM'
-// const API_KEY = import.meta.env.VITE_API_KEY_FIREBASE
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
 
 export const useUserStore = defineStore('userStore', () => {
   const user = ref({
@@ -20,7 +9,6 @@ export const useUserStore = defineStore('userStore', () => {
     lastName: '',
     email: '',
     phone: '',
-    // token: '',
   })
 
   const error = ref('')
@@ -47,7 +35,6 @@ export const useUserStore = defineStore('userStore', () => {
       const data = await signInWithEmailAndPassword(getAuth(), email, password)
 
       user.value.id = data.user.uid
-      // user.value.token = data.user.accessToken
       user.value.email = data.user.email
     } catch (err) {
       console.log(err)
@@ -61,62 +48,6 @@ export const useUserStore = defineStore('userStore', () => {
     user.value.lastName = profileData.lastName
     user.value.phone = profileData.phone
   }
-
-  console.log('useUserStore -', user.value)
-  // const auth = async (payload, type) => {
-  //   const signUrl = type === 'signUp' ? 'signUp' : 'signInWithPassword'
-
-  //   isLoading.value = true
-  //   error.value = ''
-
-  //   try {
-  //     let response = await axios.post(
-  //       `https://identitytoolkit.googleapis.com/v1/accounts:${signUrl}?key=${API_KEY}`,
-  //       { ...payload, returnSecureToken: true },
-  //     )
-
-  //     console.log(response.data)
-
-  //     user.value = {
-  //       email: response.data.email,
-  //       expiresIn: response.data.expiresIn,
-  //       idToken: response.data.idToken,
-  //       localId: response.data.localId,
-  //       refreshToken: response.data.refreshToken,
-  //     }
-
-  //     isLoading.value = false
-  //   } catch (err) {
-  //     console.log(err.response.data.error.message)
-
-  //     switch (err.response.data.error.message) {
-  //       case 'EMAIL_EXISTS':
-  //         error.value = 'Такой адрес электронной почты уже используется'
-  //         break
-  //       case 'OPERATION_NOT_ALLOWED':
-  //         error.value = 'Вход по паролю отключен'
-  //         break
-  //       case 'TOO_MANY_ATTEMPTS_TRY_LATER':
-  //         error.value = 'Попробуйте ещё раз позже'
-  //         break
-  //       case 'INVALID_PASSWORD':
-  //         error.value = 'Неправильный пароль'
-  //         break
-  //       case 'USER_DISABLED':
-  //         error.value = 'Учетная запись пользователя была отключена'
-  //         break
-  //       case 'INVALID_LOGIN_CREDENTIALS':
-  //         error.value = 'Неправильный пароль или почта'
-  //         break
-
-  //       default:
-  //         error.value = 'Какая то ошибка'
-  //         break
-  //     }
-  //   } finally {
-  //     isLoading.value = false
-  //   }
-  // }
 
   const userAddress = ref([
     {
@@ -151,19 +82,12 @@ export const useUserStore = defineStore('userStore', () => {
   }
 
   return {
-    // userId,
     user,
-    // userToken,
-    // userFirstName,
-    // userLastName,
-    // userEmail,
-    // userPhone,
     userAddress,
     currentAdress,
     error,
     isLoading,
     setCurrentAdress,
-    // auth,
     signUp,
     signIn,
     setUserProfile,

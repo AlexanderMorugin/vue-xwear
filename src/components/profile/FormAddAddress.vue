@@ -1,7 +1,7 @@
 <template>
   <AppProfileHeading title="Добавление адреса" />
   <form class="address-form" @submit.prevent="submitAddAddressForm">
-    <div class="form-field">
+    <!-- <div class="form-field">
       <label for="firstNameField" class="form-label">Имя:</label>
       <input
         type="text"
@@ -14,8 +14,8 @@
       <span v-for="item in v$.firstNameField.$errors" :key="item.$uid" class="form-input-error">{{
         item.$message
       }}</span>
-    </div>
-    <div class="form-field">
+    </div> -->
+    <!-- <div class="form-field">
       <label for="lastNameField" class="form-label">Фамилия:</label>
       <input
         type="text"
@@ -28,8 +28,8 @@
       <span v-for="item in v$.lastNameField.$errors" :key="item.$uid" class="form-input-error">{{
         item.$message
       }}</span>
-    </div>
-    <div class="form-field">
+    </div> -->
+    <!-- <div class="form-field">
       <label for="companyField" class="form-label"
         >Название компании: <span class="form-label-span">(не обязательно)</span></label
       >
@@ -41,7 +41,7 @@
         v-model="companyField"
         class="form-input"
       />
-    </div>
+    </div> -->
     <div class="form-field">
       <label for="countryField" class="form-label">Страна:</label>
       <input
@@ -113,20 +113,35 @@
       }}</span>
     </div>
     <div class="form-field">
-      <label for="houseField" class="form-label">Номер дома / квартиры</label>
+      <label for="buildingField" class="form-label">Номер дома</label>
       <input
         type="text"
-        id="houseField"
-        name="houseField"
+        id="buildingField"
+        name="buildingField"
         placeholder="Введите номер дома и квартиры"
-        v-model="v$.houseField.$model"
-        :class="['form-input', { 'form-input-warning': v$.houseField.$errors.length }]"
+        v-model="v$.buildingField.$model"
+        :class="['form-input', { 'form-input-warning': v$.buildingField.$errors.length }]"
       />
-      <span v-for="item in v$.houseField.$errors" :key="item.$uid" class="form-input-error">{{
+      <span v-for="item in v$.buildingField.$errors" :key="item.$uid" class="form-input-error">{{
         item.$message
       }}</span>
     </div>
     <div class="form-field">
+      <label for="flatField" class="form-label">Номер квартиры</label>
+      <input
+        type="text"
+        id="flatField"
+        name="flatField"
+        placeholder="Введите номер квартиры"
+        v-model="v$.flatField.$model"
+        :class="['form-input', { 'form-input-warning': v$.flatField.$errors.length }]"
+      />
+      <span v-for="item in v$.flatField.$errors" :key="item.$uid" class="form-input-error">{{
+        item.$message
+      }}</span>
+    </div>
+
+    <!-- <div class="form-field">
       <label for="emailField" class="form-label">Email адрес:</label>
       <input
         type="email"
@@ -139,8 +154,8 @@
       <span v-for="item in v$.emailField.$errors" :key="item.$uid" class="form-input-error">{{
         item.$message
       }}</span>
-    </div>
-    <div class="form-field">
+    </div> -->
+    <!-- <div class="form-field">
       <label for="phoneField" class="form-label">Номер телефона:</label>
       <input
         type="tel"
@@ -153,7 +168,7 @@
       <span v-for="item in v$.phoneField.$errors" :key="item.$uid" class="form-input-error">{{
         item.$message
       }}</span>
-    </div>
+    </div> -->
     <button class="form-button form-button-active">Сохранить</button>
   </form>
 </template>
@@ -161,31 +176,38 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useVuelidate } from '@vuelidate/core'
-import { helpers, required, email, minLength, numeric } from '@vuelidate/validators'
+import {
+  helpers,
+  required,
+  // email,
+  minLength,
+  numeric,
+} from '@vuelidate/validators'
 import AppProfileHeading from '@/components/profile/AppProfileHeading.vue'
 
 const emit = defineEmits(['closeForm'])
 
-const firstNameField = ref(null)
-const lastNameField = ref(null)
+// const firstNameField = ref(null)
+// const lastNameField = ref(null)
 const countryField = ref(null)
 const regionField = ref(null)
 const indexField = ref(null)
 const cityField = ref(null)
 const streetField = ref(null)
-const houseField = ref(null)
-const emailField = ref(null)
-const phoneField = ref(null)
+const buildingField = ref(null)
+const flatField = ref(null)
+// const emailField = ref(null)
+// const phoneField = ref(null)
 
 const rules = computed(() => ({
-  firstNameField: {
-    required: helpers.withMessage('Укажите имя', required),
-    minLength: helpers.withMessage('Имя должно быть не менее 3 символов', minLength(3)),
-  },
-  lastNameField: {
-    required: helpers.withMessage('Укажите фамилию', required),
-    minLength: helpers.withMessage('Фамилия должна быть не менее 3 символов', minLength(3)),
-  },
+  // firstNameField: {
+  //   required: helpers.withMessage('Укажите имя', required),
+  //   minLength: helpers.withMessage('Имя должно быть не менее 3 символов', minLength(3)),
+  // },
+  // lastNameField: {
+  //   required: helpers.withMessage('Укажите фамилию', required),
+  //   minLength: helpers.withMessage('Фамилия должна быть не менее 3 символов', minLength(3)),
+  // },
   countryField: {
     required: helpers.withMessage('Укажите страну', required),
     minLength: helpers.withMessage('Название должно быть не менее 3 символов', minLength(3)),
@@ -206,30 +228,34 @@ const rules = computed(() => ({
     required: helpers.withMessage('Укажите улицу', required),
     minLength: helpers.withMessage('Название должно быть не менее 3 символов', minLength(3)),
   },
-  houseField: {
-    required: helpers.withMessage('Укажитеномер дома и квартиры', required),
+  buildingField: {
+    required: helpers.withMessage('Укажите номер дома', required),
   },
-  emailField: {
-    required: helpers.withMessage('Укажите почту', required),
-    email: helpers.withMessage('Введите корректную почту', email),
+  flatField: {
+    required: helpers.withMessage('Укажите номер квартиры', required),
   },
-  phoneField: {
-    required: helpers.withMessage('Укажите телефон', required),
-    numeric: helpers.withMessage('Введите цифры', numeric),
-  },
+  // emailField: {
+  //   required: helpers.withMessage('Укажите почту', required),
+  //   email: helpers.withMessage('Введите корректную почту', email),
+  // },
+  // phoneField: {
+  //   required: helpers.withMessage('Укажите телефон', required),
+  //   numeric: helpers.withMessage('Введите цифры', numeric),
+  // },
 }))
 
 const v$ = useVuelidate(rules, {
-  firstNameField,
-  lastNameField,
+  // firstNameField,
+  // lastNameField,
   countryField,
   regionField,
   indexField,
   cityField,
   streetField,
-  houseField,
-  emailField,
-  phoneField,
+  buildingField,
+  flatField,
+  // emailField,
+  // phoneField,
 })
 
 // const isValid = computed(
@@ -251,7 +277,11 @@ const submitAddAddressForm = () => {
 .address-form {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  /* display: flex;
+  flex-direction: column; */
   gap: 30px;
+  /* width: 100%;
+  max-width: 433px; */
   padding-top: 30px;
   padding-bottom: 80px;
 }
