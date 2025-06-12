@@ -25,7 +25,8 @@ const emit = defineEmits(['openProfileMenu'])
   width: 100%;
   max-width: 250px;
   border-radius: 5px;
-  background: var(--blue-primary);
+  border: 1px solid var(--gray-light-sevendary);
+  background: var(--white-thirdary);
   padding: 16px 18px;
   margin-bottom: 20px;
   transition: 0.3s ease all;

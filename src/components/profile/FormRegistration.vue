@@ -68,6 +68,7 @@ import AppProfileHeading from '@/components/profile/AppProfileHeading.vue'
 import { PATH_PROFILE } from '@/mock/routes'
 import { useUserStore } from '@/stores/user-store'
 import AppButtonLoader from '@/components/loader/AppButtonLoader.vue'
+// import { getAuth } from 'firebase/auth'
 
 const emit = defineEmits(['closeProfileModal', 'openLoginForm'])
 

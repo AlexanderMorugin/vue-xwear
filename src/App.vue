@@ -1,7 +1,20 @@
 <script>
-import { computed, onMounted } from 'vue'
+import {
+  computed,
+  onMounted,
+  // ref
+} from 'vue'
 import { useRoute } from 'vue-router'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import {
+  getFirestore,
+  collection,
+  query,
+  getDocs,
+  // getDoc,
+  // deleteDoc,
+  // doc,
+} from 'firebase/firestore'
 import MainLayout from './layouts/MainLayout.vue'
 import { useUserStore } from '@/stores/user-store'
 
@@ -10,6 +23,19 @@ export default {
   setup() {
     const route = useRoute()
     const userStore = useUserStore()
+    const db = getFirestore()
+    // const profile = ref(null)
+
+    const getProfile = async () => {
+      const getData = query(collection(db, `users/${userStore.user.id}/profile`))
+      const listDocs = await getDocs(getData)
+      const profileData = listDocs.docs.map((doc) => doc.data())
+      if (profileData[0]) {
+        userStore.setUserProfile(profileData[0])
+      }
+
+      // profile.value = profileData[0]
+    }
 
     // Слежение за наличием пользователя в приложении
     onMounted(() => {
@@ -17,11 +43,17 @@ export default {
         if (user) {
           userStore.user.id = user.uid
           userStore.user.email = user.email
-
-          console.log(user)
-        } else {
-          userStore.user.id = ''
+          getProfile()
         }
+        // else {
+        //   userStore.user.id = ''
+        // }
+
+        // console.log('getAuth - ', user)
+
+        // console.log('profileData - ', profile.value)
+
+        // console.log('userStore - ', userStore.user)
       })
     })
 

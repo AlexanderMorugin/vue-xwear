@@ -22,9 +22,7 @@
 
       <app-right>
         <div class="profile-menu-right" v-if="hasChoiseBlock === 1">
-          <AppProfileHeading fromPage="mainProfile" :profile="profile" />
-
-          {{ profile }}
+          <AppProfileHeading fromPage="mainProfile" :user="userStore.user" />
 
           <ul class="profile-menu-right-list">
             <li v-for="item in profileMenuList.slice(1)" :key="item.id">
@@ -46,18 +44,9 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { getAuth, signOut } from 'firebase/auth'
-import {
-  getFirestore,
-  collection,
-  query,
-  getDocs,
-  // getDoc,
-  // deleteDoc,
-  // doc,
-} from 'firebase/firestore'
 import AppLoader from '@/components/loader/AppLoader.vue'
 import AppPage from '@/layouts/AppPage.vue'
 import AppLeft from '@/layouts/AppLeft.vue'
@@ -82,45 +71,23 @@ import { useResizeLarge } from '@/use/useResizeLarge'
 const { isScreenLarge } = useResizeLarge()
 const userStore = useUserStore()
 const router = useRouter()
-const db = getFirestore()
 
 const isLoading = ref(false)
 const hasChoiseBlock = ref(1)
 const isProfileMenuMobileOpen = ref(false)
-const profile = ref(null)
 
 const handleChoiseBlock = async (index) => {
   if (index.name === 'Выход') {
     await signOut(getAuth())
     router.push('/')
-  } else {
-    if (profile.value) {
-      await getProfile()
-    }
-
-    hasChoiseBlock.value = index.id
-    isProfileMenuMobileOpen.value = false
   }
+
+  hasChoiseBlock.value = index.id
+  isProfileMenuMobileOpen.value = false
 }
 
 const openProfileMenu = () => (isProfileMenuMobileOpen.value = true)
 const closeProfileMenu = () => (isProfileMenuMobileOpen.value = false)
-
-const getProfile = async () => {
-  isLoading.value = true
-  const getData = query(collection(db, `users/${userStore.user.id}/profile`))
-  const listDocs = await getDocs(getData)
-  const profileData = listDocs.docs.map((doc) => doc.data())
-  isLoading.value = false
-
-  console.log(profileData[0])
-
-  profile.value = profileData[0]
-}
-
-onMounted(async () => {
-  await getProfile()
-})
 </script>
 
 <style scoped>

@@ -1,22 +1,24 @@
 <template>
   <div class="address-card">
-    <h3 class="address-card-owner-name">Василий Иванов</h3>
+    <h3 class="address-card-owner-name">
+      {{ userStore.user.firstName }} {{ userStore.user.lastName }}
+    </h3>
     <p class="address-card-owner-address">
-      {{ props.userStore.currentAdress.index }}, {{ props.userStore.currentAdress.country }},
-      {{ props.userStore.currentAdress.city }}, {{ props.userStore.currentAdress.street }}, д.{{
-        props.userStore.currentAdress.building
-      }}, кв.{{ props.userStore.currentAdress.flat }}
+      {{ userStore.currentAdress.index }}, {{ userStore.currentAdress.country }},
+      {{ userStore.currentAdress.city }}, {{ userStore.currentAdress.street }}, д.{{
+        userStore.currentAdress.building
+      }}, кв.{{ userStore.currentAdress.flat }}
     </p>
     <div class="address-card-text-box">
       <span class="address-card-text-title">Телефон</span>
-      <span class="address-card-text">+7 (956) 373-46-33</span>
+      <span class="address-card-text">{{ userStore.user.phone }}</span>
     </div>
     <div class="address-card-text-box">
       <span class="address-card-text-title">Email</span>
-      <span class="address-card-text">yavasyaivanov@gmail.com</span>
+      <span class="address-card-text">{{ userStore.user.email }}</span>
     </div>
 
-    <div class="address-card-badge-top">Адрес доставки #{{ props.userStore.currentAdress.id }}</div>
+    <div class="address-card-badge-top">Адрес доставки #{{ userStore.currentAdress.id }}</div>
     <div class="address-card-badge-bottom">
       <button class="address-card-badge-bottom-button" @click="openUserAddressModal">
         <img src="/icons/icon-pencil-dark.png" alt="Иконка редактирования" />
@@ -39,7 +41,11 @@
 <script setup>
 import { ref } from 'vue'
 import AppUserAddressModal from './AppUserAddressModal.vue'
-const props = defineProps(['number', 'userStore'])
+import { useUserStore } from '@/stores/user-store'
+
+// const props = defineProps(['number'])
+
+const userStore = useUserStore()
 
 const isAddressModalOpen = ref(false)
 

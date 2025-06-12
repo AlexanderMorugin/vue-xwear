@@ -13,7 +13,7 @@
         />
         <div class="order-view-address">
           <!-- Адреса доставки -->
-          <AddressCard :userStore="userStore" />
+          <AddressCard />
 
           <!-- Комментарий к заказу и чекбокс правильности заказа и адреса доставки -->
           <form class="order-view-comment">
@@ -112,9 +112,9 @@ const submitOrder = async () => {
     discount: discount.value,
     delivery: delivery.value,
     totalSum: totalSum.value,
-    customer: 'Василий Иванов',
+    customer: `${userStore.user.firstName} ${userStore.user.lastName}`,
     address: userStore.currentAdress,
-    phone: '+7 (956) 373-46-33',
+    phone: userStore.user.phone,
     email: userStore.user.email,
     comment: commentField.value,
   }

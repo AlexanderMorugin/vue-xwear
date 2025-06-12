@@ -1,7 +1,12 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 // import axios from 'axios'
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  // createUser,
+} from 'firebase/auth'
 
 // https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=[API_KEY]
 
@@ -9,29 +14,14 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } f
 // const API_KEY = import.meta.env.VITE_API_KEY_FIREBASE
 
 export const useUserStore = defineStore('userStore', () => {
-  // const user = ref({
-  //   email: '',
-  //   expiresIn: '',
-  //   idToken: '',
-  //   localId: '',
-  //   refreshToken: '',
-  // })
-
   const user = ref({
     id: '',
     firstName: '',
     lastName: '',
     email: '',
     phone: '',
-    token: '',
+    // token: '',
   })
-
-  // const userId = ref('')
-  // const userToken = ref('')
-  // const userFirstName = ref('')
-  // const userLastName = ref('')
-  // const userEmail = ref('')
-  // const userPhone = ref('')
 
   const error = ref('')
   const isLoading = ref(false)
@@ -57,14 +47,8 @@ export const useUserStore = defineStore('userStore', () => {
       const data = await signInWithEmailAndPassword(getAuth(), email, password)
 
       user.value.id = data.user.uid
-      user.value.token = data.user.accessToken
+      // user.value.token = data.user.accessToken
       user.value.email = data.user.email
-
-      // // userId.value = data.user.uid
-      // userToken.value = data.user.accessToken
-      // userEmail.value = data.user.email
-
-      console.log(user.value)
     } catch (err) {
       console.log(err)
     } finally {
@@ -72,6 +56,13 @@ export const useUserStore = defineStore('userStore', () => {
     }
   }
 
+  const setUserProfile = (profileData) => {
+    user.value.firstName = profileData.firstName
+    user.value.lastName = profileData.lastName
+    user.value.phone = profileData.phone
+  }
+
+  console.log('useUserStore -', user.value)
   // const auth = async (payload, type) => {
   //   const signUrl = type === 'signUp' ? 'signUp' : 'signInWithPassword'
 
@@ -175,5 +166,6 @@ export const useUserStore = defineStore('userStore', () => {
     // auth,
     signUp,
     signIn,
+    setUserProfile,
   }
 })
