@@ -32,6 +32,7 @@
         item.$message
       }}</span>
     </div>
+
     <!-- <div class="form-field">
       <label for="emailField" class="form-label">Email адрес:</label>
       <input
@@ -59,6 +60,10 @@
       <span v-for="item in v$.phoneField.$errors" :key="item.$uid" class="form-input-error">{{
         item.$message
       }}</span>
+    </div>
+    <div class="form-field">
+      <span class="form-label">Email не может быть изменён</span>
+      <div class="email-box">{{ userStore.user.email }}</div>
     </div>
     <button :class="['form-button', { 'form-button-active': isValid }]">
       <AppButtonLoader v-if="isLoading" />
@@ -149,18 +154,14 @@ const submitProfileEditForm = async () => {
     phone: phoneField.value,
   }
 
-  try {
-    await setDoc(doc(db, `users/${userStore.user.id}/profile`, payload.id), payload).then(() => {
-      userStore.setUserProfile(payload)
-    })
-  } catch (err) {
-    console.log(err)
-  } finally {
-    isLoading.value = false
-    firstNameField.value = ''
-    lastNameField.value = ''
-    phoneField.value = ''
-  }
+  await setDoc(doc(db, `users/${userStore.user.id}/profile`, payload.id), payload).then(() => {
+    userStore.setUserProfile(payload)
+  })
+
+  isLoading.value = false
+  firstNameField.value = ''
+  lastNameField.value = ''
+  phoneField.value = ''
 
   // const auth = getAuth()
 
@@ -195,5 +196,16 @@ const submitProfileEditForm = async () => {
     padding-top: 20px;
     padding-bottom: 40px;
   }
+}
+.email-box {
+  width: 100%;
+  height: 71px;
+  border-radius: 5px;
+  background: var(--gray-normal-primary);
+  font-weight: 400;
+  font-size: 14px;
+  padding: 24px 20px 14px 20px;
+  border: 1px solid transparent;
+  transition: 0.3s ease all;
 }
 </style>

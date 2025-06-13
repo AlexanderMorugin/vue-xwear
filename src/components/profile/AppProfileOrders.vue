@@ -6,8 +6,8 @@
     <AppProfileButton v-if="isScreenLarge" @openProfileMenu="$emit('openProfileMenu')" />
 
     <AppProfileHeading title="Заказы в пути" />
-    <ul v-if="orders.length" class="profile-orders">
-      <li v-for="order in orders" :key="order.id">
+    <ul v-if="orderStore.ordersFromServer" class="profile-orders">
+      <li v-for="order in orderStore.ordersFromServer" :key="order.id">
         <AppProfileServerOrder
           :order="order"
           @openServerOrderDeleteModal="openServerOrderDeleteModal"
@@ -29,49 +29,57 @@
 
 <script setup>
 import { onMounted, ref } from 'vue'
-import {
-  getFirestore,
-  collection,
-  query,
-  orderBy,
-  getDocs,
-  deleteDoc,
-  doc,
-} from 'firebase/firestore'
+// import {
+//   getFirestore,
+//   collection,
+//   query,
+//   orderBy,
+//   getDocs,
+//   deleteDoc,
+//   doc,
+// } from 'firebase/firestore'
 import AppLoader from '@/components/loader/AppLoader.vue'
 import AppProfileHeading from '@/components/profile/AppProfileHeading.vue'
 import AppProfileButton from '@/components/profile/AppProfileButton.vue'
 import AppProfileServerOrder from './AppProfileServerOrder.vue'
 import { useResizeLarge } from '@/use/useResizeLarge'
-import { useUserStore } from '@/stores/user-store'
+// import { useUserStore } from '@/stores/user-store'
+import { useOrderStore } from '@/stores/order-store'
 import AppOrderDeleteModal from '@/components/order/AppOrderDeleteModal.vue'
 
 // Брейкпоинты ширины экрана
 const { isScreenLarge } = useResizeLarge()
-const db = getFirestore()
-const userStore = useUserStore()
+// const db = getFirestore()
+// const userStore = useUserStore()
+const orderStore = useOrderStore()
 
 // eslint-disable-next-line no-unused-vars
 const emit = defineEmits(['openProfileMenu'])
 
-const isLoading = ref(false)
+// const isLoading = ref(false)
 const isServerOrderDeleteModalOpen = ref(false)
-const orders = ref([])
+// const orders = ref([])
 
-const getOrders = async () => {
-  isLoading.value = true
-  const getData = query(
-    collection(db, `users/${userStore.user.id}/orders`),
-    orderBy('date', 'desc'),
-  )
-  const listDocs = await getDocs(getData)
-  isLoading.value = false
-  return listDocs.docs.map((doc) => doc.data())
-}
+// const getOrders = async () => {
+//   isLoading.value = true
+//   const getData = query(
+//     collection(db, `users/${userStore.user.id}/orders`),
+//     orderBy('date', 'desc'),
+//   )
+//   const listDocs = await getDocs(getData)
+//   isLoading.value = false
+//   return listDocs.docs.map((doc) => doc.data())
+// }
 
 onMounted(async () => {
-  const orderList = await getOrders()
-  orders.value = [...orderList]
+  // const orderList = await orderStore.getOrders()
+  // orders.value = [...orderList]
+
+  // console.log(orders.value)
+
+  await orderStore.setOrdersFromServerList()
+
+  // console.log(orderStore.ordersFromServer)
 })
 
 const openServerOrderDeleteModal = () => (isServerOrderDeleteModalOpen.value = true)

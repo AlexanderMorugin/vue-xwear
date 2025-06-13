@@ -1,11 +1,26 @@
 import { ref, computed, watch } from 'vue'
 import { defineStore } from 'pinia'
 import { useRouter } from 'vue-router'
+import {
+  getFirestore,
+  collection,
+  query,
+  orderBy,
+  getDocs,
+  deleteDoc,
+  doc,
+} from 'firebase/firestore'
+import { useUserStore } from '@/stores/user-store'
 
 export const useOrderStore = defineStore('orderStore', () => {
   const orderItems = ref([])
+  const ordersFromServer = ref([])
 
   const router = useRouter()
+  const db = getFirestore()
+  const userStore = useUserStore()
+
+  const isLoading = ref(false)
 
   // Подтягиваем данные заказа из LocalStorage
   const orderItemsinLocalStorage = localStorage.getItem('orderItems')
@@ -67,6 +82,37 @@ export const useOrderStore = defineStore('orderStore', () => {
 
   const deleteAllItems = () => (orderItems.value = [])
 
+  const getOrders = async () => {
+    isLoading.value = true
+    const getData = query(
+      collection(db, `users/${userStore.user.id}/orders`),
+      orderBy('date', 'desc'),
+    )
+    const listDocs = await getDocs(getData)
+    isLoading.value = false
+    return listDocs.docs.map((doc) => doc.data())
+  }
+
+  const setOrdersFromServerList = async () => {
+    const orderList = await getOrders()
+    return (ordersFromServer.value = [...orderList])
+
+    // console.log(ordersFromServer.value)
+  }
+
+  const setOrderId = async () => {
+    await setOrdersFromServerList()
+    const idArray = ordersFromServer.value.map((item) => item.id)
+
+    console.log(ordersFromServer.value)
+    console.log(idArray)
+
+    let nextId = ++idArray[0]
+    return nextId
+
+    // console.log(nextId)
+  }
+
   // Следим за изменениями в заказе и обновляем данные в LocalStorage
   watch(
     () => orderItems,
@@ -79,11 +125,15 @@ export const useOrderStore = defineStore('orderStore', () => {
   return {
     orderItems,
     totalOrderSum,
+    ordersFromServer,
     addOrderItem,
     deleteAllItems,
     addAllCartItemsToOrder,
     increment,
     decrement,
     deleteOrderItem,
+    getOrders,
+    setOrdersFromServerList,
+    setOrderId,
   }
 })
