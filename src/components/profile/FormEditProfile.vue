@@ -70,6 +70,8 @@
       <span v-else>Сохранить</span>
     </button>
   </form>
+
+  <AppToast v-if="isToastActive" title="Профиль успешно обновлен!" @closeToast="closeToast" />
 </template>
 
 <script setup>
@@ -89,6 +91,7 @@ import AppProfileHeading from '@/components/profile/AppProfileHeading.vue'
 import AppProfileButton from '@/components/profile/AppProfileButton.vue'
 import { useResizeLarge } from '@/use/useResizeLarge'
 import { useUserStore } from '@/stores/user-store'
+import AppToast from '@/components/toast/AppToast.vue'
 
 // Брейкпоинты ширины экрана
 const { isScreenLarge } = useResizeLarge()
@@ -107,6 +110,7 @@ const lastNameField = ref(userStore.user.lastName || null)
 const phoneField = ref(userStore.user.phone || null)
 
 const isLoading = ref(false)
+const isToastActive = ref(false)
 
 const rules = computed(() => ({
   firstNameField: {
@@ -143,6 +147,8 @@ const isValid = computed(
     !v$.$errors,
 )
 
+const closeToast = () => (isToastActive.value = false)
+
 const submitProfileEditForm = async () => {
   isLoading.value = true
 
@@ -159,9 +165,15 @@ const submitProfileEditForm = async () => {
   })
 
   isLoading.value = false
+  isToastActive.value = true
+
   firstNameField.value = ''
   lastNameField.value = ''
   phoneField.value = ''
+
+  setTimeout(() => {
+    isToastActive.value = false
+  }, 5000)
 
   // const auth = getAuth()
 

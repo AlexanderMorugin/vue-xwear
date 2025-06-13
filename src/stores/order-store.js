@@ -104,8 +104,8 @@ export const useOrderStore = defineStore('orderStore', () => {
     await setOrdersFromServerList()
     const idArray = ordersFromServer.value.map((item) => item.id)
 
-    console.log(ordersFromServer.value)
-    console.log(idArray)
+    // console.log(ordersFromServer.value)
+    // console.log(idArray)
 
     let nextId = ++idArray[0]
     return nextId
