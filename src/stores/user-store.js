@@ -11,6 +11,8 @@ export const useUserStore = defineStore('userStore', () => {
     phone: '',
   })
 
+  const userAddress = ref([])
+
   const error = ref('')
   const isLoading = ref(false)
 
@@ -49,26 +51,32 @@ export const useUserStore = defineStore('userStore', () => {
     user.value.phone = profileData.phone
   }
 
-  const userAddress = ref([
-    {
-      id: 1,
-      index: '056734',
-      country: 'Poccия',
-      city: 'Mосква',
-      street: 'улица Варшавская',
-      building: '37/5',
-      flat: '574',
-    },
-    {
-      id: 2,
-      index: '123548',
-      country: 'Poccия',
-      city: 'Владивосток',
-      street: 'улица Охотская',
-      building: '41',
-      flat: '16',
-    },
-  ])
+  const addUserAddress = (address) => {
+    userAddress.value.push(address)
+
+    console.log(userAddress.value)
+  }
+
+  // const userAddress = ref([
+  //   {
+  //     id: 1,
+  //     index: '056734',
+  //     country: 'Poccия',
+  //     city: 'Mосква',
+  //     street: 'улица Варшавская',
+  //     building: '37/5',
+  //     flat: '574',
+  //   },
+  //   {
+  //     id: 2,
+  //     index: '123548',
+  //     country: 'Poccия',
+  //     city: 'Владивосток',
+  //     street: 'улица Охотская',
+  //     building: '41',
+  //     flat: '16',
+  //   },
+  // ])
 
   const currentAdress = ref(userAddress.value[0])
 
@@ -91,5 +99,6 @@ export const useUserStore = defineStore('userStore', () => {
     signUp,
     signIn,
     setUserProfile,
+    addUserAddress,
   }
 })

@@ -68,7 +68,6 @@
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { getFirestore, setDoc, doc } from 'firebase/firestore'
-import { v4 as uuidv4 } from 'uuid'
 import AppPage from '@/layouts/AppPage.vue'
 import AppBreadcrumbs from '@/components/breadcrumbs/AppBreadcrumbs.vue'
 import AppHeading from '@/components/AppHeading.vue'
@@ -107,7 +106,6 @@ const submitOrder = async () => {
   isLoading.value = true
 
   const payload = {
-    // id: '3',
     id: (await orderStore.setOrderId()).toString(),
     date: new Date().toLocaleString(),
     items: orderStore.orderItems,
@@ -121,49 +119,13 @@ const submitOrder = async () => {
     comment: commentField.value,
   }
 
-  // try {
   await setDoc(doc(db, `users/${userStore.user.id}/orders`, payload.id), payload).then(() => {
-    // console.log(payload)
     isSubmitModalOpen.value = true
     orderStore.deleteAllItems()
   })
-  // } catch (err) {
-  //   console.log(err)
-  // } finally {
+
   isLoading.value = false
-  // }
 }
-
-// const submitOrder = async () => {
-//   isLoading.value = true
-
-//   const payload = {
-//     id: 1,
-//     date: new Date().toLocaleString(),
-//     items: orderStore.orderItems,
-//     discount: discount.value,
-//     delivery: delivery.value,
-//     totalSum: totalSum.value,
-//     customer: 'Василий Иванов',
-//     address: userStore.currentAdress,
-//     phone: '+7 (956) 373-46-33',
-//     email: 'yavasyaivanov@gmail.com',
-//     comment: commentField.value,
-//   }
-
-//   // try {
-//   await setDoc(doc(db, `users/${userStore.user.id}/orders`, payload.id), payload).then(() => {
-//     isSubmitModalOpen.value = true
-//     orderStore.deleteAllItems()
-//   })
-//   // } catch (err) {
-//   //   console.log(err)
-//   // } finally {
-//   isLoading.value = false
-//   // }
-
-//   console.log(payload)
-// }
 
 const cancelOrder = () => {
   if (!cartStore.cartItems.length) {
@@ -201,15 +163,10 @@ const cancelOrder = () => {
   flex-direction: column;
   gap: 30px;
 }
-/* .order-view-comment {
-  width: 100%;
-  max-width: 491px;
-} */
 .order-view-buttons {
   display: grid;
   grid-template-columns: 1fr 1fr;
   width: 100%;
-  /* max-width: 491px; */
   column-gap: 30px;
 }
 .order-view-button {

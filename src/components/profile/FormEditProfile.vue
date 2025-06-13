@@ -174,26 +174,11 @@ const submitProfileEditForm = async () => {
   setTimeout(() => {
     isToastActive.value = false
   }, 5000)
-
-  // const auth = getAuth()
-
-  // updateProfile(auth.currentUser, {
-  //   displayName: `${firstNameField.value} ${lastNameField.value}`,
-  // })
-  //   .then(() => {
-  //     console.log('Profile updated!')
-  //     isLoading.value = false
-  //   })
-  //   .catch((error) => {
-  //     console.log(error)
-  //   })
 }
 </script>
 
 <style scoped>
 .profile-edit-form {
-  /* display: grid;
-  grid-template-columns: repeat(2, 1fr); */
   display: flex;
   flex-direction: column;
   gap: 30px;
@@ -204,7 +189,6 @@ const submitProfileEditForm = async () => {
 }
 @media (max-width: 767px) {
   .profile-edit-form {
-    /* grid-template-columns: 1fr; */
     padding-top: 20px;
     padding-bottom: 40px;
   }

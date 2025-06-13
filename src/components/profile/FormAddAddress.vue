@@ -169,12 +169,17 @@
         item.$message
       }}</span>
     </div> -->
-    <button class="form-button form-button-active">Сохранить</button>
+    <!-- <button class="form-button form-button-active">Сохранить</button> -->
+    <button :class="['form-button', { 'form-button-active': isValid }]">
+      <AppButtonLoader v-if="isLoading" />
+      <span v-else>Сохранить</span>
+    </button>
   </form>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue'
+import { getFirestore, setDoc, doc } from 'firebase/firestore'
 import { useVuelidate } from '@vuelidate/core'
 import {
   helpers,
@@ -184,8 +189,13 @@ import {
   numeric,
 } from '@vuelidate/validators'
 import AppProfileHeading from '@/components/profile/AppProfileHeading.vue'
+import AppButtonLoader from '@/components/loader/AppButtonLoader.vue'
+import { useUserStore } from '@/stores/user-store'
 
-const emit = defineEmits(['closeForm'])
+const emit = defineEmits(['closeAddressForm'])
+
+const userStore = useUserStore()
+const db = getFirestore()
 
 // const firstNameField = ref(null)
 // const lastNameField = ref(null)
@@ -198,6 +208,8 @@ const buildingField = ref(null)
 const flatField = ref(null)
 // const emailField = ref(null)
 // const phoneField = ref(null)
+
+const isLoading = ref(false)
 
 const rules = computed(() => ({
   // firstNameField: {
@@ -258,18 +270,51 @@ const v$ = useVuelidate(rules, {
   // phoneField,
 })
 
-// const isValid = computed(
-//   () =>
-//     firstNameField.value &&
-//     lastNameField.value &&
-//     emailField.value &&
-//     phoneField.value &&
-//     !v$.$errors,
-// )
+const isValid = computed(
+  () =>
+    countryField.value &&
+    regionField.value &&
+    indexField.value &&
+    cityField.value &&
+    streetField.value &&
+    buildingField.value &&
+    flatField.value &&
+    !v$.$errors,
+)
 
-const submitAddAddressForm = () => {
-  emit('closeForm')
-  console.log('submitAddAddressForm')
+// const submitAddAddressForm = () => {
+//   emit('closeForm')
+//   console.log('submitAddAddressForm')
+// }
+
+const submitAddAddressForm = async () => {
+  isLoading.value = true
+
+  const payload = {
+    id: '1',
+    country: countryField.value,
+    region: regionField.value,
+    postIndex: indexField.value,
+    city: cityField.value,
+    street: streetField.value,
+    building: buildingField.value,
+    flat: flatField.value,
+  }
+
+  await setDoc(doc(db, `users/${userStore.user.id}/address`, payload.id), payload).then(() => {
+    userStore.addUserAddress(payload)
+  })
+
+  isLoading.value = false
+  emit('closeAddressForm')
+
+  countryField.value = ''
+  regionField.value = ''
+  indexField.value = ''
+  cityField.value = ''
+  streetField.value = ''
+  buildingField.value = ''
+  flatField.value = ''
 }
 </script>
 

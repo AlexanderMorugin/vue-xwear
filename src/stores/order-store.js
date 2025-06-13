@@ -96,21 +96,29 @@ export const useOrderStore = defineStore('orderStore', () => {
   const setOrdersFromServerList = async () => {
     const orderList = await getOrders()
     return (ordersFromServer.value = [...orderList])
-
-    // console.log(ordersFromServer.value)
   }
 
+  // Создаем новый id заказа, который на 1 больше предыдущего
   const setOrderId = async () => {
+    let nextId = 1
+
     await setOrdersFromServerList()
     const idArray = ordersFromServer.value.map((item) => item.id)
 
-    // console.log(ordersFromServer.value)
-    // console.log(idArray)
+    if (idArray.length) {
+      nextId = ++idArray[0]
+    } else {
+      nextId
+    }
 
-    let nextId = ++idArray[0]
     return nextId
+  }
 
-    // console.log(nextId)
+  // Удаляем с сервера конкретный заказ
+  const deleteOrderFromServer = async (id) => {
+    await deleteDoc(doc(db, `users/${userStore.user.id}/orders`, id))
+    const orderList = await getOrders()
+    ordersFromServer.value = [...orderList]
   }
 
   // Следим за изменениями в заказе и обновляем данные в LocalStorage
@@ -123,6 +131,7 @@ export const useOrderStore = defineStore('orderStore', () => {
   )
 
   return {
+    isLoading,
     orderItems,
     totalOrderSum,
     ordersFromServer,
@@ -135,5 +144,6 @@ export const useOrderStore = defineStore('orderStore', () => {
     getOrders,
     setOrdersFromServerList,
     setOrderId,
+    deleteOrderFromServer,
   }
 })

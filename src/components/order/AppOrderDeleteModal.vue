@@ -11,9 +11,8 @@
         <div class="order-delete-modal-content">
           <span class="order-delete-modal-title">{{ props.title }}</span>
           <div class="order-delete-modal-buttons">
-            <button class="order-delete-modal-button yes" @click="$emit('deleteOrderItem')">
-              Да
-            </button>
+            <button class="order-delete-modal-button yes" @click="$emit('deleteOrder')">Да</button>
+
             <button class="order-delete-modal-button no" @click="$emit('closeOrderDeleteModal')">
               Нет
             </button>
@@ -29,7 +28,7 @@ import { onMounted, onUnmounted } from 'vue'
 
 const props = defineProps(['title'])
 
-const emit = defineEmits(['closeOrderDeleteModal', 'deleteOrderItem'])
+const emit = defineEmits(['closeOrderDeleteModal', 'deleteOrder'])
 
 onMounted(() => window.addEventListener('keydown', escCloseModal))
 onUnmounted(() => window.removeEventListener('keydown', escCloseModal))

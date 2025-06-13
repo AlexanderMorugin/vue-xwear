@@ -68,7 +68,6 @@ import AppProfileHeading from '@/components/profile/AppProfileHeading.vue'
 import { PATH_PROFILE } from '@/mock/routes'
 import { useUserStore } from '@/stores/user-store'
 import AppButtonLoader from '@/components/loader/AppButtonLoader.vue'
-// import { getAuth } from 'firebase/auth'
 
 const emit = defineEmits(['closeProfileModal', 'openLoginForm'])
 
@@ -78,9 +77,6 @@ const userStore = useUserStore()
 const emailField = ref(null)
 const passwordField = ref(null)
 const confirmPasswordField = ref(null)
-// const firstName = ref(null)
-// const lastName = ref(null)
-// const phone = ref(null)
 
 const rules = computed(() => ({
   emailField: {
@@ -123,25 +119,6 @@ const submitSignUpForm = async () => {
     confirmPasswordField.value = ''
   }
 }
-
-// const submitSignUpForm = async () => {
-//   await userStore.auth(
-//     {
-//       email: emailField.value,
-//       password: passwordField.value,
-//     },
-//     'signUp',
-//   )
-
-//   if (!userStore.error) {
-//     router.push(PATH_PROFILE)
-//     emit('closeProfileModal')
-//   } else {
-//     emailField.value = ''
-//     passwordField.value = ''
-//     confirmPasswordField.value = ''
-//   }
-// }
 </script>
 
 <style scoped></style>

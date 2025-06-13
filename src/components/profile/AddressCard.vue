@@ -3,12 +3,17 @@
     <h3 class="address-card-owner-name">
       {{ userStore.user.firstName }} {{ userStore.user.lastName }}
     </h3>
-    <p class="address-card-owner-address">
+    <!-- <p class="address-card-owner-address">
       {{ userStore.currentAdress.index }}, {{ userStore.currentAdress.country }},
       {{ userStore.currentAdress.city }}, {{ userStore.currentAdress.street }}, д.{{
         userStore.currentAdress.building
       }}, кв.{{ userStore.currentAdress.flat }}
+    </p> -->
+    <p class="address-card-owner-address">
+      {{ props.address.postIndex }}, {{ props.address.country }}, {{ props.address.city }},
+      {{ props.address.street }}, д.{{ props.address.building }}, кв.{{ props.address.flat }}
     </p>
+
     <div class="address-card-text-box">
       <span class="address-card-text-title">Телефон</span>
       <span class="address-card-text">{{ userStore.user.phone }}</span>
@@ -18,7 +23,7 @@
       <span class="address-card-text">{{ userStore.user.email }}</span>
     </div>
 
-    <div class="address-card-badge-top">Адрес доставки #{{ userStore.currentAdress.id }}</div>
+    <!-- <div class="address-card-badge-top">Адрес доставки #{{ userStore.currentAdress.id }}</div> -->
     <div class="address-card-badge-bottom">
       <button class="address-card-badge-bottom-button" @click="openUserAddressModal">
         <img src="/icons/icon-pencil-dark.png" alt="Иконка редактирования" />
@@ -43,7 +48,7 @@ import { ref } from 'vue'
 import AppUserAddressModal from './AppUserAddressModal.vue'
 import { useUserStore } from '@/stores/user-store'
 
-// const props = defineProps(['number'])
+const props = defineProps(['address'])
 
 const userStore = useUserStore()
 

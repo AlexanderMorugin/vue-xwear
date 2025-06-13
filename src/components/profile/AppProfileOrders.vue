@@ -1,12 +1,12 @@
 <template>
-  <AppLoader v-if="isLoading" />
+  <AppLoader v-if="orderStore.isLoading" />
 
   <div v-else>
     <!-- Кнопка меню профиля появляется при разрешении менее 1024px -->
     <AppProfileButton v-if="isScreenLarge" @openProfileMenu="$emit('openProfileMenu')" />
 
     <AppProfileHeading title="Заказы в пути" />
-    <ul v-if="orderStore.ordersFromServer" class="profile-orders">
+    <ul v-if="orderStore.ordersFromServer.length" class="profile-orders">
       <li v-for="order in orderStore.ordersFromServer" :key="order.id">
         <AppProfileServerOrder
           :order="order"
@@ -18,80 +18,56 @@
           v-if="isServerOrderDeleteModalOpen"
           title="Удалить заказ из базы данных?"
           @closeOrderDeleteModal="closeServerOrderDeleteModal"
-          @deleteOrderItem="deleteServerOrderItem(order.id)"
+          @deleteOrder="deleteOrder(order.id)"
         />
       </li>
     </ul>
 
-    <div v-else class="profile-orders-empty">Заказов нет. Возможно они были удалены...</div>
+    <div v-else class="profile-orders-empty">Заказов нет или они были удалены...</div>
   </div>
+
+  <AppToast v-if="isToastActive" :title="`Заказ был удалён из базы`" @closeToast="closeToast" />
 </template>
 
 <script setup>
 import { onMounted, ref } from 'vue'
-// import {
-//   getFirestore,
-//   collection,
-//   query,
-//   orderBy,
-//   getDocs,
-//   deleteDoc,
-//   doc,
-// } from 'firebase/firestore'
 import AppLoader from '@/components/loader/AppLoader.vue'
 import AppProfileHeading from '@/components/profile/AppProfileHeading.vue'
 import AppProfileButton from '@/components/profile/AppProfileButton.vue'
 import AppProfileServerOrder from './AppProfileServerOrder.vue'
 import { useResizeLarge } from '@/use/useResizeLarge'
-// import { useUserStore } from '@/stores/user-store'
 import { useOrderStore } from '@/stores/order-store'
 import AppOrderDeleteModal from '@/components/order/AppOrderDeleteModal.vue'
+import AppToast from '@/components/toast/AppToast.vue'
 
 // Брейкпоинты ширины экрана
 const { isScreenLarge } = useResizeLarge()
-// const db = getFirestore()
-// const userStore = useUserStore()
 const orderStore = useOrderStore()
 
 // eslint-disable-next-line no-unused-vars
 const emit = defineEmits(['openProfileMenu'])
 
-// const isLoading = ref(false)
 const isServerOrderDeleteModalOpen = ref(false)
-// const orders = ref([])
+const isToastActive = ref(false)
 
-// const getOrders = async () => {
-//   isLoading.value = true
-//   const getData = query(
-//     collection(db, `users/${userStore.user.id}/orders`),
-//     orderBy('date', 'desc'),
-//   )
-//   const listDocs = await getDocs(getData)
-//   isLoading.value = false
-//   return listDocs.docs.map((doc) => doc.data())
-// }
+const closeToast = () => (isToastActive.value = false)
 
 onMounted(async () => {
-  // const orderList = await orderStore.getOrders()
-  // orders.value = [...orderList]
-
-  // console.log(orders.value)
-
   await orderStore.setOrdersFromServerList()
-
-  // console.log(orderStore.ordersFromServer)
 })
 
 const openServerOrderDeleteModal = () => (isServerOrderDeleteModalOpen.value = true)
 const closeServerOrderDeleteModal = () => (isServerOrderDeleteModalOpen.value = false)
 
-const deleteServerOrderItem = async (id) => {
+const deleteOrder = async (id) => {
+  await orderStore.deleteOrderFromServer(id)
+
   closeServerOrderDeleteModal()
-  isLoading.value = true
-  await deleteDoc(doc(db, `users/${userStore.user.id}/orders`, id))
-  const orderList = await getOrders()
-  orders.value = [...orderList]
-  isLoading.value = false
+  isToastActive.value = true
+
+  setTimeout(() => {
+    isToastActive.value = false
+  }, 5000)
 }
 </script>
 
