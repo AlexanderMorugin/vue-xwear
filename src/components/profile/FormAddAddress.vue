@@ -171,8 +171,9 @@
     </div> -->
     <!-- <button class="form-button form-button-active">Сохранить</button> -->
     <button :class="['form-button', { 'form-button-active': isValid }]">
-      <AppButtonLoader v-if="isLoading" />
-      <span v-else>Сохранить</span>
+      <!-- <AppButtonLoader v-if="userStore.isAddressLoading" />
+      <span v-else>Сохранить</span> -->
+      Сохранить
     </button>
   </form>
 </template>
@@ -209,7 +210,7 @@ const flatField = ref(null)
 // const emailField = ref(null)
 // const phoneField = ref(null)
 
-const isLoading = ref(false)
+// const isLoading = ref(false)
 
 const rules = computed(() => ({
   // firstNameField: {
@@ -288,10 +289,10 @@ const isValid = computed(
 // }
 
 const submitAddAddressForm = async () => {
-  isLoading.value = true
+  // isLoading.value = true
 
   const payload = {
-    id: '1',
+    id: (await userStore.setAddressId()).toString(),
     country: countryField.value,
     region: regionField.value,
     postIndex: indexField.value,
@@ -303,9 +304,12 @@ const submitAddAddressForm = async () => {
 
   await setDoc(doc(db, `users/${userStore.user.id}/address`, payload.id), payload).then(() => {
     userStore.addUserAddress(payload)
+    // console.log(payload)
   })
 
-  isLoading.value = false
+  // console.log(payload)
+
+  // isLoading.value = false
   emit('closeAddressForm')
 
   countryField.value = ''

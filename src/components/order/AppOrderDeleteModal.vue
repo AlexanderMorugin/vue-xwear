@@ -11,7 +11,11 @@
         <div class="order-delete-modal-content">
           <span class="order-delete-modal-title">{{ props.title }}</span>
           <div class="order-delete-modal-buttons">
-            <button class="order-delete-modal-button yes" @click="$emit('deleteOrder')">Да</button>
+            <button class="order-delete-modal-button yes" @click="$emit('deleteOrder')">
+              <!-- <AppButtonLoader v-if="userStore.isLoading" /> -->
+              <!-- <span v-else>Да</span> -->
+              Да
+            </button>
 
             <button class="order-delete-modal-button no" @click="$emit('closeOrderDeleteModal')">
               Нет
@@ -25,10 +29,14 @@
 
 <script setup>
 import { onMounted, onUnmounted } from 'vue'
+// import AppButtonLoader from '@/components/loader/AppButtonLoader.vue'
+// import { useUserStore } from '@/stores/user-store'
 
 const props = defineProps(['title'])
 
 const emit = defineEmits(['closeOrderDeleteModal', 'deleteOrder'])
+
+// const userStore = useUserStore()
 
 onMounted(() => window.addEventListener('keydown', escCloseModal))
 onUnmounted(() => window.removeEventListener('keydown', escCloseModal))

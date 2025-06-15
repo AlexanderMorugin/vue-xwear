@@ -26,6 +26,7 @@ export default {
     const db = getFirestore()
     // const profile = ref(null)
 
+    // Функция получения с сервера профиля пользователя (Имя, фамилия и тд)
     const getProfile = async () => {
       const getData = query(collection(db, `users/${userStore.user.id}/profile`))
       const listDocs = await getDocs(getData)
@@ -33,8 +34,6 @@ export default {
       if (profileData[0]) {
         userStore.setUserProfile(profileData[0])
       }
-
-      // profile.value = profileData[0]
     }
 
     // Слежение за наличием пользователя в приложении
@@ -44,16 +43,9 @@ export default {
           userStore.user.id = user.uid
           userStore.user.email = user.email
           getProfile()
+          // userStore.getAddress()
+          // userStore.setListOfAddressFromServer()
         }
-        // else {
-        //   userStore.user.id = ''
-        // }
-
-        // console.log('getAuth - ', user)
-
-        // console.log('profileData - ', profile.value)
-
-        // console.log('userStore - ', userStore.user)
       })
     })
 

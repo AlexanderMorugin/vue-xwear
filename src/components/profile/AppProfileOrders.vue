@@ -26,7 +26,7 @@
     <div v-else class="profile-orders-empty">Заказов нет или они были удалены...</div>
   </div>
 
-  <AppToast v-if="isToastActive" :title="`Заказ был удалён из базы`" @closeToast="closeToast" />
+  <AppToast v-if="isToastActive" title="Заказ был удалён из базы" @closeToast="closeToast" />
 </template>
 
 <script setup>

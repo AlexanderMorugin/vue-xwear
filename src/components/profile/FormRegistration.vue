@@ -53,7 +53,7 @@
     </div>
 
     <button :class="['form-button', { 'form-button-active': isValid }]">
-      <AppButtonLoader v-if="userStore.isLoading" />
+      <AppButtonLoader v-if="userStore.isAuthLoading" />
       <span v-else>Зарегистрироваться</span>
     </button>
   </form>

@@ -1,8 +1,8 @@
 <template>
   <div class="address-card">
-    <h3 class="address-card-owner-name">
+    <!-- <h3 class="address-card-owner-name">
       {{ userStore.user.firstName }} {{ userStore.user.lastName }}
-    </h3>
+    </h3> -->
     <!-- <p class="address-card-owner-address">
       {{ userStore.currentAdress.index }}, {{ userStore.currentAdress.country }},
       {{ userStore.currentAdress.city }}, {{ userStore.currentAdress.street }}, д.{{
@@ -10,29 +10,30 @@
       }}, кв.{{ userStore.currentAdress.flat }}
     </p> -->
     <p class="address-card-owner-address">
-      {{ props.address.postIndex }}, {{ props.address.country }}, {{ props.address.city }},
-      {{ props.address.street }}, д.{{ props.address.building }}, кв.{{ props.address.flat }}
+      {{ props.address.postIndex }}, {{ props.address.country }}, р-н {{ props.address.region }},
+      г.{{ props.address.city }}, улица {{ props.address.street }}, д.{{ props.address.building }},
+      кв.{{ props.address.flat }}
     </p>
 
-    <div class="address-card-text-box">
+    <!-- <div class="address-card-text-box">
       <span class="address-card-text-title">Телефон</span>
       <span class="address-card-text">{{ userStore.user.phone }}</span>
     </div>
     <div class="address-card-text-box">
       <span class="address-card-text-title">Email</span>
       <span class="address-card-text">{{ userStore.user.email }}</span>
-    </div>
+    </div> -->
 
-    <!-- <div class="address-card-badge-top">Адрес доставки #{{ userStore.currentAdress.id }}</div> -->
+    <div class="address-card-badge-top">Адрес доставки #{{ props.address.id }}</div>
     <div class="address-card-badge-bottom">
       <button class="address-card-badge-bottom-button" @click="openUserAddressModal">
         <img src="/icons/icon-pencil-dark.png" alt="Иконка редактирования" />
         <span class="address-card-badge-bottom-button-text">Редактировать</span>
       </button>
-      <!-- <button class="address-card-badge-bottom-button">
+      <button class="address-card-badge-bottom-button" @click="emit('deleteAddress')">
         <img src="/icons/icon-delete-address.png" alt="Иконка удаления" />
         <span class="address-card-badge-bottom-button-text">Удалить</span>
-      </button> -->
+      </button>
     </div>
 
     <AppUserAddressModal
@@ -40,6 +41,14 @@
       @closeUserAddressModal="closeUserAddressModal"
       :userStore="userStore"
     />
+
+    <!-- Модалка удаления -->
+    <!-- <AppOrderDeleteModal
+      v-if="isAddressDeleteModalOpen"
+      title="Удалить адрес из базы данных?"
+      @closeDeleteModal="closeDeleteModal"
+      @deleteOrder="deleteAddress(props.address.id)"
+    /> -->
   </div>
 </template>
 
@@ -47,15 +56,37 @@
 import { ref } from 'vue'
 import AppUserAddressModal from './AppUserAddressModal.vue'
 import { useUserStore } from '@/stores/user-store'
+// import AppOrderDeleteModal from '@/components/order/AppOrderDeleteModal.vue'
 
+const emit = defineEmits(['deleteAddress'])
 const props = defineProps(['address'])
 
 const userStore = useUserStore()
 
 const isAddressModalOpen = ref(false)
+// const isAddressDeleteModalOpen = ref(false)
 
 const openUserAddressModal = () => (isAddressModalOpen.value = true)
 const closeUserAddressModal = () => (isAddressModalOpen.value = false)
+
+// const openDeleteModal = () => (isAddressDeleteModalOpen.value = true)
+// const closeDeleteModal = () => (isAddressDeleteModalOpen.value = false)
+
+// const deleteAddress = async (id) => {
+//   await userStore.deleteAddressFromServer(id)
+// .then(
+//   emit('openToast'),
+//   // setTimeout(() => {
+//   //   emit('closeToast')
+//   // }, 5000),
+// )
+
+// console.log(id)
+// emit('openToast')
+// closeDeleteModal()
+
+// )
+// }
 </script>
 
 <style scoped>
@@ -64,8 +95,9 @@ const closeUserAddressModal = () => (isAddressModalOpen.value = false)
   display: flex;
   flex-direction: column;
   width: 100%;
-  /* max-width: 491px; */
-  height: fit-content;
+  max-width: 491px;
+  /* height: fit-content; */
+  height: 100%;
   border-radius: 5px;
   border: 1px solid var(--white-sixdary);
   padding: 60px 35px;

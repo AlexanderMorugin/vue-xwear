@@ -3,43 +3,86 @@
   <AppProfileButton v-if="isScreenLarge" @openProfileMenu="$emit('openProfileMenu')" />
 
   <AppProfileHeading title="Мои адреса" />
-  <ul v-if="userStore.userAddress.length" class="profile-address">
-    <li v-for="address in userStore.userAddress" :key="address.id">
-      <AddressCard :address="address" />
-    </li>
-  </ul>
 
-  <div v-else class="profile-address-empty">Нет ни одного адреса...</div>
+  <AppLoader v-if="userStore.isAddressLoading" />
+  <div v-else>
+    <ul v-if="userStore.userAddress.length" class="profile-address">
+      <li v-for="address in userStore.userAddress" :key="address.id">
+        <AddressCard :address="address" @deleteAddress="deleteAddress(address.id)" />
+      </li>
+    </ul>
 
-  <button class="add-address-block" v-if="!isAddAddressOpen" @click="openFormAddAddress">
-    <div class="add-address-button">
-      <div class="add-address-button-circle">
-        <img src="/icons/icon-add-address.png" alt="Иконка добавления" />
+    <div v-else class="profile-address-empty">Нет ни одного адреса...</div>
+
+    <button class="add-address-block" v-if="!isAddAddressOpen" @click="openFormAddAddress">
+      <div class="add-address-button">
+        <div class="add-address-button-circle">
+          <img src="/icons/icon-add-address.png" alt="Иконка добавления" />
+        </div>
+        <span class="add-address-button-text">Добавить новый</span>
       </div>
-      <span class="add-address-button-text">Добавить новый</span>
-    </div>
-  </button>
+    </button>
 
-  <FormAddAddress v-if="isAddAddressOpen" @closeAddressForm="closeAddressForm" />
+    <FormAddAddress v-if="isAddAddressOpen" @closeAddressForm="closeAddressForm" />
+  </div>
+
+  <AppToast v-if="isToastActive" title="Адрес был удалён из базы" @closeToast="closeToast" />
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import AppLoader from '@/components/loader/AppLoader.vue'
 import AppProfileHeading from '@/components/profile/AppProfileHeading.vue'
 import AddressCard from '@/components/profile/AddressCard.vue'
 import FormAddAddress from '@/components/profile/FormAddAddress.vue'
 import AppProfileButton from '@/components/profile/AppProfileButton.vue'
 import { useResizeLarge } from '@/use/useResizeLarge'
 import { useUserStore } from '@/stores/user-store'
+import AppToast from '@/components/toast/AppToast.vue'
+// import AppOrderDeleteModal from '@/components/order/AppOrderDeleteModal.vue'
 
 // Брейкпоинты ширины экрана
 const { isScreenLarge } = useResizeLarge()
 const userStore = useUserStore()
 
 const isAddAddressOpen = ref(false)
+const isToastActive = ref(false)
+// const isAddressDeleteModalOpen = ref(false)
 
 const openFormAddAddress = () => (isAddAddressOpen.value = true)
 const closeAddressForm = () => (isAddAddressOpen.value = false)
+
+// const openToast = () => (isToastActive.value = true)
+const closeToast = () => (isToastActive.value = false)
+
+// if (isToastActive.value) {
+//   setTimeout(() => {
+//     isToastActive.value = false
+//   }, 2000)
+// }
+
+onMounted(async () => {
+  await userStore.setListOfAddressFromServer()
+})
+
+// const openDeleteModal = (id) => {
+//   console.log(id)
+//   isAddressDeleteModalOpen.value = true
+// }
+
+// const closeDeleteModal = () => (isAddressDeleteModalOpen.value = false)
+
+const deleteAddress = async (id) => {
+  // console.log(id)
+  await userStore.deleteAddressFromServer(id)
+
+  // closeDeleteModal()
+  isToastActive.value = true
+
+  setTimeout(() => {
+    isToastActive.value = false
+  }, 5000)
+}
 </script>
 
 <style scoped>

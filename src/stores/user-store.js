@@ -1,8 +1,19 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
+import {
+  getFirestore,
+  collection,
+  query,
+  orderBy,
+  getDocs,
+  deleteDoc,
+  doc,
+} from 'firebase/firestore'
 
 export const useUserStore = defineStore('userStore', () => {
+  const db = getFirestore()
+
   const user = ref({
     id: '',
     firstName: '',
@@ -11,13 +22,14 @@ export const useUserStore = defineStore('userStore', () => {
     phone: '',
   })
 
+  // const userAddress = ref([])
   const userAddress = ref([])
-
   const error = ref('')
-  const isLoading = ref(false)
+  const isAuthLoading = ref(false)
+  const isAddressLoading = ref(false)
 
   const signUp = async (email, password) => {
-    isLoading.value = true
+    isAuthLoading.value = true
     error.value = ''
 
     try {
@@ -25,12 +37,12 @@ export const useUserStore = defineStore('userStore', () => {
     } catch (err) {
       console.log(err)
     } finally {
-      isLoading.value = false
+      isAuthLoading.value = false
     }
   }
 
   const signIn = async (email, password) => {
-    isLoading.value = true
+    isAuthLoading.value = true
     error.value = ''
 
     try {
@@ -41,7 +53,7 @@ export const useUserStore = defineStore('userStore', () => {
     } catch (err) {
       console.log(err)
     } finally {
-      isLoading.value = false
+      isAuthLoading.value = false
     }
   }
 
@@ -54,7 +66,49 @@ export const useUserStore = defineStore('userStore', () => {
   const addUserAddress = (address) => {
     userAddress.value.push(address)
 
-    console.log(userAddress.value)
+    // console.log(userAddress.value)
+  }
+
+  // Получаем с сервера адреса пользователя
+  const getAddress = async () => {
+    isAddressLoading.value = true
+    const getData = query(collection(db, `users/${user.value.id}/address`), orderBy('id', 'desc'))
+    const listDocs = await getDocs(getData)
+    isAddressLoading.value = false
+    return listDocs.docs.map((doc) => doc.data())
+  }
+
+  // Создаем массив адресов в сторе, на основе полученных данных с сервера
+  const setListOfAddressFromServer = async () => {
+    const orderList = await getAddress()
+    return (userAddress.value = [...orderList])
+    // return (userAddress.value = [...orderList])
+  }
+
+  // console.log(userAddress.value)
+
+  // Создаем новый id адреса, который на 1 больше предыдущего
+  const setAddressId = async () => {
+    let nextId = 1
+
+    await setListOfAddressFromServer()
+    const idArray = userAddress.value.map((item) => item.id)
+    // const idArray = userAddress.value.map((item) => item.id)
+    if (idArray.length) {
+      nextId = ++idArray[0]
+    } else {
+      nextId
+    }
+    return nextId
+  }
+
+  // Удаляем с сервера конкретный адрес
+  const deleteAddressFromServer = async (id) => {
+    // isDeleteLoading.value = true
+    await deleteDoc(doc(db, `users/${user.value.id}/address`, id))
+    const addressList = await getAddress()
+    userAddress.value = [...addressList]
+    // isDeleteLoading.value = false
   }
 
   // const userAddress = ref([
@@ -78,27 +132,33 @@ export const useUserStore = defineStore('userStore', () => {
   //   },
   // ])
 
-  const currentAdress = ref(userAddress.value[0])
+  // const currentAdress = ref(userAddressFromServer.value[0])
 
-  const setCurrentAdress = (item) => {
-    if (item) {
-      const adress = userAddress.value.find((el) => el.id === item.id)
-      currentAdress.value = adress
-    } else {
-      currentAdress.value = userAddress.value[0]
-    }
-  }
+  // const setCurrentAdress = (item) => {
+  //   if (item) {
+  //     const adress = userAddressFromServer.value.find((el) => el.id === item.id)
+  //     currentAdress.value = adress
+  //   } else {
+  //     currentAdress.value = userAddressFromServer.value[0]
+  //   }
+  // }
 
   return {
     user,
     userAddress,
-    currentAdress,
+    // currentAdress,
     error,
-    isLoading,
-    setCurrentAdress,
+    isAuthLoading,
+    isAddressLoading,
+    // userAddressFromServer,
+    // setCurrentAdress,
     signUp,
     signIn,
     setUserProfile,
     addUserAddress,
+    getAddress,
+    setAddressId,
+    setListOfAddressFromServer,
+    deleteAddressFromServer,
   }
 })
