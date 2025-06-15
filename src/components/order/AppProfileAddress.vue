@@ -49,14 +49,31 @@ const isToastActive = ref(false)
 
 const openFormAddAddress = () => (isAddAddressOpen.value = true)
 const closeAddressForm = () => (isAddAddressOpen.value = false)
+
 const closeToast = () => (isToastActive.value = false)
+
+// if (isToastActive.value) {
+//   setTimeout(() => {
+//     isToastActive.value = false
+//   }, 2000)
+// }
 
 onMounted(async () => {
   await userStore.setListOfAddressFromServer()
 })
 
+// const openDeleteModal = (id) => {
+//   console.log(id)
+//   isAddressDeleteModalOpen.value = true
+// }
+
+// const closeDeleteModal = () => (isAddressDeleteModalOpen.value = false)
+
 const deleteAddress = async (id) => {
+  // console.log(id)
   await userStore.deleteAddressFromServer(id)
+
+  // closeDeleteModal()
   isToastActive.value = true
 
   setTimeout(() => {

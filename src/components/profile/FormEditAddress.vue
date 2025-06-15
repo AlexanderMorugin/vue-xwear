@@ -1,6 +1,5 @@
 <template>
-  <AppProfileHeading title="Добавление адреса" />
-  <form class="address-form" @submit.prevent="submitAddAddressForm">
+  <form class="edit-address-form" @submit.prevent="submitAddAddressForm">
     <div class="form-field">
       <label for="countryField" class="form-label">Страна:</label>
       <input
@@ -100,30 +99,35 @@
       }}</span>
     </div>
 
-    <button :class="['form-button', { 'form-button-active': isValid }]">Сохранить</button>
+    <button :class="['form-button', { 'form-button-active': isValid }]">
+      <AppButtonLoader v-if="isLoading" />
+      <span v-else>Сохранить</span>
+    </button>
   </form>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue'
-import { getFirestore, setDoc, doc } from 'firebase/firestore'
+import { getFirestore, updateDoc, doc } from 'firebase/firestore'
 import { useVuelidate } from '@vuelidate/core'
 import { helpers, required, minLength, numeric } from '@vuelidate/validators'
-import AppProfileHeading from '@/components/profile/AppProfileHeading.vue'
+import AppButtonLoader from '@/components/loader/AppButtonLoader.vue'
 import { useUserStore } from '@/stores/user-store'
 
-const emit = defineEmits(['closeAddressForm'])
+const emit = defineEmits(['closeEditAddressModal'])
+const props = defineProps(['address'])
 
 const userStore = useUserStore()
 const db = getFirestore()
 
-const countryField = ref(null)
-const regionField = ref(null)
-const indexField = ref(null)
-const cityField = ref(null)
-const streetField = ref(null)
-const buildingField = ref(null)
-const flatField = ref(null)
+const countryField = ref(props.address.country)
+const regionField = ref(props.address.region)
+const indexField = ref(props.address.postIndex)
+const cityField = ref(props.address.city)
+const streetField = ref(props.address.street)
+const buildingField = ref(props.address.building)
+const flatField = ref(props.address.flat)
+const isLoading = ref(false)
 
 const rules = computed(() => ({
   countryField: {
@@ -177,8 +181,8 @@ const isValid = computed(
 )
 
 const submitAddAddressForm = async () => {
+  isLoading.value = true
   const payload = {
-    id: (await userStore.setAddressId()).toString(),
     country: countryField.value,
     region: regionField.value,
     postIndex: indexField.value,
@@ -188,11 +192,11 @@ const submitAddAddressForm = async () => {
     flat: flatField.value,
   }
 
-  await setDoc(doc(db, `users/${userStore.user.id}/address`, payload.id), payload).then(() => {
-    userStore.addUserAddress(payload)
-  })
+  await updateDoc(doc(db, `users/${userStore.user.id}/address/${props.address.id}`), payload)
 
-  emit('closeAddressForm')
+  await userStore.setListOfAddressFromServer()
+  isLoading.value = false
+  emit('closeEditAddressModal')
 
   countryField.value = ''
   regionField.value = ''
@@ -205,16 +209,15 @@ const submitAddAddressForm = async () => {
 </script>
 
 <style scoped>
-.address-form {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+.edit-address-form {
+  display: flex;
+  flex-direction: column;
   gap: 30px;
   padding-top: 30px;
   padding-bottom: 80px;
 }
 @media (max-width: 767px) {
-  .address-form {
-    grid-template-columns: 1fr;
+  .edit-address-form {
     padding-top: 20px;
     padding-bottom: 40px;
   }

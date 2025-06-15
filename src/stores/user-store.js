@@ -80,9 +80,8 @@ export const useUserStore = defineStore('userStore', () => {
 
   // Создаем массив адресов в сторе, на основе полученных данных с сервера
   const setListOfAddressFromServer = async () => {
-    const orderList = await getAddress()
-    return (userAddress.value = [...orderList])
-    // return (userAddress.value = [...orderList])
+    const addressList = await getAddress()
+    return (userAddress.value = [...addressList])
   }
 
   // console.log(userAddress.value)

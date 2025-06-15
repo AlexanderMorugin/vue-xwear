@@ -1,13 +1,32 @@
 <template>
   <div class="address-card">
+    <!-- <h3 class="address-card-owner-name">
+      {{ userStore.user.firstName }} {{ userStore.user.lastName }}
+    </h3> -->
+    <!-- <p class="address-card-owner-address">
+      {{ userStore.currentAdress.index }}, {{ userStore.currentAdress.country }},
+      {{ userStore.currentAdress.city }}, {{ userStore.currentAdress.street }}, д.{{
+        userStore.currentAdress.building
+      }}, кв.{{ userStore.currentAdress.flat }}
+    </p> -->
     <p class="address-card-owner-address">
       {{ props.address.postIndex }}, {{ props.address.country }}, р-н {{ props.address.region }},
       г.{{ props.address.city }}, улица {{ props.address.street }}, д.{{ props.address.building }},
       кв.{{ props.address.flat }}
     </p>
+
+    <!-- <div class="address-card-text-box">
+      <span class="address-card-text-title">Телефон</span>
+      <span class="address-card-text">{{ userStore.user.phone }}</span>
+    </div>
+    <div class="address-card-text-box">
+      <span class="address-card-text-title">Email</span>
+      <span class="address-card-text">{{ userStore.user.email }}</span>
+    </div> -->
+
     <div class="address-card-badge-top">Адрес доставки #{{ props.address.id }}</div>
     <div class="address-card-badge-bottom">
-      <button class="address-card-badge-bottom-button" @click="openEditAddressModal">
+      <button class="address-card-badge-bottom-button" @click="openUserAddressModal">
         <img src="/icons/icon-pencil-dark.png" alt="Иконка редактирования" />
         <span class="address-card-badge-bottom-button-text">Редактировать</span>
       </button>
@@ -17,28 +36,57 @@
       </button>
     </div>
 
-    <AppEditAddressModal
-      v-if="isEditAddressModal"
-      @closeEditAddressModal="closeEditAddressModal"
-      :address="props.address"
+    <AppUserAddressModal
+      v-if="isAddressModalOpen"
+      @closeUserAddressModal="closeUserAddressModal"
+      :userStore="userStore"
     />
+
+    <!-- Модалка удаления -->
+    <!-- <AppOrderDeleteModal
+      v-if="isAddressDeleteModalOpen"
+      title="Удалить адрес из базы данных?"
+      @closeDeleteModal="closeDeleteModal"
+      @deleteOrder="deleteAddress(props.address.id)"
+    /> -->
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import AppEditAddressModal from './AppEditAddressModal.vue'
-// import { useUserStore } from '@/stores/user-store'
+import AppUserAddressModal from './AppUserAddressModal.vue'
+import { useUserStore } from '@/stores/user-store'
+// import AppOrderDeleteModal from '@/components/order/AppOrderDeleteModal.vue'
 
 const emit = defineEmits(['deleteAddress'])
 const props = defineProps(['address'])
 
-// const userStore = useUserStore()
+const userStore = useUserStore()
 
-const isEditAddressModal = ref(false)
+const isAddressModalOpen = ref(false)
+// const isAddressDeleteModalOpen = ref(false)
 
-const openEditAddressModal = () => (isEditAddressModal.value = true)
-const closeEditAddressModal = () => (isEditAddressModal.value = false)
+const openUserAddressModal = () => (isAddressModalOpen.value = true)
+const closeUserAddressModal = () => (isAddressModalOpen.value = false)
+
+// const openDeleteModal = () => (isAddressDeleteModalOpen.value = true)
+// const closeDeleteModal = () => (isAddressDeleteModalOpen.value = false)
+
+// const deleteAddress = async (id) => {
+//   await userStore.deleteAddressFromServer(id)
+// .then(
+//   emit('openToast'),
+//   // setTimeout(() => {
+//   //   emit('closeToast')
+//   // }, 5000),
+// )
+
+// console.log(id)
+// emit('openToast')
+// closeDeleteModal()
+
+// )
+// }
 </script>
 
 <style scoped>
@@ -48,6 +96,7 @@ const closeEditAddressModal = () => (isEditAddressModal.value = false)
   flex-direction: column;
   width: 100%;
   max-width: 491px;
+  /* height: fit-content; */
   height: 100%;
   border-radius: 5px;
   border: 1px solid var(--white-sixdary);
@@ -62,6 +111,7 @@ const closeEditAddressModal = () => (isEditAddressModal.value = false)
 }
 .address-card-owner-address {
   width: 100%;
+  /* max-width: 296px; */
   font-weight: 400;
   font-size: 15px;
   line-height: 25px;
