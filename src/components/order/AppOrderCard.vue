@@ -42,7 +42,7 @@
       v-if="isOrderDeleteModalOpen"
       title="Удалить товар из заказа?"
       @closeOrderDeleteModal="closeOrderDeleteModal"
-      @deleteOrderItem="deleteOrderItem(item.id, item.size)"
+      @deleteOrder="deleteOrderItem(item.id, item.size)"
     />
   </div>
 </template>

@@ -4,6 +4,9 @@
     <AppBreadcrumbs :breadcrumbs="orderBreadcrumbs" />
     <app-page tag="main" class="container">
       <AppHeading title="Оформление заказа" />
+
+      <!-- {{ userStore.userAddress }} -->
+
       <div class="order-view">
         <AppOrderList
           :orderStore="orderStore"
@@ -12,8 +15,11 @@
           :totalSum="totalSum"
         />
         <div class="order-view-address">
-          <!-- Адреса доставки -->
-          <AddressCard />
+          <!-- Профиль пользователя с адресом доставки -->
+          <AppOrderProfileWithAddressCard
+            :user="userStore.user"
+            :arrayOfAddress="userStore.userAddress"
+          />
 
           <!-- Комментарий к заказу и чекбокс правильности заказа и адреса доставки -->
           <form class="order-view-comment">
@@ -65,7 +71,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { getFirestore, setDoc, doc } from 'firebase/firestore'
 import AppPage from '@/layouts/AppPage.vue'
@@ -73,7 +79,7 @@ import AppBreadcrumbs from '@/components/breadcrumbs/AppBreadcrumbs.vue'
 import AppHeading from '@/components/AppHeading.vue'
 import AppOrderList from '@/components/order/AppOrderList.vue'
 import { orderBreadcrumbs } from '@/components/breadcrumbs/breadcrumbs-pages/order-breadcrumbs'
-import AddressCard from '@/components/profile/AddressCard.vue'
+import AppOrderProfileWithAddressCard from '@/components/order/AppOrderProfileWithAddressCard.vue'
 import { useOrderStore } from '@/stores/order-store'
 import { useCartStore } from '@/stores/cart-store'
 import { useUserStore } from '@/stores/user-store'
@@ -101,6 +107,10 @@ const totalSum = computed(() => {
 })
 
 const closeSubmitModal = () => (isSubmitModalOpen.value = false)
+
+onMounted(async () => {
+  await userStore.setListOfAddressFromServer()
+})
 
 const submitOrder = async () => {
   isLoading.value = true
@@ -168,6 +178,11 @@ const cancelOrder = () => {
   grid-template-columns: 1fr 1fr;
   width: 100%;
   column-gap: 30px;
+}
+@media (max-width: 767px) {
+  .order-view-buttons {
+    column-gap: 10px;
+  }
 }
 .order-view-button {
   display: flex;

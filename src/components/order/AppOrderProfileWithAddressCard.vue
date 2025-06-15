@@ -1,0 +1,187 @@
+<template>
+  <div class="order-profile-address-card">
+    <div class="address-card-badge-top">Добавить адрес</div>
+
+    <h3 class="order-profile-address-card-owner-name">
+      {{ props.user.firstName }} {{ props.user.lastName }}
+    </h3>
+
+    <p class="order-profile-address-card-choice-address">
+      Выберите один из {{ props.arrayOfAddress.length }} адресов доставки.
+    </p>
+
+    <ul>
+      <li
+        v-for="item in props.arrayOfAddress"
+        :key="item.id"
+        class="order-profile-address-card-current"
+      >
+        <input
+          type="radio"
+          :id="item.id"
+          name="address"
+          :value="item"
+          v-model="address"
+          class="checkbox-input"
+        />
+        <label :for="item.id" class="order-view-checkbox-label"
+          >{{ item.postIndex }}, {{ item.country }}, р-н {{ item.region }}, г.{{ item.city }}, улица
+          {{ item.street }}, д.{{ item.building }}, кв.{{ item.flat }}</label
+        >
+      </li>
+    </ul>
+
+    <!-- {{ address }} -->
+
+    <div class="address-card-text-box">
+      <span class="address-card-text-title">Телефон</span>
+      <span class="address-card-text">{{ props.user.phone }}</span>
+    </div>
+    <div class="address-card-text-box">
+      <span class="address-card-text-title">Email</span>
+      <span class="address-card-text">{{ props.user.email }}</span>
+    </div>
+
+    <div v-if="address" class="address-card-badge-bottom">
+      <button class="address-card-badge-bottom-button" @click="openEditAddressModal">
+        <img src="/icons/icon-pencil-dark.png" alt="Иконка редактирования" />
+        <span class="address-card-badge-bottom-button-text">Редактировать адрес</span>
+      </button>
+    </div>
+  </div>
+
+  <AppEditAddressModal
+    v-if="isEditAddressModal"
+    @closeEditAddressModal="closeEditAddressModal"
+    :address="address"
+  />
+</template>
+
+<script setup>
+import { ref } from 'vue'
+import AppEditAddressModal from '@/components/profile/AppEditAddressModal.vue'
+
+const props = defineProps(['user', 'arrayOfAddress'])
+
+const address = ref(null)
+const isEditAddressModal = ref(false)
+
+const openEditAddressModal = () => (isEditAddressModal.value = true)
+const closeEditAddressModal = () => (isEditAddressModal.value = false)
+</script>
+
+<style scoped>
+.order-profile-address-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+  border: 1px solid var(--white-sixdary);
+  padding: 60px 35px;
+  overflow: hidden;
+}
+@media (max-width: 767px) {
+  .order-profile-address-card {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+.order-profile-address-card-owner-name {
+  font-weight: 600;
+  font-size: 19px;
+  line-height: 23px;
+  color: var(--black-primary);
+}
+.order-profile-address-card-choice-address {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 25px;
+  color: var(--gray-normal-sixdary);
+  padding-top: 20px;
+}
+.order-profile-address-card-current {
+  display: grid;
+  grid-template-columns: 23px 1fr;
+  gap: 20px;
+  width: 100%;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 25px;
+  color: var(--gray-normal-fivedary);
+  padding-top: 24px;
+}
+.address-card-text-box {
+  display: flex;
+  flex-direction: column;
+  padding-top: 14px;
+}
+.address-card-text-title {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 25px;
+  color: var(--gray-normal-sixdary);
+}
+.address-card-text {
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 25px;
+  color: var(--gray-normal-fivedary);
+}
+.address-card-badge-top {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--white-sevendary);
+  border-left: 1px solid var(--white-sixdary);
+  border-bottom: 1px solid var(--white-sixdary);
+  border-bottom-left-radius: 5px;
+  font-weight: 800;
+  font-size: 11px;
+  line-height: 23px;
+  text-align: center;
+  text-transform: uppercase;
+  color: var(--black-thirdary);
+  padding: 13px 29px;
+}
+.address-card-badge-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 27px;
+  border-right: 1px solid var(--white-sixdary);
+  border-top: 1px solid var(--white-sixdary);
+  border-top-right-radius: 5px;
+  padding: 13px 34px;
+}
+@media (max-width: 389px) {
+  .address-card-badge-bottom {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+.address-card-badge-bottom-button {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: fit-content;
+  cursor: pointer;
+}
+.address-card-badge-bottom-button-text {
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 23px;
+  color: var(--black-thirdary);
+  transition: 0.3s ease all;
+}
+.address-card-badge-bottom-button:hover .address-card-badge-bottom-button-text {
+  color: var(--blue-primary);
+}
+</style>
