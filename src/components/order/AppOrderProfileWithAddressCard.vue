@@ -2,14 +2,27 @@
   <div class="order-profile-address-card">
     <div class="address-card-badge-top">Добавить адрес</div>
 
-    <h3 class="order-profile-address-card-owner-name">
+    <!-- Если на сервере есть имя пользователя, то показываем его -->
+    <h3
+      v-if="props.user.firstName && props.user.lastName && props.user.phone"
+      class="order-profile-address-card-owner-name"
+    >
       {{ props.user.firstName }} {{ props.user.lastName }}
     </h3>
 
-    <p class="order-profile-address-card-choice-address">
+    <!-- Иначе показываем кнопку открытия модалки, где пользователь вводит свои данные и далее они отправляются на сервер -->
+    <button v-else class="order-profile-address-add-name" @click="openEditProfileModal">
+      Добавьте ваше имя и телефон
+    </button>
+
+    <!-- Тексты по поводу адресов доставки -->
+    <p v-if="props.arrayOfAddress.length > 1" class="order-profile-address-card-choice-address">
       Выберите один из {{ props.arrayOfAddress.length }} адресов доставки.
     </p>
 
+    <p v-else class="order-profile-address-card-choice-address">Ваш адрес доставки.</p>
+
+    <!-- Список адресов доставки, на выбор по радио кнопкам -->
     <ul>
       <li
         v-for="item in props.arrayOfAddress"
@@ -23,6 +36,7 @@
           :value="item"
           v-model="address"
           class="checkbox-input"
+          @change="orderStore.setOrderAdress(address)"
         />
         <label :for="item.id" class="order-view-checkbox-label"
           >{{ item.postIndex }}, {{ item.country }}, р-н {{ item.region }}, г.{{ item.city }}, улица
@@ -31,9 +45,8 @@
       </li>
     </ul>
 
-    <!-- {{ address }} -->
-
-    <div class="address-card-text-box">
+    <!-- Телефон и почта пользователя -->
+    <div v-if="props.user.phone" class="address-card-text-box">
       <span class="address-card-text-title">Телефон</span>
       <span class="address-card-text">{{ props.user.phone }}</span>
     </div>
@@ -42,6 +55,7 @@
       <span class="address-card-text">{{ props.user.email }}</span>
     </div>
 
+    <!-- Если есть адрес доставки, показываем кнопку открытия модалки, для редактирования адреса -->
     <div v-if="address" class="address-card-badge-bottom">
       <button class="address-card-badge-bottom-button" @click="openEditAddressModal">
         <img src="/icons/icon-pencil-dark.png" alt="Иконка редактирования" />
@@ -50,24 +64,39 @@
     </div>
   </div>
 
+  <!-- Модалка редактирования адреса -->
   <AppEditAddressModal
-    v-if="isEditAddressModal"
+    v-if="isEditAddressModalOpen"
     @closeEditAddressModal="closeEditAddressModal"
     :address="address"
+  />
+
+  <!-- Модалка редактирования профиля, в случае того если в заказе не хватает профиля пользователя -->
+  <AppOrderProfileModal
+    v-if="isEditProfileModalOpen"
+    @closeEditProfileModal="closeEditProfileModal"
   />
 </template>
 
 <script setup>
 import { ref } from 'vue'
 import AppEditAddressModal from '@/components/profile/AppEditAddressModal.vue'
+import AppOrderProfileModal from './AppOrderProfileModal.vue'
+import { useOrderStore } from '@/stores/order-store'
 
 const props = defineProps(['user', 'arrayOfAddress'])
 
-const address = ref(null)
-const isEditAddressModal = ref(false)
+const orderStore = useOrderStore()
 
-const openEditAddressModal = () => (isEditAddressModal.value = true)
-const closeEditAddressModal = () => (isEditAddressModal.value = false)
+const address = ref(null)
+const isEditAddressModalOpen = ref(false)
+const isEditProfileModalOpen = ref(false)
+
+const openEditAddressModal = () => (isEditAddressModalOpen.value = true)
+const closeEditAddressModal = () => (isEditAddressModalOpen.value = false)
+
+const openEditProfileModal = () => (isEditProfileModalOpen.value = true)
+const closeEditProfileModal = () => (isEditProfileModalOpen.value = false)
 </script>
 
 <style scoped>
@@ -183,5 +212,19 @@ const closeEditAddressModal = () => (isEditAddressModal.value = false)
 }
 .address-card-badge-bottom-button:hover .address-card-badge-bottom-button-text {
   color: var(--blue-primary);
+}
+.order-profile-address-add-name {
+  width: fit-content;
+  border-bottom: 1px dashed var(--blue-primary);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--blue-secondary);
+  padding-bottom: 8px;
+  cursor: pointer;
+  transition: 0.3s ease all;
+}
+.order-profile-address-add-name:hover {
+  border-bottom: 1px dashed var(--green-primary);
+  color: var(--green-secondary);
 }
 </style>

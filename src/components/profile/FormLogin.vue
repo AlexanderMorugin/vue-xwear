@@ -41,13 +41,13 @@
         <label :for="item" class="profile-modal-form-checkbox-label">Запомнить меня</label>
       </div> -->
 
-      <button class="profile-modal-form-bottom-button" @click="$emit('openAdminForm')">
+      <span class="profile-modal-form-bottom-button" @click="$emit('openAdminForm')">
         Вход для сотрудников
-      </button>
+      </span>
 
-      <button class="profile-modal-form-bottom-button" @click="$emit('openRegisterForm')">
+      <span class="profile-modal-form-bottom-button" @click="$emit('openRegisterForm')">
         Зарегистрироваться?
-      </button>
+      </span>
     </div>
     <button :class="['form-button', { 'form-button-active': isValid }]">
       <AppButtonLoader v-if="userStore.isAuthLoading" />

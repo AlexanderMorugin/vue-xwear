@@ -47,9 +47,9 @@
       >
     </div>
     <div class="profile-modal-form-bottom">
-      <button class="profile-modal-form-bottom-button" @click="$emit('openLoginForm')">
+      <span class="profile-modal-form-bottom-button" @click="$emit('openLoginForm')">
         Уже есть логин?
-      </button>
+      </span>
     </div>
 
     <button :class="['form-button', { 'form-button-active': isValid }]">

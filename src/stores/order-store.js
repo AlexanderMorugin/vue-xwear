@@ -15,6 +15,7 @@ import { useUserStore } from '@/stores/user-store'
 export const useOrderStore = defineStore('orderStore', () => {
   const orderItems = ref([])
   const ordersFromServer = ref([])
+  const orderAddress = ref(null)
 
   const router = useRouter()
   const db = getFirestore()
@@ -121,6 +122,8 @@ export const useOrderStore = defineStore('orderStore', () => {
     ordersFromServer.value = [...orderList]
   }
 
+  const setOrderAdress = (address) => (orderAddress.value = address)
+
   // Следим за изменениями в заказе и обновляем данные в LocalStorage
   watch(
     () => orderItems,
@@ -135,6 +138,7 @@ export const useOrderStore = defineStore('orderStore', () => {
     orderItems,
     totalOrderSum,
     ordersFromServer,
+    orderAddress,
     addOrderItem,
     deleteAllItems,
     addAllCartItemsToOrder,
@@ -145,5 +149,6 @@ export const useOrderStore = defineStore('orderStore', () => {
     setOrdersFromServerList,
     setOrderId,
     deleteOrderFromServer,
+    setOrderAdress,
   }
 })

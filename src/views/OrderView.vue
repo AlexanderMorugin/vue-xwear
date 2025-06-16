@@ -5,8 +5,6 @@
     <app-page tag="main" class="container">
       <AppHeading title="Оформление заказа" />
 
-      <!-- {{ userStore.userAddress }} -->
-
       <div class="order-view">
         <AppOrderList
           :orderStore="orderStore"
@@ -51,7 +49,17 @@
           <!-- Кнопки Подтверждения или отмены заказа -->
           <div class="order-view-buttons">
             <button
-              :class="['order-view-button', { 'order-view-button-submit': checkboxAgree }]"
+              :class="[
+                'order-view-button',
+                {
+                  'order-view-button-submit':
+                    userStore.user.firstName &&
+                    userStore.user.lastName &&
+                    userStore.user.phone &&
+                    orderStore.orderAddress &&
+                    checkboxAgree,
+                },
+              ]"
               @click="submitOrder"
             >
               <AppButtonLoader v-if="isLoading" />
@@ -123,11 +131,13 @@ const submitOrder = async () => {
     delivery: delivery.value,
     totalSum: totalSum.value,
     customer: `${userStore.user.firstName} ${userStore.user.lastName}`,
-    address: userStore.currentAdress,
+    address: orderStore.orderAddress,
     phone: userStore.user.phone,
     email: userStore.user.email,
     comment: commentField.value,
   }
+
+  // console.log(payload)
 
   await setDoc(doc(db, `users/${userStore.user.id}/orders`, payload.id), payload).then(() => {
     isSubmitModalOpen.value = true

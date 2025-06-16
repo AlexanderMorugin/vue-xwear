@@ -1,8 +1,11 @@
 <template>
   <!-- Кнопка меню профиля появляется при разрешении менее 1024px -->
-  <AppProfileButton v-if="isScreenLarge" @openProfileMenu="$emit('openProfileMenu')" />
+  <AppProfileButton
+    v-if="isScreenLarge && !props.fromPage === 'order'"
+    @openProfileMenu="$emit('openProfileMenu')"
+  />
 
-  <AppProfileHeading title="Редактирование профиля" />
+  <AppProfileHeading v-if="!props.fromPage === 'order'" title="Редактирование профиля" />
   <form class="profile-edit-form" @submit.prevent="submitProfileEditForm">
     <div class="form-field">
       <label for="firstNameField" class="form-label">Имя:</label>
@@ -61,7 +64,7 @@
         item.$message
       }}</span>
     </div>
-    <div class="form-field">
+    <div v-if="!props.fromPage === 'order'" class="form-field">
       <span class="form-label">Email не может быть изменён</span>
       <div class="email-box">{{ userStore.user.email }}</div>
     </div>
@@ -96,8 +99,8 @@ import AppToast from '@/components/toast/AppToast.vue'
 // Брейкпоинты ширины экрана
 const { isScreenLarge } = useResizeLarge()
 
-// eslint-disable-next-line no-unused-vars
-const emit = defineEmits(['openProfileMenu'])
+const emit = defineEmits(['openProfileMenu', 'closeEditProfileModal'])
+const props = defineProps(['fromPage'])
 
 const userStore = useUserStore()
 const db = getFirestore()
@@ -166,6 +169,10 @@ const submitProfileEditForm = async () => {
 
   isLoading.value = false
   isToastActive.value = true
+
+  if (props.fromPage === 'order') {
+    emit('closeEditProfileModal')
+  }
 
   firstNameField.value = ''
   lastNameField.value = ''

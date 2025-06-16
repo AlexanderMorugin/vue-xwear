@@ -33,7 +33,7 @@
     <div class="order-subtitle">
       Адрес доставки:&nbsp;
       <span class="order-subtitle-span"
-        >{{ props.order.address.index }}, {{ props.order.address.country }},
+        >{{ props.order.address.postIndex }}, {{ props.order.address.country }},
         {{ props.order.address.city }}, {{ props.order.address.street }}, д.{{
           props.order.address.building
         }}, кв.{{ props.order.address.flat }}</span
