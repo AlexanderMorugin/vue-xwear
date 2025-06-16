@@ -163,6 +163,15 @@
   line-height: 22px;
   color: var(--gray-dark-fivedary);
 }
+.form-bottom-label {
+  position: absolute;
+  bottom: 5px;
+  right: 20px;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 16px;
+  color: red;
+}
 .form-label-span {
   color: var(--gray-semi-primary);
 }

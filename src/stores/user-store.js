@@ -15,14 +15,13 @@ export const useUserStore = defineStore('userStore', () => {
   const db = getFirestore()
 
   const user = ref({
-    id: '',
+    id: null,
     firstName: '',
     lastName: '',
     email: '',
     phone: '',
   })
 
-  // const userAddress = ref([])
   const userAddress = ref([])
   const error = ref('')
   const isAuthLoading = ref(false)
@@ -65,8 +64,6 @@ export const useUserStore = defineStore('userStore', () => {
 
   const addUserAddress = (address) => {
     userAddress.value.push(address)
-
-    // console.log(userAddress.value)
   }
 
   // Получаем с сервера адреса пользователя
@@ -84,15 +81,12 @@ export const useUserStore = defineStore('userStore', () => {
     return (userAddress.value = [...addressList])
   }
 
-  // console.log(userAddress.value)
-
   // Создаем новый id адреса, который на 1 больше предыдущего
   const setAddressId = async () => {
     let nextId = 1
 
     await setListOfAddressFromServer()
     const idArray = userAddress.value.map((item) => item.id)
-    // const idArray = userAddress.value.map((item) => item.id)
     if (idArray.length) {
       nextId = ++idArray[0]
     } else {
@@ -103,33 +97,17 @@ export const useUserStore = defineStore('userStore', () => {
 
   // Удаляем с сервера конкретный адрес
   const deleteAddressFromServer = async (id) => {
-    // isDeleteLoading.value = true
     await deleteDoc(doc(db, `users/${user.value.id}/address`, id))
     const addressList = await getAddress()
     userAddress.value = [...addressList]
-    // isDeleteLoading.value = false
   }
-
-  // const currentAdress = ref(userAddressFromServer.value[0])
-
-  // const setCurrentAdress = (item) => {
-  //   if (item) {
-  //     const adress = userAddressFromServer.value.find((el) => el.id === item.id)
-  //     currentAdress.value = adress
-  //   } else {
-  //     currentAdress.value = userAddressFromServer.value[0]
-  //   }
-  // }
 
   return {
     user,
     userAddress,
-    // currentAdress,
     error,
     isAuthLoading,
     isAddressLoading,
-    // userAddressFromServer,
-    // setCurrentAdress,
     signUp,
     signIn,
     setUserProfile,

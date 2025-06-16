@@ -16,25 +16,42 @@
     </div>
     <button class="cart-total-button" @click="buyAll">Купить&nbsp;все</button>
   </div>
+
+  <AppOrderWithoutUserModal
+    v-if="isOrderWithoutUserModalOpen"
+    @closeOrderWithoutUserModal="closeOrderWithoutUserModal"
+  />
 </template>
 
 <script setup>
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import AppProductCard from '@/components/product/AppProductCard.vue'
 import AppCartProductCard from '@/components/cart/AppCartProductCard.vue'
 import { currencyFormater } from '@/utils/currency-formater'
 import { useOrderStore } from '@/stores/order-store'
+import { useUserStore } from '@/stores/user-store'
 import { PATH_ORDER } from '@/mock/routes'
+import AppOrderWithoutUserModal from '@/components/order/AppOrderWithoutUserModal.vue'
 
 const orderStore = useOrderStore()
+const userStore = useUserStore()
 const router = useRouter()
 
 const props = defineProps(['products', 'fromPage', 'cartStore'])
 
+const isOrderWithoutUserModalOpen = ref(false)
+const closeOrderWithoutUserModal = () => (isOrderWithoutUserModalOpen.value = false)
+
 const buyAll = () => {
-  orderStore.addAllCartItemsToOrder(props.cartStore.cartItems)
-  props.cartStore.deleteAllItems()
-  router.push(PATH_ORDER)
+  if (userStore.user.id) {
+    orderStore.addAllCartItemsToOrder(props.cartStore.cartItems)
+    props.cartStore.deleteAllItems()
+    router.push(PATH_ORDER)
+  } else {
+    isOrderWithoutUserModalOpen.value = true
+  }
+
   // const data = {
   //   id: props.id,
   //   category: props.product.category,

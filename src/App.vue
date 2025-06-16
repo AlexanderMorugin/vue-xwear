@@ -43,8 +43,6 @@ export default {
           userStore.user.id = user.uid
           userStore.user.email = user.email
           getProfile()
-          // userStore.getAddress()
-          // userStore.setListOfAddressFromServer()
         }
       })
     })
