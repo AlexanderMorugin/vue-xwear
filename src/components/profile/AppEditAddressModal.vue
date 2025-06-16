@@ -3,7 +3,12 @@
     <div class="edit-address-modal-overlay" @click="$emit('closeEditAddressModal')">
       <div @click.stop class="edit-address-modal">
         <div class="address-modal-title-box">
-          <span class="address-modal-title">Редактирование адреса №{{ props.address.id }}</span>
+          <!-- Заголовок модалки, если нужно редактировать адрес -->
+          <span v-if="props.address" class="address-modal-title"
+            >Редактирование адреса №{{ props.address.id }}</span
+          >
+          <!-- Заголовок модалки, если нужно добавить новый адрес -->
+          <span v-else class="address-modal-title">Новый адрес</span>
 
           <!-- Кнопка крестик -->
           <button class="address-modal-close" @click="$emit('closeEditAddressModal')">
@@ -11,8 +16,17 @@
           </button>
         </div>
 
+        <!-- Если есть хоть один адрес, показываем форму редактирования адреса -->
         <FormEditAddress
+          v-if="props.address"
           :address="address"
+          @closeEditAddressModal="$emit('closeEditAddressModal')"
+        />
+
+        <!-- Иначе показываем форму добавления адреса -->
+        <FormAddAddress
+          forPage="order"
+          v-else
           @closeEditAddressModal="$emit('closeEditAddressModal')"
         />
       </div>
@@ -22,6 +36,7 @@
 
 <script setup>
 import FormEditAddress from './FormEditAddress.vue'
+import FormAddAddress from './FormAddAddress.vue'
 // eslint-disable-next-line no-unused-vars
 const emit = defineEmits(['closeEditAddressModal'])
 const props = defineProps(['address'])

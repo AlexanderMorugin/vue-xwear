@@ -1,6 +1,7 @@
 <template>
   <div class="order-profile-address-card">
-    <div class="address-card-badge-top">Добавить адрес</div>
+    <!-- Кнопка открытия модалки добавления адреса -->
+    <button class="address-card-badge-top" @click="openAddAddressModal">Добавить адрес</button>
 
     <!-- Если на сервере есть имя пользователя, то показываем его -->
     <h3
@@ -15,12 +16,19 @@
       Добавьте ваше имя и телефон
     </button>
 
-    <!-- Тексты по поводу адресов доставки -->
+    <!-- Текст по поводу адресов доставки, если их несколько -->
     <p v-if="props.arrayOfAddress.length > 1" class="order-profile-address-card-choice-address">
       Выберите один из {{ props.arrayOfAddress.length }} адресов доставки.
     </p>
+    <!-- Текст по поводу адресов доставки, если он один -->
+    <p v-if="props.arrayOfAddress.length === 1" class="order-profile-address-card-choice-address">
+      Ваш адрес доставки.
+    </p>
 
-    <p v-else class="order-profile-address-card-choice-address">Ваш адрес доставки.</p>
+    <!-- Текст если адресов нет совсем -->
+    <p v-if="!props.arrayOfAddress.length" class="order-profile-address-card-choice-address">
+      Добавьте адрес доставки. Кликайте кнопку вверху справа.
+    </p>
 
     <!-- Список адресов доставки, на выбор по радио кнопкам -->
     <ul>
@@ -76,6 +84,12 @@
     v-if="isEditProfileModalOpen"
     @closeEditProfileModal="closeEditProfileModal"
   />
+
+  <!-- Модалка добавления адреса -->
+  <AppEditAddressModal
+    v-if="isAddingAddressModalOpen"
+    @closeEditAddressModal="closeAddAddressModal"
+  />
 </template>
 
 <script setup>
@@ -91,12 +105,16 @@ const orderStore = useOrderStore()
 const address = ref(null)
 const isEditAddressModalOpen = ref(false)
 const isEditProfileModalOpen = ref(false)
+const isAddingAddressModalOpen = ref(false)
 
 const openEditAddressModal = () => (isEditAddressModalOpen.value = true)
 const closeEditAddressModal = () => (isEditAddressModalOpen.value = false)
 
 const openEditProfileModal = () => (isEditProfileModalOpen.value = true)
 const closeEditProfileModal = () => (isEditProfileModalOpen.value = false)
+
+const openAddAddressModal = () => (isAddingAddressModalOpen.value = true)
+const closeAddAddressModal = () => (isAddingAddressModalOpen.value = false)
 </script>
 
 <style scoped>
@@ -176,7 +194,14 @@ const closeEditProfileModal = () => (isEditProfileModalOpen.value = false)
   text-transform: uppercase;
   color: var(--black-thirdary);
   padding: 13px 29px;
+  transition: 0.3s ease all;
+  cursor: pointer;
 }
+.address-card-badge-top:hover {
+  background: var(--blue-primary);
+  color: var(--black-secondary);
+}
+
 .address-card-badge-bottom {
   position: absolute;
   bottom: 0;

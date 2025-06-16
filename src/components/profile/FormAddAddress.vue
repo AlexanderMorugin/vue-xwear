@@ -1,6 +1,9 @@
 <template>
   <AppProfileHeading title="Добавление адреса" />
-  <form class="address-form" @submit.prevent="submitAddAddressForm">
+  <form
+    :class="['address-form', { 'address-form-order': props.forPage === 'order' }]"
+    @submit.prevent="submitAddAddressForm"
+  >
     <div class="form-field">
       <label for="countryField" class="form-label">Страна:</label>
       <input
@@ -100,7 +103,10 @@
       }}</span>
     </div>
 
-    <button :class="['form-button', { 'form-button-active': isValid }]">Сохранить</button>
+    <button :class="['form-button', { 'form-button-active': isValid }]">
+      <AppButtonLoader v-if="isLoading" />
+      <span v-else>Сохранить</span>
+    </button>
   </form>
 </template>
 
@@ -110,9 +116,11 @@ import { getFirestore, setDoc, doc } from 'firebase/firestore'
 import { useVuelidate } from '@vuelidate/core'
 import { helpers, required, minLength, numeric } from '@vuelidate/validators'
 import AppProfileHeading from '@/components/profile/AppProfileHeading.vue'
+import AppButtonLoader from '@/components/loader/AppButtonLoader.vue'
 import { useUserStore } from '@/stores/user-store'
 
-const emit = defineEmits(['closeAddressForm'])
+const emit = defineEmits(['closeAddressForm', 'closeEditAddressModal'])
+const props = defineProps(['forPage'])
 
 const userStore = useUserStore()
 const db = getFirestore()
@@ -124,6 +132,7 @@ const cityField = ref(null)
 const streetField = ref(null)
 const buildingField = ref(null)
 const flatField = ref(null)
+const isLoading = ref(false)
 
 const rules = computed(() => ({
   countryField: {
@@ -177,6 +186,7 @@ const isValid = computed(
 )
 
 const submitAddAddressForm = async () => {
+  isLoading.value = true
   const payload = {
     id: (await userStore.setAddressId()).toString(),
     country: countryField.value,
@@ -192,7 +202,12 @@ const submitAddAddressForm = async () => {
     userStore.addUserAddress(payload)
   })
 
+  isLoading.value = false
   emit('closeAddressForm')
+
+  if (props.forPage === 'order') {
+    emit('closeEditAddressModal')
+  }
 
   countryField.value = ''
   regionField.value = ''
@@ -218,5 +233,8 @@ const submitAddAddressForm = async () => {
     padding-top: 20px;
     padding-bottom: 40px;
   }
+}
+.address-form-order {
+  grid-template-columns: 1fr;
 }
 </style>
