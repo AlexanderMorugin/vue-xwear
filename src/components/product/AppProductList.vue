@@ -52,27 +52,6 @@ const buyAll = () => {
   } else {
     isOrderWithoutUserModalOpen.value = true
   }
-
-  // const data = {
-  //   id: props.id,
-  //   category: props.product.category,
-  //   brand: props.product.brand,
-  //   name: props.product.name,
-  //   size: chooseSize.value ? chooseSize.value : '36',
-  //   price: submitPrice.value,
-  //   // description: props.product.description,
-  //   color: props.product.color,
-  //   imageOneSmall: props.product.imageOneSmall,
-  //   count: 1,
-  // imageOneBig: props.product.imageOneBig,
-  // imageTwoSmall: props.product.imageTwoSmall,
-  // imageTwoBig: props.product.imageTwoBig,
-  // imageThreeSmall: props.product.imageThreeSmall,
-  // imageThreeBig: props.product.imageThreeBig,
-  // isFavorite: props.product.isFavorite,
-  // }
-
-  // props.cartStore.addALLCartItems(data)
 }
 </script>
 

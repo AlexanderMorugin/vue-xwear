@@ -35,7 +35,6 @@ import FormRegistrationWithAddress from '@/components/profile/FormRegistrationWi
 import { useResizeMedium } from '@/use/useResizeMedium'
 // eslint-disable-next-line no-unused-vars
 const emit = defineEmits(['closeOrderWithoutUserModal'])
-// const props = defineProps(['userStore'])
 
 const { isScreenMedium } = useResizeMedium()
 </script>
@@ -53,9 +52,6 @@ const { isScreenMedium } = useResizeMedium()
   display: flex;
   justify-content: center;
   align-items: center;
-  /* padding-top: 30px;
-  padding-right: 20px;
-  padding-left: 20px; */
 }
 .order-without-user-modal {
   width: 100%;
@@ -100,33 +96,6 @@ const { isScreenMedium } = useResizeMedium()
   width: 12px;
   height: 12px;
 }
-/* .order-without-user-modal-forms {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 30px;
-} */
-/* .address-modal-button {
-  background: var(--black-thirdary);
-  border: 1px solid var(--gray-dark-fourdary);
-  border-radius: 5px;
-  line-height: 24px;
-  font-size: 16px;
-  font-weight: 400;
-  color: var(--white-primary);
-  padding: 10px;
-  margin-top: 30px;
-  cursor: pointer;
-  transition: 0.3s ease all;
-}
-.address-modal-button:hover {
-  background: var(--gray-dark-sixdary);
-}
-.address-modal-button-active {
-  background: var(--blue-secondary);
-}
-.address-modal-button-active:hover {
-  background: var(--blue-secondary);
-} */
 
 @keyframes slide-in {
   0% {

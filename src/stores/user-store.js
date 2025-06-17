@@ -23,10 +23,12 @@ export const useUserStore = defineStore('userStore', () => {
   })
 
   const userAddress = ref([])
+  // const userFavorite = ref([])
   const error = ref('')
   const isAuthLoading = ref(false)
   const isAddressLoading = ref(false)
 
+  // Регистрация пользователя на сервере
   const signUp = async (email, password) => {
     isAuthLoading.value = true
     error.value = ''
@@ -40,6 +42,7 @@ export const useUserStore = defineStore('userStore', () => {
     }
   }
 
+  // Логин
   const signIn = async (email, password) => {
     isAuthLoading.value = true
     error.value = ''
@@ -56,12 +59,14 @@ export const useUserStore = defineStore('userStore', () => {
     }
   }
 
+  // Вносим данные пользователя в стор
   const setUserProfile = (profileData) => {
     user.value.firstName = profileData.firstName
     user.value.lastName = profileData.lastName
     user.value.phone = profileData.phone
   }
 
+  // Добавляем в стор адрес пользователя
   const addUserAddress = (address) => {
     userAddress.value.push(address)
   }
@@ -108,6 +113,7 @@ export const useUserStore = defineStore('userStore', () => {
     error,
     isAuthLoading,
     isAddressLoading,
+    // userFavorite,
     signUp,
     signIn,
     setUserProfile,

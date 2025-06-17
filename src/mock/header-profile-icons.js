@@ -19,6 +19,7 @@ export const iconsDesktop = [
     name: 'Профиль',
     path: PATH_PROFILE,
     icon: '/icons/icon-profile.svg',
+    iconActive: '/icons/icon-profile-black.svg',
   },
   {
     name: 'Корзина',

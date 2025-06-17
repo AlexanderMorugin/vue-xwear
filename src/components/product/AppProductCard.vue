@@ -1,7 +1,10 @@
 <template>
   <div class="product-card">
-    <!-- Бейджи-Absolut сверху на карточке товара. Бейдж с размером показывается только если товар добавлен в корзину -->
-    <AppFavoriteButton :isFavorite="props.item.isFavorite" :id="props.item.id" />
+    <!-- Бейджи-Absolut сверху на карточке товара -->
+    <!-- Бейдж-звездочка Избранные -->
+    <!-- <AppFavoriteButton :isFavorite="props.item.isFavorite" :id="props.item" /> -->
+    <AppFavoriteButton :item="props.item" />
+    <!-- Бейдж с размером показывается только если товар добавлен в корзину -->
     <AppProductListBadgeSize v-if="currentCartItem.length" :currentCartItem="currentCartItem" />
 
     <img :src="props.item.imageOneSmall" alt="product" class="image" />
