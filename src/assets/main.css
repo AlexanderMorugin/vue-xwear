@@ -163,7 +163,7 @@
   line-height: 22px;
   color: var(--gray-dark-fivedary);
 }
-.form-bottom-label {
+/* .form-bottom-label {
   position: absolute;
   bottom: 5px;
   right: 20px;
@@ -171,7 +171,7 @@
   font-size: 13px;
   line-height: 16px;
   color: red;
-}
+} */
 .form-label-span {
   color: var(--gray-semi-primary);
 }
@@ -182,6 +182,7 @@
   width: 230px;
   height: 66px;
   border-radius: 5px;
+  border: 1px solid var(--white-primary);
   background: var(--gray-normal-secondary);
   font-weight: 800;
   font-size: 12px;
@@ -198,6 +199,16 @@
 .form-button-active:hover {
   color: var(--black-primary);
   background: var(--blue-primary);
+}
+.form-button-special {
+  color: var(--black-primary);
+  background: var(--blue-primary);
+  cursor: pointer;
+  transition: 0.3s ease all;
+}
+.form-button-special:hover {
+  background: var(--black-primary);
+  color: var(--white-primary);
 }
 .profile-modal-form {
   display: flex;

@@ -9,12 +9,22 @@
             class="order-without-user-modal-close"
             @click="$emit('closeOrderWithoutUserModal')"
           >
-            <img src="/icons/icon-close-gray.svg" alt="Закрыть" />
+            <img
+              v-if="isScreenMedium"
+              src="/icons/icon-close-filters.svg"
+              alt="Закрыть"
+              class="order-without-user-modal-close-image"
+            />
+            <img
+              v-else
+              src="/icons/icon-close-gray.svg"
+              alt="Закрыть"
+              class="order-without-user-modal-close-image"
+            />
           </button>
         </div>
-        <!-- <div class="order-without-user-modal-forms"> -->
-        <FormRegistrationWithAddress />
-        <!-- </div> -->
+
+        <FormRegistrationWithAddress @closeOrderWithoutUserModal="closeOrderWithoutUserModal" />
       </div>
     </div>
   </Teleport>
@@ -22,9 +32,12 @@
 
 <script setup>
 import FormRegistrationWithAddress from '@/components/profile/FormRegistrationWithAddress.vue'
+import { useResizeMedium } from '@/use/useResizeMedium'
 // eslint-disable-next-line no-unused-vars
 const emit = defineEmits(['closeOrderWithoutUserModal'])
 // const props = defineProps(['userStore'])
+
+const { isScreenMedium } = useResizeMedium()
 </script>
 
 <style scoped>
@@ -40,9 +53,9 @@ const emit = defineEmits(['closeOrderWithoutUserModal'])
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-top: 30px;
+  /* padding-top: 30px;
   padding-right: 20px;
-  padding-left: 20px;
+  padding-left: 20px; */
 }
 .order-without-user-modal {
   width: 100%;
@@ -56,6 +69,8 @@ const emit = defineEmits(['closeOrderWithoutUserModal'])
 }
 @media (max-width: 767px) {
   .order-without-user-modal {
+    background: var(--white-primary);
+    border-radius: 0;
     padding: 20px;
   }
 }
@@ -74,11 +89,16 @@ const emit = defineEmits(['closeOrderWithoutUserModal'])
 @media (max-width: 767px) {
   .order-without-user-modal-title {
     font-size: 18px;
+    color: var(--black-primary);
   }
 }
 .order-without-user-modal-close {
   cursor: pointer;
   animation: slide-in 1000ms ease-in-out;
+}
+.order-without-user-modal-close-image {
+  width: 12px;
+  height: 12px;
 }
 /* .order-without-user-modal-forms {
   display: grid;

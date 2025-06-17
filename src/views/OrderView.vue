@@ -40,9 +40,7 @@
                 v-model="checkboxAgree"
                 class="checkbox-input"
               />
-              <label :for="item" class="order-view-checkbox-label"
-                >Подтвердите заказ и адрес доставки.</label
-              >
+              <label :for="item" class="order-view-checkbox-label">Подтвердите заказ.</label>
             </div>
           </form>
 
@@ -136,8 +134,6 @@ const submitOrder = async () => {
     email: userStore.user.email,
     comment: commentField.value,
   }
-
-  // console.log(payload)
 
   await setDoc(doc(db, `users/${userStore.user.id}/orders`, payload.id), payload).then(() => {
     isSubmitModalOpen.value = true

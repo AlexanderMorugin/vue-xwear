@@ -22,7 +22,7 @@
     </p>
     <!-- Текст по поводу адресов доставки, если он один -->
     <p v-if="props.arrayOfAddress.length === 1" class="order-profile-address-card-choice-address">
-      Ваш адрес доставки.
+      Подтвердите адрес доставки.
     </p>
 
     <!-- Текст если адресов нет совсем -->

@@ -17,6 +17,7 @@
     <button class="cart-total-button" @click="buyAll">Купить&nbsp;все</button>
   </div>
 
+  <!-- Модалка оформления заказа, открывается в случае, если незарегистрированный пользователь делает заказ -->
   <AppOrderWithoutUserModal
     v-if="isOrderWithoutUserModalOpen"
     @closeOrderWithoutUserModal="closeOrderWithoutUserModal"

@@ -45,9 +45,6 @@
       </div>
       <div class="form-field">
         <label for="emailField" class="form-label">Email адрес:</label>
-        <label for="emailField" class="form-bottom-label"
-          >По этой почте вы сможете войти в свой профиль</label
-        >
         <input
           type="email"
           id="emailField"
@@ -62,9 +59,6 @@
       </div>
       <div class="form-field">
         <label for="passwordField" class="form-label">Пароль:</label>
-        <label for="passwordField" class="form-bottom-label"
-          >Запомните пароль для дальнейшего входа в личный кабинет</label
-        >
         <input
           type="password"
           id="passwordField"
@@ -196,9 +190,9 @@
       </div>
     </div>
 
-    <button :class="['form-button', { 'form-button-active': isValid }]">
-      <AppButtonLoader v-if="userStore.isAuthLoading" />
-      <span v-else>Зарегистрироваться</span>
+    <button :class="['form-button', { 'form-button-special': isValid }]">
+      <AppButtonLoader v-if="isLoading" />
+      <span v-else>Оформить</span>
     </button>
   </form>
 </template>
@@ -206,17 +200,23 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import { getFirestore, collection, query, getDocs, setDoc, doc } from 'firebase/firestore'
 import { useVuelidate } from '@vuelidate/core'
 import { helpers, required, email, minLength, sameAs, numeric } from '@vuelidate/validators'
-// import AppProfileHeading from '@/components/profile/AppProfileHeading.vue'
-import { PATH_PROFILE } from '@/mock/routes'
+import { PATH_ORDER } from '@/mock/routes'
 import { useUserStore } from '@/stores/user-store'
+import { useOrderStore } from '@/stores/order-store'
+import { useCartStore } from '@/stores/cart-store'
 import AppButtonLoader from '@/components/loader/AppButtonLoader.vue'
 
-const emit = defineEmits(['closeProfileModal', 'openLoginForm'])
+const emit = defineEmits(['closeOrderWithoutUserModal'])
 
 const router = useRouter()
 const userStore = useUserStore()
+const orderStore = useOrderStore()
+const cartStore = useCartStore()
+const db = getFirestore()
 
 const firstNameField = ref(null)
 const lastNameField = ref(null)
@@ -231,6 +231,8 @@ const cityField = ref(null)
 const streetField = ref(null)
 const buildingField = ref(null)
 const flatField = ref(null)
+
+const isLoading = ref(false)
 
 const rules = computed(() => ({
   firstNameField: {
@@ -319,27 +321,92 @@ const isValid = computed(
     !v$.$errors,
 )
 
+const getProfile = async () => {
+  const getData = query(collection(db, `users/${userStore.user.id}/profile`))
+  const listDocs = await getDocs(getData)
+  const profileData = listDocs.docs.map((doc) => doc.data())
+  if (profileData[0]) {
+    userStore.setUserProfile(profileData[0])
+  }
+}
+
 const submitSignUpFormWithAddress = async () => {
+  isLoading.value = true
+
+  // Делаем регистрацию пользователя по почте и паролю
   await userStore.signUp(emailField.value, passwordField.value)
 
-  if (!userStore.error) {
-    router.push(PATH_PROFILE)
-    emit('closeProfileModal')
-  } else {
-    firstNameField.value = ''
-    lastNameField.value = ''
-    phoneField.value = ''
-    emailField.value = ''
-    passwordField.value = ''
-    confirmPasswordField.value = ''
-    countryField.value = ''
-    regionField.value = ''
-    indexField.value = ''
-    cityField.value = ''
-    streetField.value = ''
-    buildingField.value = ''
-    flatField.value = ''
+  // Затем запрашиваем сервер и если пользователь создался, передаем его почту и айди в стор
+  onAuthStateChanged(getAuth(), (user) => {
+    if (user) {
+      userStore.user.id = user.uid
+      userStore.user.email = user.email
+      getProfile()
+    }
+  })
+
+  // Затем создаем на сервере профиль пользователя, отправляем туда имя, фамилию и телефон
+  const payloadProfile = {
+    id: userStore.user.id,
+    firstName: firstNameField.value,
+    lastName: lastNameField.value,
+    phone: phoneField.value,
   }
+
+  await setDoc(
+    doc(db, `users/${userStore.user.id}/profile`, payloadProfile.id),
+    payloadProfile,
+  ).then(() => {
+    userStore.setUserProfile(payloadProfile)
+  })
+
+  // Затем создаем на сервере адрес пользователя
+  const payloadAddress = {
+    id: (await userStore.setAddressId()).toString(),
+    country: countryField.value,
+    region: regionField.value,
+    postIndex: indexField.value,
+    city: cityField.value,
+    street: streetField.value,
+    building: buildingField.value,
+    flat: flatField.value,
+  }
+
+  await setDoc(
+    doc(db, `users/${userStore.user.id}/address`, payloadAddress.id),
+    payloadAddress,
+  ).then(() => {
+    userStore.addUserAddress(payloadAddress)
+  })
+
+  // Затем из карт-стора передаем список товаров в ордер-стор
+  orderStore.addAllCartItemsToOrder(cartStore.cartItems)
+  // Затем очищаем карт-стор
+  cartStore.deleteAllItems()
+
+  // В конце убираем лоадинг, закрываем модалку и переводим пользователя на страницу заказа
+  if (!userStore.error) {
+    isLoading.value = false
+    emit('closeOrderWithoutUserModal')
+    console.log(userStore.user)
+    console.log(userStore.userAddress)
+    router.push(PATH_ORDER)
+  }
+
+  // Затем очищаем инпуты
+  firstNameField.value = ''
+  lastNameField.value = ''
+  phoneField.value = ''
+  emailField.value = ''
+  passwordField.value = ''
+  confirmPasswordField.value = ''
+  countryField.value = ''
+  regionField.value = ''
+  indexField.value = ''
+  cityField.value = ''
+  streetField.value = ''
+  buildingField.value = ''
+  flatField.value = ''
 }
 </script>
 
