@@ -76,10 +76,14 @@ const isLoading = ref(false)
 const hasChoiseBlock = ref(1)
 const isProfileMenuMobileOpen = ref(false)
 
-const handleChoiseBlock = async (index) => {
+const handleChoiseBlock = (index) => {
   if (index.name === 'Выход') {
-    await signOut(getAuth())
-    router.push('/')
+    userStore.$reset()
+
+    if (!userStore.user.id) {
+      signOut(getAuth())
+      router.push('/')
+    }
   }
 
   hasChoiseBlock.value = index.id

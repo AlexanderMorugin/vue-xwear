@@ -3,9 +3,8 @@
   <div class="product-card">
     <!-- Бейджи-Absolut сверху на карточке товара -->
     <!-- Бейдж-звездочка Избранные -->
-    <!-- <AppFavoriteButton :isFavorite="props.item.isFavorite" :id="props.item" /> -->
     <AppFavoriteButton :item="props.item" />
-    <!-- :userFavoriteArray="props.userFavoriteArray"  -->
+
     <!-- Бейдж с размером показывается только если товар добавлен в корзину -->
     <AppProductListBadgeSize v-if="currentCartItem.length" :currentCartItem="currentCartItem" />
 
@@ -35,40 +34,13 @@ import AppFavoriteButton from '@/components/product/AppFavoriteButton.vue'
 import { currencyFormater } from '@/utils/currency-formater'
 import { PATH_SHOES } from '@/mock/routes'
 import { useCartStore } from '@/stores/cart-store'
-// import { useUserStore } from '@/stores/user-store'
 import AppProductListBadgeSize from './AppProductListBadgeSize.vue'
-// import { getFirestore, setDoc, deleteDoc, doc } from 'firebase/firestore'
-// import { isFavorite, setFavorite, cancelFavorite } from '@/api/set-favorite-sign'
 
 const props = defineProps(['item', 'fromPage', 'userFavoriteArray'])
 
-// const emit = defineEmits(['setFavorite', 'cancelFavorite'])
-
 const cartStore = useCartStore()
-// const userStore = useUserStore()
 
 const currentCartItem = computed(() => cartStore.getCurrentItem(props.item))
-
-// let isFavorite = ref(false)
-// const db = getFirestore()
-
-// const setFavorite = async (item) => {
-//   if (props.userFavoriteArray.find((el) => el.id !== item.id) || !props.userFavoriteArray.length) {
-//     await setDoc(doc(db, `users/${userStore.user.id}/favorite`, item.id), item).then(() => {
-//       userStore.addToUserStoreFavoriteArray(item)
-//       isFavorite.value = true
-//     })
-//   }
-// }
-
-// const cancelFavorite = async (item) => {
-//   if (props.userFavoriteArray.find((el) => el.id === item.id)) {
-//     await deleteDoc(doc(db, `users/${userStore.user.id}/favorite`, item.id)).then(() => {
-//       userStore.deleteFromUserStoreFavoriteArray(item)
-//       isFavorite.value = false
-//     })
-//   }
-// }
 </script>
 
 <style scoped>

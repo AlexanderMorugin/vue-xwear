@@ -6,6 +6,7 @@
   />
 
   <AppProfileHeading v-if="!props.fromPage === 'order'" title="Редактирование профиля" />
+
   <form class="profile-edit-form" @submit.prevent="submitProfileEditForm">
     <div class="form-field">
       <label for="firstNameField" class="form-label">Имя:</label>
@@ -35,21 +36,6 @@
         item.$message
       }}</span>
     </div>
-
-    <!-- <div class="form-field">
-      <label for="emailField" class="form-label">Email адрес:</label>
-      <input
-        type="email"
-        id="emailField"
-        name="emailField"
-        placeholder="yavasyaivanov@gmail.com"
-        v-model="v$.emailField.$model"
-        :class="['form-input', { 'form-input-warning': v$.emailField.$errors.length }]"
-      />
-      <span v-for="item in v$.emailField.$errors" :key="item.$uid" class="form-input-error">{{
-        item.$message
-      }}</span>
-    </div> -->
     <div class="form-field">
       <label for="phoneField" class="form-label">Номер телефона:</label>
       <input
@@ -80,15 +66,8 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useVuelidate } from '@vuelidate/core'
-import {
-  helpers,
-  // required,
-  //  email,
-  minLength,
-  numeric,
-} from '@vuelidate/validators'
+import { helpers, minLength, numeric } from '@vuelidate/validators'
 import { getFirestore, setDoc, doc } from 'firebase/firestore'
-// import { getAuth, updateProfile, updatePhoneNumber } from 'firebase/auth'
 import AppButtonLoader from '@/components/loader/AppButtonLoader.vue'
 import AppProfileHeading from '@/components/profile/AppProfileHeading.vue'
 import AppProfileButton from '@/components/profile/AppProfileButton.vue'
@@ -105,11 +84,8 @@ const props = defineProps(['fromPage'])
 const userStore = useUserStore()
 const db = getFirestore()
 
-// console.log(userStore.user.email)
-
 const firstNameField = ref(userStore.user.firstName || null)
 const lastNameField = ref(userStore.user.lastName || null)
-// const emailField = ref(userStore.user.email || null)
 const phoneField = ref(userStore.user.phone || null)
 
 const isLoading = ref(false)
@@ -117,19 +93,12 @@ const isToastActive = ref(false)
 
 const rules = computed(() => ({
   firstNameField: {
-    // required: helpers.withMessage('Укажите имя', required),
     minLength: helpers.withMessage('Имя должно быть не менее 3 символов', minLength(3)),
   },
   lastNameField: {
-    // required: helpers.withMessage('Укажите фамилию', required),
     minLength: helpers.withMessage('Фамилия должна быть не менее 3 символов', minLength(3)),
   },
-  // emailField: {
-  //   required: helpers.withMessage('Укажите почту', required),
-  //   email: helpers.withMessage('Введите корректную почту', email),
-  // },
   phoneField: {
-    // required: helpers.withMessage('Укажите телефон', required),
     numeric: helpers.withMessage('Введите цифры', numeric),
   },
 }))
@@ -137,17 +106,11 @@ const rules = computed(() => ({
 const v$ = useVuelidate(rules, {
   firstNameField,
   lastNameField,
-  // emailField,
   phoneField,
 })
 
 const isValid = computed(
-  () =>
-    firstNameField.value &&
-    lastNameField.value &&
-    // emailField.value &&
-    phoneField.value &&
-    !v$.$errors,
+  () => firstNameField.value && lastNameField.value && phoneField.value && !v$.$errors,
 )
 
 const closeToast = () => (isToastActive.value = false)
@@ -159,7 +122,6 @@ const submitProfileEditForm = async () => {
     id: userStore.user.id,
     firstName: firstNameField.value,
     lastName: lastNameField.value,
-    // email: emailField.value,
     phone: phoneField.value,
   }
 

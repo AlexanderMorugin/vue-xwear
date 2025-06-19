@@ -4,34 +4,20 @@
 
   <AppProfileHeading title="Избранные товары" />
 
-  <!-- <AppLoader v-if="isLoading" /> -->
-
-  <!-- <div v-else> -->
   <AppProductList
-    v-if="userStore.userFavorite"
+    v-if="userStore.userFavorite.length"
     :products="userStore.userFavorite"
     fromPage="profileFavorite"
   />
-  <!-- :products="favoriteProducts" -->
-  <AppFavoriteIsEmpty v-else />
-  <!-- </div> -->
 
-  <!-- {{ userStore.userFavorite }} -->
+  <AppFavoriteIsEmpty v-else />
 </template>
 
 <script setup>
-// import {
-//   ref,
-//   // onMounted,
-//   // computed,
-// } from 'vue'
-// import { getFirestore, collection, query, getDocs } from 'firebase/firestore'
-// import axios from 'axios'
 import AppFavoriteIsEmpty from '@/components/favorite/AppFavoriteIsEmpty.vue'
 import AppProfileHeading from '@/components/profile/AppProfileHeading.vue'
 import AppProfileButton from '@/components/profile/AppProfileButton.vue'
 import AppProductList from '@/components/product/AppProductList.vue'
-// import AppLoader from '@/components/loader/AppLoader.vue'
 import { useResizeLarge } from '@/use/useResizeLarge'
 import { useUserStore } from '@/stores/user-store'
 
@@ -43,48 +29,4 @@ const { isScreenLarge } = useResizeLarge()
 
 // const db = getFirestore()
 const userStore = useUserStore()
-
-// const isLoading = ref(false)
-// const favoriteFromServer = ref([])
-// const favoriteFromServer = computed(() => userStore.userFavorite)
-
-// const getFavorite = async () => {
-//   isLoading.value = true
-//   const getData = query(collection(db, `users/${userStore.user.id}/favorite`))
-//   const listDocs = await getDocs(getData)
-//   isLoading.value = false
-//   // userStore.addUserFavorite(listDocs.docs.map((doc) => doc.data()))
-//   return listDocs.docs.map((doc) => doc.data())
-// }
-
-// onMounted(async () => {
-//   // await getFavorite()
-//   const favoriteList = await getFavorite()
-//   // console.log(favoriteList)
-//   userStore.addUserFavorite(favoriteList)
-//   // return (favoriteFromServer.value = [...favoriteList])
-// })
-
-// onMounted(async () => {
-//   try {
-//     isLoading.value = true
-
-//     const { data } = await axios.get('https://vue-xwear-default-rtdb.firebaseio.com/shoes.json')
-
-//     if (data) {
-//       favoriteProducts.value = Object.keys(data)
-//         .map((key) => {
-//           return {
-//             id: key,
-//             ...data[key],
-//           }
-//         })
-//         .filter((item) => item.isFavorite)
-//     }
-
-//     isLoading.value = false
-//   } catch (error) {
-//     console.log(error)
-//   }
-// })
 </script>

@@ -3,7 +3,7 @@
     <div class="image-container">
       <div class="image-box">
         <img :src="currentImage" :alt="props.product.name" class="image" @click="openModal" />
-        <AppFavoriteButton :isFavorite="props.product.isFavorite" :id="props.currentId" />
+        <AppFavoriteButton :item="currentItemWithId" />
       </div>
       <ul class="image-thumbs">
         <li class="image-thumbs-item" :class="{ 'image-thumbs-item-active': isOneActive }">
@@ -48,7 +48,7 @@
   </Teleport>
 </template>
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import AppFavoriteButton from '@/components/product/AppFavoriteButton.vue'
 import AppProductSizes from '@/components/product/AppProductSizes.vue'
 import AppCurrentProductDetails from '@/components/product/AppCurrentProductDetails.vue'
@@ -92,6 +92,14 @@ const setShowImage = (args) => {
     isThreeActive.value = true
   }
 }
+
+const currentItemWithId = ref(props.product)
+
+const setItemWithId = () => {
+  return (currentItemWithId.value['id'] = props.currentId)
+}
+
+onMounted(() => setItemWithId())
 </script>
 
 <style scoped>

@@ -73,20 +73,15 @@ import AppFiltersMenu from '@/components/filters/AppFiltersMenu.vue'
 import { allCrossovkyBreadcrumbs } from '@/components/breadcrumbs/breadcrumbs-pages/all-crossovky-breadcrumbs'
 import { useResizeLarge } from '@/use/useResizeLarge'
 import { useResizeMedium } from '@/use/useResizeMedium'
-// import { useUserStore } from '@/stores/user-store'
-// import { getUserFavorite } from '@/api/get-user-favorite'
 
 // Брейкпоинты ширины экрана
 const { isScreenLarge } = useResizeLarge()
 const { isScreenMedium } = useResizeMedium()
 
-// const userStore = useUserStore()
-
 const crossovky = ref([])
 const isDesc = ref(false)
 const isLoading = ref(false)
 const isFiltersForMobileOpen = ref(false)
-// const userFavoriteArray = ref([])
 
 // Фильтрация
 const brandList = ref([])
@@ -96,10 +91,6 @@ const selectedBrands = ref([])
 const colorList = ref([])
 colorList.value = computed(() => [...new Set(crossovky.value.map((a) => a.color))])
 const selectedColor = ref([])
-
-// Находим в массиве минимальную и максимальную цену
-// const minPrice36 = computed(() => Math.min(...crossovky.value.map((item) => item.price36)))
-// const maxPrice36 = computed(() => Math.max(...crossovky.value.map((item) => item.price36)))
 
 const minPrice = ref(0)
 const maxPrice = ref(20000)
@@ -121,15 +112,7 @@ onMounted(async () => {
         .filter((item) => item.category === 'crossovky')
     }
 
-    // await getUserFavorite()
-    // userFavoriteArray.value = userStore.userFavorite
-
     isLoading.value = false
-
-    // console.log(crossovky.value)
-    // await getUserFavorite()
-
-    // console.log('CrossovkyView-userFavoriteArray-from-store - ', userFavoriteArray)
   } catch (error) {
     console.log(error)
   }

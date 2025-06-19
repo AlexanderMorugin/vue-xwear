@@ -67,34 +67,18 @@ export const useUserStore = defineStore('userStore', () => {
   }
 
   // Добавляем в стор адрес пользователя
-  const addUserAddress = (address) => {
-    userAddress.value.push(address)
-  }
+  const addUserAddress = (address) => userAddress.value.push(address)
 
   // Добавляем в стор избранные товары пользователя с сервера, при первой загрузке сайта
-  const addUserFavoriteFromServer = (favoriteItemsFromServer) => {
-    // if (!userFavorite.value.length) {
-    //   userFavorite.value.push(item)
-    // } else {
-    userFavorite.value = favoriteItemsFromServer
-
-    console.log('userStore - ', userFavorite.value)
-    // }
-  }
+  const addUserFavoriteFromServer = (favoriteItemsFromServer) =>
+    (userFavorite.value = favoriteItemsFromServer)
 
   // Добавляем товар в стор избранные товары пользователя в реальном времени, без перезагрузки страницы
-  const addToUserStoreFavoriteArray = (item) => {
-    userFavorite.value.push(item)
-    console.log('addToUserStoreFavoriteArray - ', userFavorite.value)
-  }
+  const addToUserStoreFavoriteArray = (item) => userFavorite.value.push(item)
 
   // Удаляем товар из стора избранных товаров пользователя в реальном времени, без перезагрузки страницы
-  const deleteFromUserStoreFavoriteArray = (id) => {
-    // console.log('deleteFromUserStoreFavoriteArray - ', id)
-    userFavorite.value = userFavorite.value.filter((el) => el.id !== id)
-
-    console.log('deleteFromUserStoreFavoriteArray - ', userFavorite.value)
-  }
+  const deleteFromUserStoreFavoriteArray = (id) =>
+    (userFavorite.value = userFavorite.value.filter((el) => el.id !== id))
 
   // Получаем с сервера адреса пользователя
   const getAddress = async () => {
@@ -132,6 +116,17 @@ export const useUserStore = defineStore('userStore', () => {
     userAddress.value = [...addressList]
   }
 
+  const $reset = () => {
+    user.value.id = null
+    user.value.firstName = ''
+    user.value.lastName = ''
+    user.value.email = ''
+    user.value.phone = ''
+
+    userAddress.value = []
+    userFavorite.value = []
+  }
+
   return {
     user,
     userAddress,
@@ -150,5 +145,6 @@ export const useUserStore = defineStore('userStore', () => {
     addUserFavoriteFromServer,
     addToUserStoreFavoriteArray,
     deleteFromUserStoreFavoriteArray,
+    $reset,
   }
 })
