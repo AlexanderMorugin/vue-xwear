@@ -17,6 +17,7 @@ import {
 } from 'firebase/firestore'
 import MainLayout from './layouts/MainLayout.vue'
 import { useUserStore } from '@/stores/user-store'
+// import { getUserFavorite } from './api/get-user-favorite'
 
 export default {
   components: { MainLayout },
@@ -36,13 +37,22 @@ export default {
       }
     }
 
-    // Слежение за наличием пользователя в приложении
-    onMounted(() => {
+    // Функция получения с сервера избранных товаров пользователя и записью их в стор
+    const getFavorite = async () => {
+      const getData = query(collection(db, `users/${userStore.user.id}/favorite`))
+      const listDocs = await getDocs(getData)
+      userStore.addUserFavoriteFromServer(listDocs.docs.map((doc) => doc.data()))
+      // return listDocs.docs.map((doc) => doc.data())
+    }
+
+    // Слежение за наличием пользователя в приложении и избранными товарами
+    onMounted(async () => {
       onAuthStateChanged(getAuth(), (user) => {
         if (user) {
           userStore.user.id = user.uid
           userStore.user.email = user.email
           getProfile()
+          getFavorite()
         }
       })
     })

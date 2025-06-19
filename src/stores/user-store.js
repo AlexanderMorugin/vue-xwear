@@ -23,7 +23,7 @@ export const useUserStore = defineStore('userStore', () => {
   })
 
   const userAddress = ref([])
-  // const userFavorite = ref([])
+  const userFavorite = ref([])
   const error = ref('')
   const isAuthLoading = ref(false)
   const isAddressLoading = ref(false)
@@ -71,6 +71,31 @@ export const useUserStore = defineStore('userStore', () => {
     userAddress.value.push(address)
   }
 
+  // Добавляем в стор избранные товары пользователя с сервера, при первой загрузке сайта
+  const addUserFavoriteFromServer = (favoriteItemsFromServer) => {
+    // if (!userFavorite.value.length) {
+    //   userFavorite.value.push(item)
+    // } else {
+    userFavorite.value = favoriteItemsFromServer
+
+    console.log('userStore - ', userFavorite.value)
+    // }
+  }
+
+  // Добавляем товар в стор избранные товары пользователя в реальном времени, без перезагрузки страницы
+  const addToUserStoreFavoriteArray = (item) => {
+    userFavorite.value.push(item)
+    console.log('addToUserStoreFavoriteArray - ', userFavorite.value)
+  }
+
+  // Удаляем товар из стора избранных товаров пользователя в реальном времени, без перезагрузки страницы
+  const deleteFromUserStoreFavoriteArray = (id) => {
+    // console.log('deleteFromUserStoreFavoriteArray - ', id)
+    userFavorite.value = userFavorite.value.filter((el) => el.id !== id)
+
+    console.log('deleteFromUserStoreFavoriteArray - ', userFavorite.value)
+  }
+
   // Получаем с сервера адреса пользователя
   const getAddress = async () => {
     isAddressLoading.value = true
@@ -113,7 +138,7 @@ export const useUserStore = defineStore('userStore', () => {
     error,
     isAuthLoading,
     isAddressLoading,
-    // userFavorite,
+    userFavorite,
     signUp,
     signIn,
     setUserProfile,
@@ -122,5 +147,8 @@ export const useUserStore = defineStore('userStore', () => {
     setAddressId,
     setListOfAddressFromServer,
     deleteAddressFromServer,
+    addUserFavoriteFromServer,
+    addToUserStoreFavoriteArray,
+    deleteFromUserStoreFavoriteArray,
   }
 })

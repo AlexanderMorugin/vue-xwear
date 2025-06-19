@@ -1,21 +1,45 @@
 <template>
-  <button class="btn-favorite" @click="toggleFavorite(props.item)">
-    <!-- <img :src="getIconUrl()" alt="Избранное" class="btn-icon" /> -->
-    <img src="/icons/icon-star-black.svg" alt="Избранное" class="btn-icon" />
+  <button class="btn-favorite" @click="setFavorite(props.item)">
+    <img :src="getIconUrl()" alt="Избранное" class="btn-icon" />
+    <!-- <img src="/icons/icon-star-black.svg" alt="Избранное" class="btn-icon" /> -->
+    <!-- {{ props.item.id }} -->
   </button>
+  {{ props.item.id }}
+  {{ props.isFavorite }}
+  <!-- <button v-if="props.isFavorite" class="btn-favorite" @click="$emit('cancelFavorite')">
+    <img src="/icons/icon-star-red.svg" alt="Избранное" class="btn-icon" />
+  </button>
+
+  <button v-else class="btn-favorite" @click="$emit('setFavorite')">
+    <img src="/icons/icon-star-black.svg" alt="Избранное" class="btn-icon" />
+  </button> -->
 </template>
 
 <script setup>
-// import { ref } from 'vue'
+import { ref } from 'vue'
 // import axios from 'axios'
-import { getFirestore, setDoc, doc } from 'firebase/firestore'
+import { getFirestore, setDoc, deleteDoc, doc } from 'firebase/firestore'
 import { useUserStore } from '@/stores/user-store'
 
 // const props = defineProps(['isFavorite', 'item'])
-const props = defineProps(['item'])
+const props = defineProps(['item', 'isFavorite'])
+// eslint-disable-next-line no-unused-vars
+const emit = defineEmits(['setFavorite', 'cancelFavorite'])
 
 const db = getFirestore()
 const userStore = useUserStore()
+
+let iconUrl = ref('')
+
+const getIconUrl = () => {
+  if (userStore.userFavorite.find((item) => item.id === props.item.id)) {
+    return (iconUrl.value = '/icons/icon-star-red.svg')
+  } else {
+    return (iconUrl.value = '/icons/icon-star-black.svg')
+  }
+}
+// const userFavoriteArray = userStore.userFavorite
+// console.log('userFavoriteArray - ', userFavoriteArray)
 
 // let iconUrl = ref('')
 // const favoriteStatus = ref(props.isFavorite)
@@ -40,16 +64,31 @@ const userStore = useUserStore()
 //   }
 // }
 
-const toggleFavorite = async (item) => {
-  const payload = {
-    ...item,
-    isFavorite: true,
+// console.log('FavoriteButton - ', userStore.userFavorite.length && userStore.userFavorite)
+
+const setFavorite = async (item) => {
+  const cirrentItem = userStore.userFavorite.find((el) => el.id === item.id)
+  if (!cirrentItem) {
+    await setDoc(doc(db, `users/${userStore.user.id}/favorite`, item.id), item).then(() => {
+      userStore.addToUserStoreFavoriteArray(item)
+    })
   }
-  await setDoc(doc(db, `users/${userStore.user.id}/favorite`, item.id), payload)
-  // .then(() => {
-  //   userStore.addUserAddress(payload)
-  // })
+  // if (userStore.userFavorite.length && userStore.userFavorite.find((el) => el.id === item.id))
+  else {
+    await deleteDoc(doc(db, `users/${userStore.user.id}/favorite`, item.id)).then(() => {
+      userStore.deleteFromUserStoreFavoriteArray(item.id)
+    })
+  }
 }
+
+// const cancelFavorite = async (item) => {
+//   if (props.userFavoriteArray.find((el) => el.id === item.id)) {
+//     await deleteDoc(doc(db, `users/${userStore.user.id}/favorite`, item.id)).then(() => {
+//       userStore.deleteFromUserStoreFavoriteArray(item)
+//       isFavorite.value = false
+//     })
+//   }
+// }
 
 // const getFavoriteData = async () => {
 //   try {
