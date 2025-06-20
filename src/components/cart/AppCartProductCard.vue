@@ -42,6 +42,12 @@
     <!-- Кнопка купить один товар -->
     <button class="cart-product-button" @click="buyOneProduct(props.item)">Купить</button>
   </div>
+
+  <!-- Модалка оформления заказа, открывается в случае, если незарегистрированный пользователь делает заказ -->
+  <AppOrderWithoutUserModal
+    v-if="isOrderWithoutUserModalOpen"
+    @closeOrderWithoutUserModal="closeOrderWithoutUserModal"
+  />
 </template>
 
 <script setup>
@@ -53,16 +59,22 @@ import { categoryNameFormater } from '@/utils/category-name-formater'
 import { PATH_SHOES, PATH_ORDER } from '@/mock/routes'
 import { useCartStore } from '@/stores/cart-store'
 import { useOrderStore } from '@/stores/order-store'
+import { useUserStore } from '@/stores/user-store'
 import AppCartDeleteModal from './AppCartDeleteModal.vue'
 import AppCounter from '../counter/AppCounter.vue'
+import AppOrderWithoutUserModal from '@/components/order/AppOrderWithoutUserModal.vue'
 
 const cartStore = useCartStore()
 const orderStore = useOrderStore()
+const userStore = useUserStore()
 const router = useRouter()
 
 const props = defineProps(['item', 'fromPage'])
 
 const isDeleteModalOpen = ref(false)
+const isOrderWithoutUserModalOpen = ref(false)
+
+const closeOrderWithoutUserModal = () => (isOrderWithoutUserModalOpen.value = false)
 
 const openDeleteModal = () => (isDeleteModalOpen.value = true)
 const closeDeleteModal = () => (isDeleteModalOpen.value = false)
@@ -72,9 +84,13 @@ const deleteItem = () => {
 }
 
 const buyOneProduct = (index) => {
-  router.push(PATH_ORDER)
-  orderStore.addOrderItem(index)
-  cartStore.deleteItem(index.id, index.size)
+  if (userStore.user.id) {
+    router.push(PATH_ORDER)
+    orderStore.addOrderItem(index)
+    cartStore.deleteItem(index.id, index.size)
+  } else {
+    isOrderWithoutUserModalOpen.value = true
+  }
 }
 </script>
 

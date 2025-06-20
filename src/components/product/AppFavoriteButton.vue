@@ -29,7 +29,15 @@ const userStore = useUserStore()
 let iconUrl = ref('')
 const isFavoriteButtonModalOpen = ref(false)
 
-const openFavoriteButtonModal = () => (isFavoriteButtonModalOpen.value = true)
+const openFavoriteButtonModal = () => {
+  isFavoriteButtonModalOpen.value = true
+
+  if (isFavoriteButtonModalOpen.value) {
+    setTimeout(() => {
+      closeFavoriteButtonModal()
+    }, 5000)
+  }
+}
 const closeFavoriteButtonModal = () => (isFavoriteButtonModalOpen.value = false)
 
 const getIconUrl = () => {
