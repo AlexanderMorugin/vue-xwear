@@ -2,7 +2,7 @@
   <!-- Кнопка меню профиля появляется при разрешении менее 1024px -->
   <AppProfileButton v-if="isScreenLarge" @openProfileMenu="$emit('openProfileMenu')" />
 
-  <AppProfileHeading v-if="!props.fromPage === 'order'" title="Редактирование профиля" />
+  <AppProfileHeading v-if="props.fromPage !== 'order'" title="Редактирование профиля" />
 
   <form class="profile-edit-form" @submit.prevent="submitProfileEditForm">
     <div class="form-field">

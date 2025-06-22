@@ -1,0 +1,118 @@
+<template>
+  <section class="embla">
+    <div class="embla__viewport" ref="emblaRef">
+      <div class="embla__container">
+        <div class="embla__slide">
+          <div class="embla__slide__inner">Slide 1</div>
+        </div>
+        <div class="embla__slide">
+          <div class="embla__slide__inner">Slide 2</div>
+        </div>
+        <div class="embla__slide">
+          <div class="embla__slide__inner">Slide 3</div>
+        </div>
+        <div class="embla__slide">
+          <div class="embla__slide__inner">Slide 4</div>
+        </div>
+        <div class="embla__slide">
+          <div class="embla__slide__inner">Slide 5</div>
+        </div>
+        <div class="embla__slide">
+          <div class="embla__slide__inner">Slide 6</div>
+        </div>
+        <div class="embla__slide">
+          <div class="embla__slide__inner">Slide 7</div>
+        </div>
+        <div class="embla__slide">
+          <div class="embla__slide__inner">Slide 8</div>
+        </div>
+        <div class="embla__slide">
+          <div class="embla__slide__inner">Slide 9</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="embla__buttons">
+      <button @click="scrollPrev" :disabled="!canScrollPrev">Prev</button>
+      <button @click="scrollNext" :disabled="!canScrollNext">Next</button>
+    </div>
+  </section>
+</template>
+
+<script setup>
+import { onMounted, ref } from 'vue'
+import emblaCarouselVue from 'embla-carousel-vue'
+// import Autoplay from 'embla-carousel-autoplay'
+
+const canScrollPrev = ref(false)
+const canScrollNext = ref(false)
+
+const [emblaRef, emblaApi] = emblaCarouselVue(
+  { align: 'start', loop: true },
+  // , [Autoplay()]
+)
+
+function scrollNext() {
+  emblaApi?.value.scrollNext()
+}
+
+function scrollPrev() {
+  emblaApi?.value.scrollPrev()
+}
+
+function updateButtonStates(emblaApi) {
+  canScrollPrev.value = emblaApi.canScrollPrev()
+  canScrollNext.value = emblaApi.canScrollNext()
+}
+
+onMounted(() => {
+  if (!emblaApi.value) return
+
+  updateButtonStates(emblaApi.value)
+  emblaApi.value.on('select', updateButtonStates)
+})
+</script>
+
+<style scoped>
+.embla {
+  width: 100%;
+  --slide-spacing: 10px;
+}
+
+.embla__viewport {
+  overflow: hidden;
+}
+
+.embla__container {
+  display: flex;
+  margin-left: calc(var(--slide-spacing) * -1);
+}
+
+.embla__slide {
+  flex: 0 0 300px;
+
+  padding-left: var(--slide-spacing);
+}
+
+.embla__slide__inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  background-color: blue;
+  color: white;
+  border-radius: 10px;
+}
+
+.embla__buttons {
+  margin-top: 20px;
+}
+
+.embla__dots {
+  margin-top: 20px;
+}
+
+.embla__dot--active {
+  background-color: red;
+}
+</style>
