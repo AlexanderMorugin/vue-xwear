@@ -3,7 +3,7 @@
   <AppBreadcrumbs :breadcrumbs="breadcrumbs" />
   <app-page tag="main" class="container">
     <div class="sliders">
-      <AppProductSwiper />
+      <!-- <AppProductSwiper /> -->
       <AppProductSwiperTwo />
     </div>
 
@@ -17,10 +17,13 @@
 <script setup>
 import { ref } from 'vue'
 import AppPage from '@/layouts/AppPage.vue'
-import AppHeading from '@/components/AppHeading.vue'
+// import AppHeading from '@/components/AppHeading.vue'
 import AppBreadcrumbs from '@/components/breadcrumbs/AppBreadcrumbs.vue'
-import { PATH_SHOES, PATH_CROSSOVKY, PATH_KEDY } from '@/mock/routes'
-import AppProductSwiper from '@/components/swiper/AppProductSwiper.vue'
+import {
+  PATH_SHOES,
+  // PATH_CROSSOVKY, PATH_KEDY
+} from '@/mock/routes'
+// import AppProductSwiper from '@/components/swiper/AppProductSwiper.vue'
 import AppProductSwiperTwo from '@/components/swiper/AppProductSwiperTwo.vue'
 
 const breadcrumbs = ref([
@@ -37,11 +40,15 @@ const breadcrumbs = ref([
 .container {
   display: flex;
   gap: 28px;
+  overflow: hidden;
 }
 .sliders {
   display: flex;
   flex-direction: column;
   gap: 50px;
   width: 100%;
+  /* max-width: 1360px; */
+  /* overflow: hidden; */
+  /* padding-right: 20px; */
 }
 </style>

@@ -1,40 +1,78 @@
 <template>
   <section class="embla">
-    <div class="embla__viewport" ref="emblaRef">
-      <div class="embla__container">
-        <div class="embla__slide">
+    <div class="embla-viewport" ref="emblaRef">
+      <div class="embla-container">
+        <div class="embla-slide">
           <div class="embla__slide__inner">Slide 1</div>
         </div>
-        <div class="embla__slide">
+        <div class="embla-slide">
           <div class="embla__slide__inner">Slide 2</div>
         </div>
-        <div class="embla__slide">
+        <div class="embla-slide">
           <div class="embla__slide__inner">Slide 3</div>
         </div>
-        <div class="embla__slide">
+        <div class="embla-slide">
           <div class="embla__slide__inner">Slide 4</div>
         </div>
-        <div class="embla__slide">
+        <div class="embla-slide">
           <div class="embla__slide__inner">Slide 5</div>
         </div>
-        <div class="embla__slide">
+        <div class="embla-slide">
           <div class="embla__slide__inner">Slide 6</div>
         </div>
-        <div class="embla__slide">
+        <div class="embla-slide">
           <div class="embla__slide__inner">Slide 7</div>
         </div>
-        <div class="embla__slide">
+        <div class="embla-slide">
           <div class="embla__slide__inner">Slide 8</div>
         </div>
-        <div class="embla__slide">
+        <div class="embla-slide">
           <div class="embla__slide__inner">Slide 9</div>
         </div>
       </div>
     </div>
 
-    <div class="embla__buttons">
-      <button @click="scrollPrev" :disabled="!canScrollPrev">Prev</button>
-      <button @click="scrollNext" :disabled="!canScrollNext">Next</button>
+    <!-- Блок навигации-пагинации -->
+    <div class="embla-navigation">
+      <div class="embla-buttons">
+        <!-- Кнопка-стрелка навигации "НАЗАД" -->
+        <button
+          @click="scrollPrev"
+          :disabled="!canScrollPrev"
+          :class="['embla-button', { 'embla-button-disabled': !canScrollPrev }]"
+        >
+          <img
+            src="/icons/icon-carousel-arrow-black.svg"
+            alt="Стрелка"
+            :class="['embla-button-arrow', { 'embla-button-arrow-disabled': !canScrollPrev }]"
+          />
+        </button>
+
+        <!-- Кнопки-точки пагинации -->
+        <div class="embla-dots">
+          <button
+            v-for="(dot, index) in dots"
+            @click="scrollTo(index)"
+            :key="index"
+            class="embla-dot-button"
+          >
+            <div :class="['embla-dot', { 'embla-dot-active': selectedIndex === index }]" />
+          </button>
+        </div>
+
+        <!-- Кнопка-стрелка навигации "ВПЕРЕД" -->
+        <button
+          @click="scrollNext"
+          :disabled="!canScrollNext"
+          :class="['embla-button', { 'embla-button-disabled': !canScrollNext }]"
+        >
+          <img
+            src="/icons/icon-carousel-arrow-black.svg"
+            alt="Стрелка"
+            :class="['embla-button-arrow-right', { 'embla-button-arrow-disabled': !canScrollNext }]"
+          />
+        </button>
+      </div>
     </div>
   </section>
 </template>
@@ -46,19 +84,34 @@ import emblaCarouselVue from 'embla-carousel-vue'
 
 const canScrollPrev = ref(false)
 const canScrollNext = ref(false)
+const selectedIndex = ref(0)
+const scrollNextDisabled = ref(false)
+const scrollPrevDisabled = ref(false)
+const dots = ref([])
 
 const [emblaRef, emblaApi] = emblaCarouselVue(
-  { align: 'start', loop: true },
+  { align: 'start' },
+  // , loop: true
   // , [Autoplay()]
 )
 
-function scrollNext() {
-  emblaApi?.value.scrollNext()
+const onSelect = (emblaApi) => {
+  selectedIndex.value = emblaApi.selectedScrollSnap()
+  scrollNextDisabled.value = !emblaApi.canScrollNext()
+  scrollPrevDisabled.value = !emblaApi.canScrollPrev()
 }
 
-function scrollPrev() {
-  emblaApi?.value.scrollPrev()
+const createDots = (emblaApi) => {
+  dots.value = emblaApi.scrollSnapList()
 }
+// Листать влево, по нажатию на стрелку Prev
+const scrollNext = () => emblaApi?.value.scrollNext()
+
+// Листать враво, по нажатию на стрелку Next
+const scrollPrev = () => emblaApi?.value.scrollPrev()
+
+// Функция перехода к слайду, по нажатию на Thumb
+const scrollTo = (index) => emblaApi.value?.scrollTo(index)
 
 function updateButtonStates(emblaApi) {
   canScrollPrev.value = emblaApi.canScrollPrev()
@@ -70,30 +123,41 @@ onMounted(() => {
 
   updateButtonStates(emblaApi.value)
   emblaApi.value.on('select', updateButtonStates)
+
+  onSelect(emblaApi.value)
+  createDots(emblaApi.value)
+
+  emblaApi.value.on('select', onSelect)
+  emblaApi.value.on('reInit', createDots)
 })
 </script>
 
 <style scoped>
 .embla {
-  width: 100%;
-  --slide-spacing: 10px;
+  --slide-spacing: 28px;
 }
-
-.embla__viewport {
+@media (max-width: 767px) {
+  .embla {
+    --slide-spacing: 20px;
+  }
+}
+.embla-viewport {
   overflow: hidden;
 }
-
-.embla__container {
+.embla-container {
   display: flex;
+  touch-action: pan-y pinch-zoom;
   margin-left: calc(var(--slide-spacing) * -1);
 }
-
-.embla__slide {
-  flex: 0 0 300px;
-
+.embla-slide {
+  flex: 0 0 346px;
   padding-left: var(--slide-spacing);
 }
-
+@media (max-width: 767px) {
+  .embla-slide {
+    flex: 0 0 180px;
+  }
+}
 .embla__slide__inner {
   display: flex;
   align-items: center;
@@ -103,16 +167,68 @@ onMounted(() => {
   color: white;
   border-radius: 10px;
 }
-
-.embla__buttons {
-  margin-top: 20px;
+.embla-navigation {
+  display: flex;
+  justify-content: center;
+  margin-top: 60px;
 }
-
-.embla__dots {
-  margin-top: 20px;
+@media (max-width: 1023px) {
+  .embla-navigation {
+    margin-top: 40px;
+  }
 }
-
-.embla__dot--active {
-  background-color: red;
+.embla-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 51px;
+}
+.embla-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.embla-button-disabled {
+  cursor: default;
+}
+.embla-button-arrow {
+  height: 12px;
+}
+.embla-button-arrow-right {
+  height: 12px;
+  transform: rotate(180deg);
+}
+.embla-button-arrow-disabled {
+  opacity: 0.3;
+}
+.embla-dots {
+  display: flex;
+  align-items: center;
+  gap: 45px;
+  /* width: 100%;
+  max-width: 200px;
+  overflow: hidden; */
+}
+.embla-dot-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 10px;
+  height: 10px;
+}
+.embla-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--black-primary);
+  opacity: 0.7;
+  cursor: pointer;
+}
+.embla-dot-active {
+  width: 10px;
+  height: 10px;
+  opacity: 1;
+  cursor: default;
 }
 </style>

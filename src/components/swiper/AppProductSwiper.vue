@@ -36,6 +36,17 @@
       <button @click="scrollPrev" :disabled="!canScrollPrev">Prev</button>
       <button @click="scrollNext" :disabled="!canScrollNext">Next</button>
     </div>
+
+    <div class="embla__dots">
+      <button
+        v-for="(dot, index) in dots"
+        @click="scrollTo(index)"
+        :key="index"
+        :class="{ 'embla__dot--active': selectedIndex === index }"
+      >
+        Dot {{ index + 1 }}
+      </button>
+    </div>
   </section>
 </template>
 
@@ -46,8 +57,24 @@ import Autoplay from 'embla-carousel-autoplay'
 
 const canScrollPrev = ref(false)
 const canScrollNext = ref(false)
+let selectedIndex = ref(0)
+let scrollNextDisabled = ref(false)
+let scrollPrevDisabled = ref(false)
+let dots = ref([])
 
 const [emblaRef, emblaApi] = emblaCarouselVue({ loop: false }, [Autoplay()])
+
+const scrollTo = (index) => emblaApi.value?.scrollTo(index)
+
+const onSelect = (emblaApi) => {
+  selectedIndex.value = emblaApi.selectedScrollSnap()
+  scrollNextDisabled.value = !emblaApi.canScrollNext()
+  scrollPrevDisabled.value = !emblaApi.canScrollPrev()
+}
+
+const createDots = (emblaApi) => {
+  dots.value = emblaApi.scrollSnapList()
+}
 
 function scrollNext() {
   emblaApi?.value.scrollNext()
@@ -67,6 +94,12 @@ onMounted(() => {
 
   updateButtonStates(emblaApi.value)
   emblaApi.value.on('select', updateButtonStates)
+
+  onSelect(emblaApi.value)
+  createDots(emblaApi.value)
+
+  emblaApi.value.on('select', onSelect)
+  emblaApi.value.on('reInit', createDots)
 })
 </script>
 
