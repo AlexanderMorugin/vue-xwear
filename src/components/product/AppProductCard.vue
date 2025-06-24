@@ -1,5 +1,4 @@
 <template>
-  {{ props.userFavoriteArray }}
   <div class="product-card">
     <!-- Бейджи-Absolut сверху на карточке товара -->
     <!-- Бейдж-звездочка Избранные -->
@@ -12,9 +11,13 @@
     <p class="name">{{ props.item.name }}</p>
     <span class="price">от {{ currencyFormater(props.item.price36) }}</span>
 
-    <!-- Роут на конкретный товар, для страницы "Избранные" из Профиля или "Корзины"-->
+    <!-- Роут на конкретный товар, для страницы "Избранные" из "Профиля" или "Корзины" или из каруселей со страницы "Обувь"-->
     <router-link
-      v-if="props.fromPage === 'profileFavorite' || props.fromPage === 'cartPage'"
+      v-if="
+        props.fromPage === 'profileFavorite' ||
+        props.fromPage === 'cartPage' ||
+        props.fromPage === 'shoesPage'
+      "
       :to="`${PATH_SHOES}/${props.item.category}/${props.item.id}`"
       class="product-link"
     ></router-link>

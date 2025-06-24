@@ -1,35 +1,12 @@
 <template>
   <section class="embla">
+    <!-- {{ props.products }} -->
     <div class="embla-viewport" ref="emblaRef">
-      <div class="embla-container">
-        <div class="embla-slide">
-          <div class="embla__slide__inner">Slide 1</div>
-        </div>
-        <div class="embla-slide">
-          <div class="embla__slide__inner">Slide 2</div>
-        </div>
-        <div class="embla-slide">
-          <div class="embla__slide__inner">Slide 3</div>
-        </div>
-        <div class="embla-slide">
-          <div class="embla__slide__inner">Slide 4</div>
-        </div>
-        <div class="embla-slide">
-          <div class="embla__slide__inner">Slide 5</div>
-        </div>
-        <div class="embla-slide">
-          <div class="embla__slide__inner">Slide 6</div>
-        </div>
-        <div class="embla-slide">
-          <div class="embla__slide__inner">Slide 7</div>
-        </div>
-        <div class="embla-slide">
-          <div class="embla__slide__inner">Slide 8</div>
-        </div>
-        <div class="embla-slide">
-          <div class="embla__slide__inner">Slide 9</div>
-        </div>
-      </div>
+      <ul class="embla-container">
+        <li v-for="item in props.products" :key="item.id" class="embla-slide">
+          <AppProductCard :item="item" fromPage="shoesPage" />
+        </li>
+      </ul>
     </div>
 
     <!-- Блок навигации-пагинации -->
@@ -80,7 +57,10 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import emblaCarouselVue from 'embla-carousel-vue'
+import AppProductCard from '@/components/product/AppProductCard.vue'
 // import Autoplay from 'embla-carousel-autoplay'
+
+const props = defineProps(['products'])
 
 const canScrollPrev = ref(false)
 const canScrollNext = ref(false)
@@ -158,15 +138,6 @@ onMounted(() => {
     flex: 0 0 180px;
   }
 }
-.embla__slide__inner {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 200px;
-  background-color: blue;
-  color: white;
-  border-radius: 10px;
-}
 .embla-navigation {
   display: flex;
   justify-content: center;
@@ -182,6 +153,11 @@ onMounted(() => {
   justify-content: center;
   align-items: center;
   gap: 51px;
+}
+@media (max-width: 767px) {
+  .embla-buttons {
+    gap: 25px;
+  }
 }
 .embla-button {
   display: flex;
@@ -206,9 +182,11 @@ onMounted(() => {
   display: flex;
   align-items: center;
   gap: 45px;
-  /* width: 100%;
-  max-width: 200px;
-  overflow: hidden; */
+}
+@media (max-width: 767px) {
+  .embla-dots {
+    gap: 10px;
+  }
 }
 .embla-dot-button {
   display: flex;

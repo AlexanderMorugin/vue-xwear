@@ -1,39 +1,87 @@
 <!-- ShoesView -->
 <template>
-  <AppBreadcrumbs :breadcrumbs="breadcrumbs" />
+  <AppBreadcrumbs :breadcrumbs="allShoesBreadcrumbs" />
   <app-page tag="main" class="container">
-    <div class="sliders">
-      <!-- <AppProductSwiper /> -->
-      <AppProductSwiperTwo />
+    <AppLoader v-if="isLoading" />
+    <!-- <div v-else> -->
+    <div v-else class="sliders">
+      <div class="slider-container">
+        <AppHeading
+          fromPage="shoesView"
+          title="Кроссовки"
+          :link="PATH_CROSSOVKY"
+          :linkText="isScreenMedium ? 'Больше' : 'Больше товаров'"
+        />
+        <AppProductEmbla :products="crossovky" />
+      </div>
+
+      <div class="slider-container">
+        <AppHeading
+          fromPage="shoesView"
+          title="Кеды"
+          :link="PATH_KEDY"
+          :linkText="isScreenMedium ? 'Больше' : 'Больше товаров'"
+        />
+        <AppProductEmbla :products="kedy" />
+      </div>
     </div>
-
-    <!-- <AppHeading title="Обувь" /> -->
-
-    <!-- <router-link :to="PATH_CROSSOVKY">Кроссовки</router-link> -->
-    <!-- <router-link :to="PATH_KEDY">Кеды</router-link> -->
+    <!-- </div> -->
   </app-page>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import axios from 'axios'
 import AppPage from '@/layouts/AppPage.vue'
-// import AppHeading from '@/components/AppHeading.vue'
+import AppLoader from '@/components/loader/AppLoader.vue'
+import AppHeading from '@/components/AppHeading.vue'
 import AppBreadcrumbs from '@/components/breadcrumbs/AppBreadcrumbs.vue'
-import {
-  PATH_SHOES,
-  // PATH_CROSSOVKY, PATH_KEDY
-} from '@/mock/routes'
-// import AppProductSwiper from '@/components/swiper/AppProductSwiper.vue'
-import AppProductSwiperTwo from '@/components/swiper/AppProductSwiperTwo.vue'
+import { allShoesBreadcrumbs } from '@/components/breadcrumbs/breadcrumbs-pages/all-shoes-breadcrumbs'
+import AppProductEmbla from '@/components/embla/AppProductEmbla.vue'
+import { PATH_CROSSOVKY, PATH_KEDY } from '@/mock/routes'
+import { useResizeMedium } from '@/use/useResizeMedium'
 
-const breadcrumbs = ref([
-  { name: 'Главная', path: '/', content: '1' },
-  {
-    name: 'Обувь',
-    path: PATH_SHOES,
-    content: 'last',
-  },
-])
+const { isScreenMedium } = useResizeMedium()
+
+const isLoading = ref(false)
+const crossovky = ref([])
+const kedy = ref([])
+
+onMounted(async () => {
+  try {
+    isLoading.value = true
+
+    const { data } = await axios.get('https://vue-xwear-default-rtdb.firebaseio.com/shoes.json')
+
+    if (data) {
+      // Создаем массив КРОССОВКИ из 8 позиций
+      crossovky.value = Object.keys(data)
+        .map((key) => {
+          return {
+            id: key,
+            ...data[key],
+          }
+        })
+        .filter((item) => item.category === 'crossovky')
+        .slice(0, 8)
+
+      // Создаем массив КЕДЫ из 8 позиций
+      kedy.value = Object.keys(data)
+        .map((key) => {
+          return {
+            id: key,
+            ...data[key],
+          }
+        })
+        .filter((item) => item.category === 'kedy')
+        .slice(0, 8)
+    }
+
+    isLoading.value = false
+  } catch (error) {
+    console.log(error)
+  }
+})
 </script>
 
 <style scoped>
@@ -45,10 +93,31 @@ const breadcrumbs = ref([
 .sliders {
   display: flex;
   flex-direction: column;
-  gap: 50px;
+  gap: 80px;
   width: 100%;
-  /* max-width: 1360px; */
+  max-width: 1360px;
   /* overflow: hidden; */
-  /* padding-right: 20px; */
+}
+@media (max-width: 1023px) {
+  .sliders {
+    gap: 60px;
+  }
+}
+.slider-container {
+  display: flex;
+  flex-direction: column;
+  gap: 38px;
+  width: 100%;
+  /* overflow: hidden; */
+}
+@media (max-width: 1023px) {
+  .slider-container {
+    gap: 25px;
+  }
+}
+@media (max-width: 767px) {
+  .slider-container {
+    gap: 15px;
+  }
 }
 </style>

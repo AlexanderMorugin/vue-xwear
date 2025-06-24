@@ -1,8 +1,19 @@
 <template>
-  <div class="heading">
+  <div :class="['heading', { 'heading-shoes-view': props.fromPage === 'shoesView' }]">
     <div class="title-box">
-      <h1 class="title">{{ props.title }}</h1>
+      <!-- Заголовок H2 на странице "Обувь" -->
+      <h2 v-if="props.fromPage === 'shoesView'" class="title">{{ props.title }}</h2>
+      <!-- Главный заголовок страницы H1 -->
+      <h1 v-else class="title">{{ props.title }}</h1>
       <span class="quantity" v-if="props.quantity">{{ props.quantity }} товаров</span>
+    </div>
+
+    <!-- Этот блок показывается только на страницах товаров типа CrossovkyView -->
+    <div class="heading-link-container">
+      <router-link v-if="props.fromPage === 'shoesView'" :to="props.link" class="heading-link">
+        <span class="heading-link-text">{{ props.linkText }}</span>
+        <img src="/icons/icon-arrow-black.svg" alt="Стрелка" />
+      </router-link>
     </div>
 
     <!-- Этот блок показывается только на страницах товаров типа CrossovkyView -->
@@ -55,7 +66,16 @@ import AppCartDeleteModal from '@/components/cart/AppCartDeleteModal.vue'
 const cartStore = useCartStore()
 const { isScreenLarge } = useResizeLarge()
 
-const props = defineProps(['title', 'quantity', 'sortBox', 'filters', 'isDesc', 'fromPage'])
+const props = defineProps([
+  'title',
+  'quantity',
+  'sortBox',
+  'filters',
+  'isDesc',
+  'fromPage',
+  'link',
+  'linkText',
+])
 // eslint-disable-next-line no-unused-vars
 const emit = defineEmits(['toggleSorting', 'openFiltersForMobile'])
 
@@ -88,6 +108,11 @@ const deleteItem = () => {
     grid-template-areas: 'title' 'filters' 'sorting';
   }
 }
+
+.heading-shoes-view {
+  grid-template-columns: 1fr 1fr;
+}
+
 .title-box {
   grid-area: title;
   display: flex;
@@ -118,11 +143,6 @@ const deleteItem = () => {
   font-weight: 600;
   color: var(--color-text-quantity);
 }
-/* .heading-filter-buttons-container {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-} */
 .heading-filter-buttons {
   grid-area: filters;
   display: flex;
@@ -180,5 +200,37 @@ const deleteItem = () => {
 .heading-cart-clear-button:hover .heading-cart-clear-button-text {
   color: var(--blue-primary);
   border-bottom: 1px solid var(--blue-primary);
+}
+.heading-link-container {
+  display: flex;
+  justify-content: flex-end;
+}
+.heading-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 5px;
+  border-bottom: 2px solid var(--black-primary);
+  transition: 0.3s ease all;
+}
+.heading-link:hover {
+  border-bottom: 2px solid var(--blue-primary);
+}
+.heading-link-text {
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 23px;
+  vertical-align: middle;
+  text-transform: uppercase;
+  color: var(--black-secondary);
+  transition: 0.2s ease all;
+}
+@media (max-width: 767px) {
+  .heading-link-text {
+    font-size: 12px;
+  }
+}
+.heading-link:hover .heading-link-text {
+  color: var(--blue-secondary);
 }
 </style>
