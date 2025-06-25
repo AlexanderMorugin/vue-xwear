@@ -3,7 +3,7 @@
   <AppBreadcrumbs :breadcrumbs="allShoesBreadcrumbs" />
   <app-page tag="main" class="container">
     <AppLoader v-if="isLoading" />
-    <!-- <div v-else> -->
+
     <div v-else class="sliders">
       <div class="slider-container">
         <AppHeading
@@ -25,7 +25,6 @@
         <AppProductEmbla :products="kedy" />
       </div>
     </div>
-    <!-- </div> -->
   </app-page>
 </template>
 
@@ -96,7 +95,6 @@ onMounted(async () => {
   gap: 80px;
   width: 100%;
   max-width: 1360px;
-  /* overflow: hidden; */
 }
 @media (max-width: 1023px) {
   .sliders {
@@ -108,7 +106,6 @@ onMounted(async () => {
   flex-direction: column;
   gap: 38px;
   width: 100%;
-  /* overflow: hidden; */
 }
 @media (max-width: 1023px) {
   .slider-container {

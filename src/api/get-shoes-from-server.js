@@ -1,1 +1,1 @@
-const getShoesFromServer = () => {}
+// const getShoesFromServer = () => {}
