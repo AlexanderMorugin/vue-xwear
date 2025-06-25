@@ -24,6 +24,16 @@
         />
         <AppProductEmbla :products="kedy" />
       </div>
+
+      <div class="slider-container">
+        <AppHeading
+          fromPage="shoesView"
+          title="Наш блог"
+          :link="PATH_BLOG"
+          :linkText="isScreenMedium ? 'Больше' : 'Больше статей'"
+        />
+        <AppBlogEmbla :blogs="blogs" />
+      </div>
     </div>
   </app-page>
 </template>
@@ -37,7 +47,8 @@ import AppHeading from '@/components/AppHeading.vue'
 import AppBreadcrumbs from '@/components/breadcrumbs/AppBreadcrumbs.vue'
 import { allShoesBreadcrumbs } from '@/components/breadcrumbs/breadcrumbs-pages/all-shoes-breadcrumbs'
 import AppProductEmbla from '@/components/embla/AppProductEmbla.vue'
-import { PATH_CROSSOVKY, PATH_KEDY } from '@/mock/routes'
+import AppBlogEmbla from '@/components/embla/AppBlogEmbla.vue'
+import { PATH_CROSSOVKY, PATH_KEDY, PATH_BLOG } from '@/mock/routes'
 import { useResizeMedium } from '@/use/useResizeMedium'
 
 const { isScreenMedium } = useResizeMedium()
@@ -45,34 +56,48 @@ const { isScreenMedium } = useResizeMedium()
 const isLoading = ref(false)
 const crossovky = ref([])
 const kedy = ref([])
+const blogs = ref([])
 
 onMounted(async () => {
   try {
     isLoading.value = true
 
-    const { data } = await axios.get('https://vue-xwear-default-rtdb.firebaseio.com/shoes.json')
+    const serverShoes = await axios.get('https://vue-xwear-default-rtdb.firebaseio.com/shoes.json')
+    const serverBlogs = await axios.get('https://vue-xwear-default-rtdb.firebaseio.com/blog.json')
 
-    if (data) {
+    if (serverShoes.data) {
       // Создаем массив КРОССОВКИ из 8 позиций
-      crossovky.value = Object.keys(data)
+      crossovky.value = Object.keys(serverShoes.data)
         .map((key) => {
           return {
             id: key,
-            ...data[key],
+            ...serverShoes.data[key],
           }
         })
         .filter((item) => item.category === 'crossovky')
         .slice(0, 8)
 
       // Создаем массив КЕДЫ из 8 позиций
-      kedy.value = Object.keys(data)
+      kedy.value = Object.keys(serverShoes.data)
         .map((key) => {
           return {
             id: key,
-            ...data[key],
+            ...serverShoes.data[key],
           }
         })
         .filter((item) => item.category === 'kedy')
+        .slice(0, 8)
+    }
+
+    if (serverBlogs.data) {
+      // Создаем массив БЛОГ СТАТЕЙ из 8 позиций
+      blogs.value = Object.keys(serverBlogs.data)
+        .map((key) => {
+          return {
+            id: key,
+            ...serverBlogs.data[key],
+          }
+        })
         .slice(0, 8)
     }
 
