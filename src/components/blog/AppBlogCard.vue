@@ -11,6 +11,8 @@
       >
 
       <span class="blog-date">{{ props.item.date }}</span>
+
+      <div class="blog-link-decor" />
     </div>
   </div>
 </template>
@@ -26,17 +28,6 @@ const props = defineProps(['item'])
   flex-direction: column;
   gap: 13px;
   width: 100%;
-  max-width: 433px;
-}
-@media (max-width: 1023px) {
-  .blog-card {
-    max-width: 324px;
-  }
-}
-@media (max-width: 767px) {
-  .blog-card {
-    max-width: 300px;
-  }
 }
 .blog-image {
   width: 100%;
@@ -73,6 +64,7 @@ const props = defineProps(['item'])
   -webkit-box-orient: vertical;
 }
 .blog-bottom {
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -85,9 +77,22 @@ const props = defineProps(['item'])
   text-transform: uppercase;
   color: var(--black-secondary);
   transition: 0.3s ease all;
+  z-index: 10;
 }
 .blog-link:hover {
   color: var(--blue-primary);
+}
+.blog-link-decor {
+  position: absolute;
+  bottom: 5px;
+  left: 0;
+  width: 90px;
+  height: 3px;
+  background: var(--blue-primary);
+  transition: 0.2s ease all;
+}
+.blog-bottom:hover .blog-link-decor {
+  background: transparent;
 }
 .blog-date {
   font-weight: 400;

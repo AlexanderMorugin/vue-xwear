@@ -1,6 +1,5 @@
 <template>
   <section class="embla">
-    <!-- {{ props.products }} -->
     <div class="embla-viewport" ref="emblaRef">
       <ul class="embla-container">
         <li v-for="item in props.products" :key="item.id" class="embla-slide">

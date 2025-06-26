@@ -156,6 +156,7 @@ const deleteItem = () => {
   }
 }
 .heading-cart-clear-button-box {
+  grid-area: sorting;
   display: flex;
   justify-content: flex-end;
   align-items: center;
