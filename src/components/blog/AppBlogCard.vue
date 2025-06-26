@@ -6,7 +6,7 @@
 
     <div class="blog-bottom">
       <!-- Роут на конкретный блог-->
-      <router-link :to="`${PATH_BLOG}/${props.item.slug}`" class="blog-link"
+      <router-link :to="`${PATH_BLOG}/${props.item.id}`" class="blog-link"
         >Узнать подробнее</router-link
       >
 

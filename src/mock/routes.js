@@ -11,6 +11,7 @@ export const PATH_CALCULATION = '/calculation'
 
 export const PATH_INFORMATION = '/information'
 export const PATH_BLOG = '/blog'
+export const PATH_CURRENT_BLOG = '/blog/:id'
 export const PATH_CONTACTS = '/contacts'
 export const PATH_DELIVERY = '/delivery'
 export const PATH_PAYMENT = '/payment'

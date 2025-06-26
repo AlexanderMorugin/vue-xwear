@@ -2,7 +2,7 @@
   <section class="embla">
     <div class="embla-viewport" ref="emblaRef">
       <ul class="embla-container">
-        <li v-for="item in props.blogs" :key="item.id" class="embla-slide">
+        <li v-for="item in blogs" :key="item.id" class="embla-slide">
           <AppBlogCard :item="item" />
         </li>
       </ul>
@@ -55,11 +55,10 @@
 
 <script setup>
 import { onMounted, ref } from 'vue'
+import axios from 'axios'
 import emblaCarouselVue from 'embla-carousel-vue'
 import AppBlogCard from '@/components/blog/AppBlogCard.vue'
-// import Autoplay from 'embla-carousel-autoplay'
-
-const props = defineProps(['blogs'])
+import Autoplay from 'embla-carousel-autoplay'
 
 const canScrollPrev = ref(false)
 const canScrollNext = ref(false)
@@ -67,11 +66,12 @@ const selectedIndex = ref(0)
 const scrollNextDisabled = ref(false)
 const scrollPrevDisabled = ref(false)
 const dots = ref([])
+const blogs = ref([])
 
 const [emblaRef, emblaApi] = emblaCarouselVue(
   { align: 'start' },
+  [Autoplay()],
   // , loop: true
-  // , [Autoplay()]
 )
 
 const onSelect = (emblaApi) => {
@@ -97,17 +97,35 @@ function updateButtonStates(emblaApi) {
   canScrollNext.value = emblaApi.canScrollNext()
 }
 
-onMounted(() => {
-  if (!emblaApi.value) return
+onMounted(async () => {
+  try {
+    const serverBlogs = await axios.get('https://vue-xwear-default-rtdb.firebaseio.com/blog.json')
 
-  updateButtonStates(emblaApi.value)
-  emblaApi.value.on('select', updateButtonStates)
+    if (serverBlogs.data) {
+      // Создаем массив БЛОГ СТАТЕЙ из 8 позиций
+      blogs.value = Object.keys(serverBlogs.data)
+        .map((key) => {
+          return {
+            id: key,
+            ...serverBlogs.data[key],
+          }
+        })
+        .slice(0, 8)
+    }
 
-  onSelect(emblaApi.value)
-  createDots(emblaApi.value)
+    if (!emblaApi.value) return
 
-  emblaApi.value.on('select', onSelect)
-  emblaApi.value.on('reInit', createDots)
+    updateButtonStates(emblaApi.value)
+    emblaApi.value.on('select', updateButtonStates)
+
+    onSelect(emblaApi.value)
+    createDots(emblaApi.value)
+
+    emblaApi.value.on('select', onSelect)
+    emblaApi.value.on('reInit', createDots)
+  } catch (error) {
+    console.log(error)
+  }
 })
 </script>
 

@@ -32,7 +32,8 @@
           :link="PATH_BLOG"
           :linkText="isScreenMedium ? 'Больше' : 'Больше статей'"
         />
-        <AppBlogEmbla :blogs="blogs" />
+
+        <AppBlogEmbla />
       </div>
     </div>
   </app-page>
@@ -56,14 +57,14 @@ const { isScreenMedium } = useResizeMedium()
 const isLoading = ref(false)
 const crossovky = ref([])
 const kedy = ref([])
-const blogs = ref([])
+// const blogs = ref([])
 
 onMounted(async () => {
   try {
     isLoading.value = true
 
     const serverShoes = await axios.get('https://vue-xwear-default-rtdb.firebaseio.com/shoes.json')
-    const serverBlogs = await axios.get('https://vue-xwear-default-rtdb.firebaseio.com/blog.json')
+    // const serverBlogs = await axios.get('https://vue-xwear-default-rtdb.firebaseio.com/blog.json')
 
     if (serverShoes.data) {
       // Создаем массив КРОССОВКИ из 8 позиций
@@ -89,17 +90,17 @@ onMounted(async () => {
         .slice(0, 8)
     }
 
-    if (serverBlogs.data) {
-      // Создаем массив БЛОГ СТАТЕЙ из 8 позиций
-      blogs.value = Object.keys(serverBlogs.data)
-        .map((key) => {
-          return {
-            id: key,
-            ...serverBlogs.data[key],
-          }
-        })
-        .slice(0, 8)
-    }
+    // if (serverBlogs.data) {
+    //   // Создаем массив БЛОГ СТАТЕЙ из 8 позиций
+    //   blogs.value = Object.keys(serverBlogs.data)
+    //     .map((key) => {
+    //       return {
+    //         id: key,
+    //         ...serverBlogs.data[key],
+    //       }
+    //     })
+    //     .slice(0, 8)
+    // }
 
     isLoading.value = false
   } catch (error) {

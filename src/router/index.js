@@ -17,6 +17,7 @@ import {
   PATH_ORDER,
   PATH_ADMIN,
   PATH_BLOG,
+  PATH_CURRENT_BLOG,
   PATH_CONTACTS,
   PATH_DELIVERY,
   PATH_PAYMENT,
@@ -109,6 +110,12 @@ const routes = [
     path: PATH_BLOG,
     name: 'BlogView',
     component: () => import('../views/BlogView.vue'),
+    meta: { layout: 'main' },
+  },
+  {
+    path: PATH_CURRENT_BLOG,
+    name: 'CurrentBlogView',
+    component: () => import('../views/CurrentBlogView.vue'),
     meta: { layout: 'main' },
   },
   {
