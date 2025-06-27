@@ -55,31 +55,31 @@ const routes = [
   {
     path: PATH_SHOES,
     name: 'ShoesView',
-    component: () => import('../views/ShoesView/index.vue'),
+    component: () => import('../views/shoes/ShoesView.vue'),
     meta: { layout: 'main' },
   },
   {
     path: PATH_KEDY,
     name: 'KedyView',
-    component: () => import('../views/ShoesView/KedyView/index.vue'),
+    component: () => import('../views/shoes/KedyView.vue'),
     meta: { layout: 'main' },
   },
   {
     path: PATH_CURRENT_KEDA,
     name: 'CurrentKedaView',
-    component: () => import('../views/ShoesView/CurrentShoesView.vue'),
+    component: () => import('../views/shoes/CurrentShoesView.vue'),
     meta: { layout: 'main' },
   },
   {
     path: PATH_CROSSOVKY,
     name: 'CrossovkyView',
-    component: () => import('../views/ShoesView/CrossovkyView/index.vue'),
+    component: () => import('../views/shoes/CrossovkyView.vue'),
     meta: { layout: 'main' },
   },
   {
     path: PATH_CURRENT_CROSSOVKA,
     name: 'CurrentCrossovkaView',
-    component: () => import('../views/ShoesView/CurrentShoesView.vue'),
+    component: () => import('../views/shoes/CurrentShoesView.vue'),
     meta: { layout: 'main' },
   },
   {

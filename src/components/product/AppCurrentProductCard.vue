@@ -48,7 +48,7 @@
   </Teleport>
 </template>
 <script setup>
-import { onMounted, ref } from 'vue'
+import { watch, onMounted, ref } from 'vue'
 import AppFavoriteButton from '@/components/product/AppFavoriteButton.vue'
 import AppProductSizes from '@/components/product/AppProductSizes.vue'
 import AppCurrentProductDetails from '@/components/product/AppCurrentProductDetails.vue'
@@ -58,6 +58,7 @@ import AppModal from '@/components/modal/AppModal.vue'
 const props = defineProps(['product', 'currentId'])
 
 const currentImage = ref(props.product.imageOneNormal)
+// const currentImage = computed(() => props.product.imageOneNormal)
 const currentModalImage = ref(props.product.imageOneBig)
 const isOneActive = ref(true)
 const isTwoActive = ref(false)
@@ -99,7 +100,16 @@ const setItemWithId = () => {
   return (currentItemWithId.value['id'] = props.currentId)
 }
 
-onMounted(() => setItemWithId())
+watch(
+  () => props.product,
+  async (newProduct) => {
+    await setShowImage('one')(newProduct)
+  },
+)
+
+onMounted(() => {
+  setItemWithId()
+})
 </script>
 
 <style scoped>
