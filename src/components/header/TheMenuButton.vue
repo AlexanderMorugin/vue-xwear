@@ -4,9 +4,9 @@
       src="/icons/icon-mobile-menu.svg"
       alt="Кнопка меню"
       class="btn"
-      :class="{ active: isToggle }"
+      :class="{ active: props.isToggle }"
       v-if="isScreenLarge"
-      @click="toggleButton"
+      @click="$emit('toggleHeaderMobileMenuModal')"
     />
     <!-- <router-link :to="`${PATH_SEARCH}`">
       <img src="/icons/icon-search.svg" alt="Кнопка поиска" v-if="isScreenMedium" />
@@ -15,18 +15,13 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { useResizeLarge } from '../../use/useResizeLarge'
-// import { useResizeMedium } from '../../use/useResizeMedium'
-// import { PATH_SEARCH } from '../../mock/routes'
+import { useResizeLarge } from '@/use/useResizeLarge'
 
-const isToggle = ref(false)
+// eslint-disable-next-line no-unused-vars
+const emit = defineEmits(['toggleHeaderMobileMenuModal'])
+const props = defineProps(['isToggle'])
+
 const { isScreenLarge } = useResizeLarge()
-// const { isScreenMedium } = useResizeMedium()
-
-const toggleButton = () => {
-  isToggle.value = !isToggle.value
-}
 </script>
 
 <style scoped>

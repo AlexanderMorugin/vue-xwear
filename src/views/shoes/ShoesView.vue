@@ -74,6 +74,7 @@ onMounted(async () => {
           }
         })
         .filter((item) => item.category === 'crossovky')
+        .sort((a, b) => a.price36 - b.price36)
         .slice(0, 8)
 
       // Создаем массив КЕДЫ из 8 позиций
@@ -85,6 +86,7 @@ onMounted(async () => {
           }
         })
         .filter((item) => item.category === 'kedy')
+        .sort((a, b) => a.price36 - b.price36)
         .slice(0, 8)
     }
 
