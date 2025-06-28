@@ -21,10 +21,8 @@
       />
       <div class="icon-favorite-eye-right-circle" />
     </div>
-    <h2 class="favorite-empty-title">Этот список желаний пуст.</h2>
-    <p class="favorite-empty-subtitle">
-      Данная страница будет сделана по типу "Обувь". Здесь будет отображаться каталог товаров.
-    </p>
+    <h2 class="favorite-empty-title">Данная страница будет сделана по типу "Обувь".</h2>
+    <p class="favorite-empty-subtitle">Здесь будет отображаться каталог товаров.</p>
     <AppLinkButton :route="PATH_SHOES" title="Смотрим Обувь" class="app-link-button" />
   </section>
 </template>
