@@ -1,7 +1,7 @@
 <template>
   <section class="contact-block">
-    <TheContactForm />
     <TheContactInfoBlock />
+    <TheContactForm />
   </section>
 </template>
 

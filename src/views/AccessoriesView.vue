@@ -5,7 +5,7 @@
     <AppBreadcrumbs :breadcrumbs="breadcrumbs" />
     <app-page tag="main" class="container">
       <AppHeading title="Аксессуары" />
-      <AppFavoriteIsEmpty />
+      <AppClothesIsEmpty />
     </app-page>
   </div>
 </template>
@@ -16,7 +16,7 @@ import AppLoader from '@/components/loader/AppLoader.vue'
 import AppPage from '@/layouts/AppPage.vue'
 import AppBreadcrumbs from '@/components/breadcrumbs/AppBreadcrumbs.vue'
 import AppHeading from '@/components/AppHeading.vue'
-import AppFavoriteIsEmpty from '@/components/favorite/AppFavoriteIsEmpty.vue'
+import AppClothesIsEmpty from '@/components/clothes/AppClothesIsEmpty.vue'
 import { PATH_ACCESSORIES } from '../mock/routes'
 
 const breadcrumbs = ref([

@@ -4,7 +4,7 @@
       <p class="footer-block-title">{{ props.title }}</p>
       <!-- Блоки "Каталог" и "Инфо" для десктопа -->
       <ul v-if="props.status === 'catalog' || 'info'" class="footer-block-list">
-        <li v-for="item in links" :key="item.name">
+        <li v-for="item in props.links" :key="item.name">
           <router-link :to="item.path" class="footer-block-link">{{ item.name }}</router-link>
         </li>
       </ul>
@@ -30,7 +30,7 @@
           { 'footer-block-list-mobile-active': isOpen(props.status) },
         ]"
       >
-        <li v-for="item in links" :key="item.name">
+        <li v-for="item in props.links" :key="item.name">
           <router-link :to="item.path" class="footer-block-link">{{ item.name }}</router-link>
         </li>
       </ul>
@@ -47,6 +47,9 @@
         </li>
         <li>
           <a href="tel:+79936083885" class="footer-block-contact-phone">+7 993 608 38 85</a>
+        </li>
+        <li>
+          <router-link :to="PATH_CONTACTS" class="footer-block-link">Все контакты</router-link>
         </li>
       </ul>
     </div>
@@ -99,6 +102,7 @@ import AppLogo from '@/components/logo/AppLogo.vue'
 import AppDeveloperLogo from '@/components/logo/AppDeveloperLogo.vue'
 import { useResizeLarge } from '@/use/useResizeLarge'
 import { useResizeMedium } from '@/use/useResizeMedium'
+import { PATH_CONTACTS } from '@/mock/routes'
 
 const props = defineProps(['title', 'links', 'status'])
 
@@ -136,7 +140,7 @@ const isOpen = (index) => {
   }
 }
 .footer-block-active {
-  max-height: 200px;
+  max-height: 150px;
 }
 .footer-block-title {
   font-weight: 700;

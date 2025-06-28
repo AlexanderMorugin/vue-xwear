@@ -1,5 +1,5 @@
 <template>
-  <Teleport to="body">
+  <Teleport to="body" v-if="isScreenLarge">
     <div
       class="header-mobile-menu-modal-overlay"
       :class="{ 'header-mobile-menu-modal-overlay-active': props.isToggle }"
@@ -35,10 +35,13 @@
 <script setup>
 import { onMounted, onUnmounted } from 'vue'
 import { headerNavLinks } from '@/mock/header-nav-links'
+import { useResizeLarge } from '../../use/useResizeLarge'
 
 const props = defineProps(['title', 'isToggle'])
 
 const emit = defineEmits(['toggleHeaderMobileMenuModal'])
+
+const { isScreenLarge } = useResizeLarge()
 
 onMounted(() => window.addEventListener('keydown', escCloseModal))
 onUnmounted(() => window.removeEventListener('keydown', escCloseModal))
@@ -71,6 +74,7 @@ const escCloseModal = (e) => {
   max-width: 350px;
   background: var(--black-primary);
   padding-top: 67px;
+  padding-bottom: 44px;
   padding-left: 44px;
 }
 .header-mobile-menu-modal-close {

@@ -1,5 +1,5 @@
 <template>
-  <ul class="nav">
+  <ul class="header-nav">
     <li v-for="link in headerNavLinks" :key="link.name">
       <router-link :to="link.path" class="link">{{ link.name }}</router-link>
     </li>
@@ -11,13 +11,14 @@ import { headerNavLinks } from '@/mock/header-nav-links'
 </script>
 
 <style scoped>
-.nav {
+.header-nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 12px;
   width: 100%;
-  max-width: 797px;
+  /* max-width: 797px; */
+  max-width: 597px;
 }
 
 .link {
