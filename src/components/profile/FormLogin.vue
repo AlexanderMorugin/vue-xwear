@@ -41,9 +41,9 @@
         <label :for="item" class="profile-modal-form-checkbox-label">Запомнить меня</label>
       </div> -->
 
-      <span class="profile-modal-form-bottom-button" @click="$emit('openAdminForm')">
+      <!-- <span class="profile-modal-form-bottom-button" @click="$emit('openAdminForm')">
         Вход для сотрудников
-      </span>
+      </span> -->
 
       <span class="profile-modal-form-bottom-button" @click="$emit('openRegisterForm')">
         Зарегистрироваться?
