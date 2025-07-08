@@ -2,7 +2,7 @@
 
 Ссылка: https://vue-xwear.vercel.app/
 
-![XWEAR Demo](/praline-tailwind.png)
+![XWEAR Demo](/xwear-promo.png)
 
 ## О проекте
 
